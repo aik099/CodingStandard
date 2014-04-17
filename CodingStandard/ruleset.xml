@@ -2,6 +2,14 @@
 <ruleset name="alex">
 	<description>Alexander Obuhovich's coding standard.</description>
 
+	<exclude-pattern>blog/*</exclude-pattern>
+	<exclude-pattern>build/*</exclude-pattern>
+	<exclude-pattern>core/editor/*</exclude-pattern>
+	<exclude-pattern>core/ckeditor/*</exclude-pattern>
+	<exclude-pattern>modules/mpdf/*</exclude-pattern>
+	<exclude-pattern>system/*</exclude-pattern>
+	<exclude-pattern>vendor/*</exclude-pattern>
+
 	<rule ref="Generic">
 		<!-- TODO: find out why we're excluding following sniffs -->
 		<exclude name="Generic.Formatting.MultipleStatementAlignment"/>
@@ -49,6 +57,11 @@
 		<exclude-pattern>**\*_config.php</exclude-pattern>
 	</rule>
 
+	<rule ref="CodingStandard.Classes.ClassDeclaration">
+		<properties>
+			<property name="requireNamespaces" value="false"/>
+		</properties>
+	</rule>
 
 	<rule ref="Squiz.Arrays.ArrayBracketSpacing"/>
 
