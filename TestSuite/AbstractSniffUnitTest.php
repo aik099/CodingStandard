@@ -49,9 +49,44 @@ abstract class AbstractSniffUnitTest extends PHPUnit_Framework_TestCase
     {
         if (self::$phpcs === null) {
             self::$phpcs = new PHP_CodeSniffer();
+
+            // Conflicts with Composer AutoLoader.
+            spl_autoload_unregister(array('PHP_CodeSniffer', 'autoload'));
         }
 
     }//end setUp()
+
+
+    /**
+     * Tests the extending classes Sniff class.
+     *
+     * @return void
+     */
+    public final function testStandard()
+    {
+        // Skip this test if we can't run in this environment.
+        if ($this->shouldSkipTest() === true) {
+            $this->markTestSkipped();
+        }
+
+        self::$phpcs->process(array(), $this->getStandardName(), array($this->getSniffCode()));
+        self::$phpcs->setIgnorePatterns(array());
+
+        $failureMessages = array();
+        foreach ($this->_getTestFiles() as $testFile) {
+            try {
+                $phpcsFile       = self::$phpcs->processFile($testFile);
+                $failureMessages = array_merge($failureMessages, $this->generateFailureMessages($phpcsFile));
+            } catch (Exception $e) {
+                $this->fail('An unexpected exception has been caught: '.$e->getMessage());
+            }
+        }//end foreach
+
+        if (empty($failureMessages) === false) {
+            $this->fail(implode(PHP_EOL, $failureMessages));
+        }
+
+    }//end testStandard()
 
 
     /**
@@ -67,71 +102,78 @@ abstract class AbstractSniffUnitTest extends PHPUnit_Framework_TestCase
 
 
     /**
-     * Tests the extending classes Sniff class.
+     * The name of the coding standard we are testing.
      *
-     * @return void
-     * @throws PHPUnit_Framework_Error
+     * @return string
      */
-    protected final function runTest()
+    protected function getStandardName()
     {
-        // Skip this test if we can't run in this environment.
-        if ($this->shouldSkipTest() === true) {
-            $this->markTestSkipped();
-        }
+        $basename = $this->getBaseName();
 
+        return STANDARDS_PATH.DIRECTORY_SEPARATOR.substr($basename, 0, strpos($basename, '_'));
+
+    }//end getStandardName()
+
+
+    /**
+     * The code of the sniff we are testing.
+     *
+     * @return string
+     */
+    protected function getSniffCode()
+    {
+        $parts = explode('_', $this->getBaseName());
+
+        return $parts[0].'.'.$parts[2].'.'.$parts[3];
+
+    }//end getSniffCode()
+
+
+    /**
+     * Get a list of all test files to check. These will have the same base name
+     * but different extensions. We ignore the .php file as it is the class.
+     *
+     * @return array
+     */
+    private function _getTestFiles()
+    {
         // The basis for determining file locations.
-        $basename = substr(get_class($this), 0, -8);
+        $basename = $this->getBaseName();
 
-        // The name of the coding standard we are testing (changed by Alex).
-        $standardName = STANDARDS_PATH.DIRECTORY_SEPARATOR.substr($basename, 0, strpos($basename, '_'));
-
-        // The code of the sniff we are testing.
-        $parts     = explode('_', $basename);
-        $sniffCode = $parts[0].'.'.$parts[2].'.'.$parts[3];
-
-        // The name of the dummy file we are testing (changed by Alex).
+        // The name of the dummy file we are testing.
         $testFileBase = STANDARDS_PATH.DIRECTORY_SEPARATOR.str_replace('_', DIRECTORY_SEPARATOR, $basename).'UnitTest.';
 
-        // Get a list of all test files to check. These will have the same base
-        // name but different extensions. We ignore the .php file as it is the class.
         $testFiles = array();
 
         /** @var SplFileInfo $file */
-        $dir = substr($testFileBase, 0, strrpos($testFileBase, DIRECTORY_SEPARATOR));
-        $di  = new DirectoryIterator($dir);
+        $directoryIterator = new DirectoryIterator(dirname($testFileBase));
 
-        foreach ($di as $file) {
+        foreach ($directoryIterator as $file) {
             $path = $file->getPathname();
-            if (substr($path, 0, strlen($testFileBase)) === $testFileBase) {
-                if ($path !== $testFileBase.'php') {
-                    $testFiles[] = $path;
-                }
+
+            if (substr($path, 0, strlen($testFileBase)) === $testFileBase && $path !== $testFileBase.'php') {
+                $testFiles[] = $path;
             }
         }
 
         // Get them in order.
         sort($testFiles);
 
-        self::$phpcs->process(array(), $standardName, array($sniffCode));
-        self::$phpcs->setIgnorePatterns(array());
+        return $testFiles;
 
-        $failureMessages = array();
-        foreach ($testFiles as $testFile) {
-            try {
-                $phpcsFile = self::$phpcs->processFile($testFile);
-            } catch (Exception $e) {
-                $this->fail('An unexpected exception has been caught: '.$e->getMessage());
-            }
+    }//end _getTestFiles()
 
-            $failures        = $this->generateFailureMessages($phpcsFile);
-            $failureMessages = array_merge($failureMessages, $failures);
-        }//end foreach
 
-        if (empty($failureMessages) === false) {
-            $this->fail(implode(PHP_EOL, $failureMessages));
-        }
+    /**
+     * The basis for determining file locations.
+     *
+     * @return string
+     */
+    protected function getBaseName()
+    {
+        return substr(get_class($this), 0, -8);
 
-    }//end runTest()
+    }//end getBaseName()
 
 
     /**
@@ -159,13 +201,10 @@ abstract class AbstractSniffUnitTest extends PHPUnit_Framework_TestCase
             throw new PHP_CodeSniffer_Exception('getWarningList() must return an array');
         }
 
-        /**
-         * We merge errors and warnings together to make it easier
-         * to iterate over them and produce the errors string. In this way,
-         * we can report on errors and warnings in the same line even though
-         * it's not really structured to allow that.
-         */
-
+        // We merge errors and warnings together to make it easier
+        // to iterate over them and produce the errors string. In this way,
+        // we can report on errors and warnings in the same line even though
+        // it's not really structured to allow that.
         $allProblems     = array();
         $failureMessages = array();
 
@@ -330,9 +369,11 @@ abstract class AbstractSniffUnitTest extends PHPUnit_Framework_TestCase
      * The key of the array should represent the line number and the value
      * should represent the number of errors that should occur on that line.
      *
+     * @param string $testFile Name of the file with test data.
+     *
      * @return array(int => int)
      */
-    protected abstract function getErrorList();
+    protected abstract function getErrorList($testFile);
 
 
     /**
@@ -341,9 +382,11 @@ abstract class AbstractSniffUnitTest extends PHPUnit_Framework_TestCase
      * The key of the array should represent the line number and the value
      * should represent the number of warnings that should occur on that line.
      *
+     * @param string $testFile Name of the file with test data.
+     *
      * @return array(int => int)
      */
-    protected abstract function getWarningList();
+    protected abstract function getWarningList($testFile);
 
 
 }//end class

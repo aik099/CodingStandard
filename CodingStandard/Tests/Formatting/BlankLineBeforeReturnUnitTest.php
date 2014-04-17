@@ -35,9 +35,11 @@ class CodingStandard_Tests_Formatting_BlankLineBeforeReturnUnitTest extends Abst
      * The key of the array should represent the line number and the value
      * should represent the number of errors that should occur on that line.
      *
+     * @param string $testFile Name of the file with test data.
+     *
      * @return array(int => int)
      */
-    public function getErrorList()
+    public function getErrorList($testFile)
     {
         return array(
             23 => 1,
@@ -52,9 +54,11 @@ class CodingStandard_Tests_Formatting_BlankLineBeforeReturnUnitTest extends Abst
      * The key of the array should represent the line number and the value
      * should represent the number of warnings that should occur on that line.
      *
+     * @param string $testFile Name of the file with test data.
+     *
      * @return array(int => int)
      */
-    public function getWarningList()
+    public function getWarningList($testFile)
     {
         return array();
 

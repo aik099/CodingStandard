@@ -29,3 +29,4 @@ if (is_dir($vendorPath) === false) {
 }
 
 require_once $vendorPath.'/autoload.php';
+require_once __DIR__.'/AbstractSniffUnitTest.php';
