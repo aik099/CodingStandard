@@ -1,0 +1,24 @@
+{
+	"name": "aik099/coding-standard",
+	"description": "The PHP_CodeSniffer coding standard I'm using on all of my projects.",
+	"keywords": ["PHP_CodeSniffer", "CodeSniffer"],
+	"license": "BSD-3-Clause",
+
+	"authors": [
+		{
+			"name":  "Alexander Obuhovich",
+			"email": "aik.bold@gmail.com"
+		}
+	],
+
+	"require-dev": {
+		"phpunit/phpunit": ">=3.7",
+		"squizlabs/php_codesniffer": "~1.5"
+	},
+
+	"extra": {
+		"branch-alias": {
+			"dev-master": "1.0.x-dev"
+		}
+	}
+}

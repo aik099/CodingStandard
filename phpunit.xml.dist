@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit backupGlobals="true"
+	backupStaticAttributes="false"
+	bootstrap="TestSuite/bootstrap.php"
+	colors="true"
+	convertErrorsToExceptions="true"
+	convertNoticesToExceptions="true"
+	convertWarningsToExceptions="true"
+	processIsolation="false"
+	stopOnFailure="false"
+	verbose="true">
+
+	<testsuites>
+		<testsuite name="AllTests">
+			<file>TestSuite/AllTests.php</file>
+		</testsuite>
+	</testsuites>
+
+	<!--<logging>
+		<log type="coverage-html" target="build/coverage" title="BankAccount"
+			 charset="UTF-8" yui="true" highlight="true"
+			 lowUpperBound="35" highLowerBound="70"/>
+	</logging>-->
+
+	<filter>
+		<whitelist>
+			<directory>Sniffs</directory>
+		</whitelist>
+	</filter>
+</phpunit>
