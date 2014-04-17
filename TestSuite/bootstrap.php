@@ -18,7 +18,7 @@ if (defined('PHP_CODESNIFFER_IN_TESTS') === false) {
 }
 
 define('FULL_PATH', realpath(__DIR__.'/..'));
-define('STANDARDS_PATH', realpath(FULL_PATH.'/..'));
+define('STANDARDS_PATH', FULL_PATH);
 define('STANDARD_NAME', 'CodingStandard');
 
 $vendorPath = FULL_PATH.'/vendor';
