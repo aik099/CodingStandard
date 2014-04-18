@@ -1,29 +1,24 @@
 <?php
 /**
- * This file is part of the CodingStandard-coding-standard (phpcs standard)
+ * CodingStandard_Tests_WhiteSpace_ControlStructureSpacingUnitTest.
  *
  * PHP version 5
  *
  * @category PHP
- * @package  PHP_CodeSniffer-CodingStandard
- * @author   CodingStandard-phpcs-authors <CodingStandard-coding-standard@opensky.github.com>
- * @license  http://spdx.org/licenses/MIT MIT License
- * @version  GIT: master
- * @link     https://github.com/opensky/CodingStandard-coding-standard
+ * @package  PHP_CodeSniffer
+ * @author   Alexander Obuhovich <aik.bold@gmail.com>
+ * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
+ * @link     https://github.com/aik099/CodingStandard
  */
 
 /**
  * Unit test class for the ControlStructureSpacing sniff.
  *
- * A sniff unit test checks a .inc file for expected violations of a single
- * coding standard. Expected errors and warnings are stored in this class.
- *
- * @category  PHP
- * @package   PHP_CodeSniffer
- * @author    Tom Klingenberg <tklingenberg@lastflood.net>
- * @copyright 2012 Tom Klingenberg, some rights reserved.
- * @license   http://spdx.org/licenses/MIT MIT License
- * @link      https://github.com/opensky/CodingStandard-coding-standard
+ * @category PHP
+ * @package  PHP_CodeSniffer
+ * @author   Alexander Obuhovich <aik.bold@gmail.com>
+ * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
+ * @link     https://github.com/aik099/CodingStandard
  */
 class CodingStandard_Tests_WhiteSpace_ControlStructureSpacingUnitTest extends AbstractSniffUnitTest
 {
