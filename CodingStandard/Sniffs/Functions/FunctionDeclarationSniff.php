@@ -4,12 +4,12 @@
  *
  * PHP version 5
  *
- * @category  PHP
- * @package   PHP_CodeSniffer
- * @author    Greg Sherwood <gsherwood@squiz.net>
- * @copyright 2006-2012 Squiz Pty Ltd (ABN 77 084 670 600)
- * @license   https://github.com/squizlabs/PHP_CodeSniffer/blob/master/licence.txt BSD Licence
- * @link      http://pear.php.net/package/PHP_CodeSniffer
+ * @category PHP
+ * @package  PHP_CodeSniffer
+ * @author   Greg Sherwood <gsherwood@squiz.net>
+ * @author   Alexander Obuhovich <aik.bold@gmail.com>
+ * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
+ * @link     https://github.com/aik099/CodingStandard
  */
 
 if (class_exists('PEAR_Sniffs_Functions_FunctionDeclarationSniff', true) === false) {
@@ -22,13 +22,12 @@ if (class_exists('PEAR_Sniffs_Functions_FunctionDeclarationSniff', true) === fal
  *
  * Ensure single and multi-line function declarations are defined correctly.
  *
- * @category  PHP
- * @package   PHP_CodeSniffer
- * @author    Greg Sherwood <gsherwood@squiz.net>
- * @copyright 2006-2012 Squiz Pty Ltd (ABN 77 084 670 600)
- * @license   https://github.com/squizlabs/PHP_CodeSniffer/blob/master/licence.txt BSD Licence
- * @version   Release: @package_version@
- * @link      http://pear.php.net/package/PHP_CodeSniffer
+ * @category PHP
+ * @package  PHP_CodeSniffer
+ * @author   Greg Sherwood <gsherwood@squiz.net>
+ * @author   Alexander Obuhovich <aik.bold@gmail.com>
+ * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
+ * @link     https://github.com/aik099/CodingStandard
  */
 class CodingStandard_Sniffs_Functions_FunctionDeclarationSniff extends PEAR_Sniffs_Functions_FunctionDeclarationSniff
 {

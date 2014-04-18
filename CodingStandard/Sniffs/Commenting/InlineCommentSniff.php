@@ -4,13 +4,13 @@
  *
  * PHP version 5
  *
- * @category  PHP
- * @package   PHP_CodeSniffer
- * @author    Greg Sherwood <gsherwood@squiz.net>
- * @author    Marc McIntyre <mmcintyre@squiz.net>
- * @copyright 2006-2012 Squiz Pty Ltd (ABN 77 084 670 600)
- * @license   https://github.com/squizlabs/PHP_CodeSniffer/blob/master/licence.txt BSD Licence
- * @link      http://pear.php.net/package/PHP_CodeSniffer
+ * @category PHP
+ * @package  PHP_CodeSniffer
+ * @author   Greg Sherwood <gsherwood@squiz.net>
+ * @author   Marc McIntyre <mmcintyre@squiz.net>
+ * @author   Alexander Obuhovich <aik.bold@gmail.com>
+ * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
+ * @link     https://github.com/aik099/CodingStandard
  */
 
 /**
@@ -18,14 +18,13 @@
  *
  * Checks that there is adequate spacing between comments.
  *
- * @category  PHP
- * @package   PHP_CodeSniffer
- * @author    Greg Sherwood <gsherwood@squiz.net>
- * @author    Marc McIntyre <mmcintyre@squiz.net>
- * @copyright 2006-2012 Squiz Pty Ltd (ABN 77 084 670 600)
- * @license   https://github.com/squizlabs/PHP_CodeSniffer/blob/master/licence.txt BSD Licence
- * @version   Release: @package_version@
- * @link      http://pear.php.net/package/PHP_CodeSniffer
+ * @category PHP
+ * @package  PHP_CodeSniffer
+ * @author   Greg Sherwood <gsherwood@squiz.net>
+ * @author   Marc McIntyre <mmcintyre@squiz.net>
+ * @author   Alexander Obuhovich <aik.bold@gmail.com>
+ * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
+ * @link     https://github.com/aik099/CodingStandard
  */
 class CodingStandard_Sniffs_Commenting_InlineCommentSniff implements PHP_CodeSniffer_Sniff
 {

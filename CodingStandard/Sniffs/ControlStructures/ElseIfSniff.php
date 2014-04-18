@@ -1,17 +1,16 @@
 <?php
 /**
- * Verifies that control statements conform to their coding standards.
+ * CodingStandard_Sniffs_ControlStructures_ElseIfSniff.
  *
  * PHP version 5
  *
- * @category  PHP
- * @package   PHP_CodeSniffer
- * @author    Greg Sherwood <gsherwood@squiz.net>
- * @author    Marc McIntyre <mmcintyre@squiz.net>
- * @copyright 2006 Squiz Pty Ltd (ABN 77 084 670 600)
- * @license   http://matrix.squiz.net/developer/tools/php_cs/licence BSD Licence
- * @version   CVS: $Id: ElseIfSniff.php,v 1.7 2007/10/23 06:05:14 squiz Exp $
- * @link      http://pear.php.net/package/PHP_CodeSniffer
+ * @category PHP
+ * @package  PHP_CodeSniffer
+ * @author   Greg Sherwood <gsherwood@squiz.net>
+ * @author   Marc McIntyre <mmcintyre@squiz.net>
+ * @author   Alexander Obuhovich <aik.bold@gmail.com>
+ * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
+ * @link     https://github.com/aik099/CodingStandard
  */
 
 if (class_exists('PHP_CodeSniffer_Standards_AbstractPatternSniff', true) === false) {
@@ -21,14 +20,13 @@ if (class_exists('PHP_CodeSniffer_Standards_AbstractPatternSniff', true) === fal
 /**
  * Verifies that control statements conform to their coding standards.
  *
- * @category  PHP
- * @package   PHP_CodeSniffer
- * @author    Greg Sherwood <gsherwood@squiz.net>
- * @author    Marc McIntyre <mmcintyre@squiz.net>
- * @copyright 2006 Squiz Pty Ltd (ABN 77 084 670 600)
- * @license   http://matrix.squiz.net/developer/tools/php_cs/licence BSD Licence
- * @version   Release: 1.2.0RC3
- * @link      http://pear.php.net/package/PHP_CodeSniffer
+ * @category PHP
+ * @package  PHP_CodeSniffer
+ * @author   Greg Sherwood <gsherwood@squiz.net>
+ * @author   Marc McIntyre <mmcintyre@squiz.net>
+ * @author   Alexander Obuhovich <aik.bold@gmail.com>
+ * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
+ * @link     https://github.com/aik099/CodingStandard
  */
 class CodingStandard_Sniffs_ControlStructures_ElseIfSniff implements PHP_CodeSniffer_Sniff
 {

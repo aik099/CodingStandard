@@ -1,13 +1,15 @@
 <?php
 /**
- * Class create instance Test.
+ * CodingStandard_Sniffs_Classes_ClassCreateInstanceSniff.
  *
  * PHP version 5
  *
  * @category PHP
  * @package  PHP_CodeSniffer
  * @author   Peter Philipp <peter.philipp@cando-image.com>
- * @link     http://pear.php.net/package/PHP_CodeSniffer
+ * @author   Alexander Obuhovich <aik.bold@gmail.com>
+ * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
+ * @link     https://github.com/aik099/CodingStandard
  */
 
 /**
@@ -18,7 +20,9 @@
  * @category PHP
  * @package  PHP_CodeSniffer
  * @author   Peter Philipp <peter.philipp@cando-image.com>
- * @link     http://pear.php.net/package/PHP_CodeSniffer
+ * @author   Alexander Obuhovich <aik.bold@gmail.com>
+ * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
+ * @link     https://github.com/aik099/CodingStandard
  */
 class CodingStandard_Sniffs_Classes_ClassCreateInstanceSniff implements PHP_CodeSniffer_Sniff
 {
