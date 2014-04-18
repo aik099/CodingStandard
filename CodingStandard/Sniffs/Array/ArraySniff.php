@@ -107,13 +107,19 @@ class CodingStandard_Sniffs_Array_ArraySniff implements PHP_CodeSniffer_Sniff
 
         // Check if the last item in a multiline array has a "closing" comma.
         if ($tokens[$lastItem]['code'] !== T_COMMA && $isInlineArray === false) {
-            $phpcsFile->addWarning('A comma should follow the last multiline array item. Found: '.$tokens[$lastItem]['content'], $lastItem);
+            $phpcsFile->addWarning(
+                'A comma should follow the last multiline array item. Found: '.$tokens[$lastItem]['content'],
+                $lastItem
+            );
             return;
         }
 
         if ($isInlineArray === true) {
             if ($tokens[$lastItem]['code'] === T_COMMA) {
-                $phpcsFile->addWarning('Comma not allowed after last value in single-line array declaration', $lastItem);
+                $phpcsFile->addWarning(
+                    'Comma not allowed after last value in single-line array declaration',
+                    $lastItem
+                );
                 return;
             }
 

@@ -184,3 +184,5 @@ class CodingStandard_Sniffs_Classes_ClassDeclarationSniff extends PSR2_Sniffs_Cl
 
 
 }//end class
+
+?>

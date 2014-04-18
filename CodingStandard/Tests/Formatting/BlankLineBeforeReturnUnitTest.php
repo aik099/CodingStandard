@@ -42,8 +42,8 @@ class CodingStandard_Tests_Formatting_BlankLineBeforeReturnUnitTest extends Abst
     public function getErrorList($testFile)
     {
         return array(
-            23 => 1,
-        );
+                23 => 1,
+               );
 
     }//end getErrorList()
 

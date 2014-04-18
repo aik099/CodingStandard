@@ -65,7 +65,7 @@ class CodingStandard_Sniffs_Classes_ClassCreateInstanceSniff implements PHP_Code
             true
         );
 
-        if ($tokens[$nextParenthesis]['code'] != T_OPEN_PARENTHESIS || $tokens[$nextParenthesis]['line'] != $tokens[$stackPtr]['line']) {
+        if ($tokens[$nextParenthesis]['code'] !== T_OPEN_PARENTHESIS || $tokens[$nextParenthesis]['line'] !== $tokens[$stackPtr]['line']) {
             $error = 'Calling class constructors must always include parentheses';
             $phpcsFile->addError($error, $nextParenthesis);
             return;

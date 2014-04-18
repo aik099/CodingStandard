@@ -169,7 +169,7 @@ class CodingStandard_Sniffs_Commenting_FunctionCommentSniff extends Squiz_Sniffs
         }
 
         $comment = $this->commentParser->getComment();
-        if (is_null($comment) === true) {
+        if ($comment === null) {
             $error = 'Function doc comment is empty';
             $phpcsFile->addError($error, $commentStart, 'Empty');
             return;
@@ -294,6 +294,7 @@ class CodingStandard_Sniffs_Commenting_FunctionCommentSniff extends Squiz_Sniffs
         }
 
         return false;
+
     }//end isEvent()
 
 

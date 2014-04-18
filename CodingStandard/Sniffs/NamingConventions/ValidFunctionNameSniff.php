@@ -124,9 +124,8 @@ class CodingStandard_Sniffs_NamingConventions_ValidFunctionNameSniff extends PEA
 
         $methodParams = $phpcsFile->getMethodParameters($stackPtr);
 
-        if (
-            $this->isEventHandlerExclusion($className, $methodName, $methodParams) ||
-            $this->isTagProcessorExclusion($className, $methodName, $methodParams)
+        if ($this->isEventHandlerExclusion($className, $methodName, $methodParams) === true
+            || $this->isTagProcessorExclusion($className, $methodName, $methodParams) === true
         ) {
             return;
         }

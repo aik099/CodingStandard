@@ -110,7 +110,10 @@ class CodingStandard_Sniffs_Formatting_ItemAssignmentSniff implements PHP_CodeSn
 
         // Check if the last item in the array has a "closing" comma.
         if ($tokens[$lastItem]['code'] !== T_COMMA) {
-            $phpcsFile->addWarning('A comma followed by a whitespace should follow the last array item. Found: ' . $tokens[$lastItem]['content'], $lastItem);
+            $phpcsFile->addWarning(
+                'A comma followed by a whitespace should follow the last array item. Found: '.$tokens[$lastItem]['content'],
+                $lastItem
+            );
 
             return;
         }

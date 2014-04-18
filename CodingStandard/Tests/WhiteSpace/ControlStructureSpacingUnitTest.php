@@ -42,9 +42,9 @@ class CodingStandard_Tests_WhiteSpace_ControlStructureSpacingUnitTest extends Ab
     public function getErrorList($testFile)
     {
         return array(
-            3 => 2,
-            6 => 2,
-        );
+                3 => 2,
+                6 => 2,
+               );
 
     }//end getErrorList()
 
