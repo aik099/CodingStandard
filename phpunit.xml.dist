@@ -11,8 +11,8 @@
 	verbose="true">
 
 	<testsuites>
-		<testsuite name="AllTests">
-			<file>TestSuite/AllTests.php</file>
+		<testsuite name="CodingStandard">
+			<directory suffix="UnitTest.php">CodingStandard/Tests</directory>
 		</testsuite>
 	</testsuites>
 

@@ -1,16 +1,16 @@
 <?php
 
 /**
- * This file is part of the CodingStandard-coding-standard (phpcs standard)
+ * CodingStandard_Sniffs_Formatting_BlankLineBeforeReturnSniff.
  *
  * PHP version 5
  *
  * @category PHP
- * @package  PHP_CodeSniffer-CodingStandard
- * @author   CodingStandard-phpcs-authors <CodingStandard-coding-standard@opensky.github.com>
- * @license  http://spdx.org/licenses/MIT MIT License
- * @version  GIT: master
- * @link     https://github.com/opensky/CodingStandard-coding-standard
+ * @package  PHP_CodeSniffer
+ * @author   Symfony2-phpcs-authors <Symfony2-coding-standard@opensky.github.com>
+ * @author   Alexander Obuhovich <aik.bold@gmail.com>
+ * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
+ * @link     https://github.com/aik099/CodingStandard
  */
 
 /**
@@ -21,10 +21,11 @@
  * unless the return is alone inside a statement-group (like an if statement);"
  *
  * @category PHP
- * @package  PHP_CodeSniffer-CodingStandard
+ * @package  PHP_CodeSniffer
  * @author   Dave Hauenstein <davehauenstein@gmail.com>
- * @license  http://spdx.org/licenses/MIT MIT License
- * @link     https://github.com/opensky/CodingStandard-coding-standard
+ * @author   Alexander Obuhovich <aik.bold@gmail.com>
+ * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
+ * @link     https://github.com/aik099/CodingStandard
  */
 class CodingStandard_Sniffs_Formatting_BlankLineBeforeReturnSniff implements PHP_CodeSniffer_Sniff
 {

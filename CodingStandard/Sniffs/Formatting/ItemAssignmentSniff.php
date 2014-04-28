@@ -7,7 +7,9 @@
  * @category PHP
  * @package  PHP_CodeSniffer
  * @author   Peter Philipp <peter.philipp@cando-image.com>
- * @link     http://pear.php.net/package/PHP_CodeSniffer
+ * @author   Alexander Obuhovich <aik.bold@gmail.com>
+ * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
+ * @link     https://github.com/aik099/CodingStandard
  */
 
 /**
@@ -19,7 +21,9 @@
  * @category PHP
  * @package  PHP_CodeSniffer
  * @author   Peter Philipp <peter.philipp@cando-image.com>
- * @link     http://pear.php.net/package/PHP_CodeSniffer
+ * @author   Alexander Obuhovich <aik.bold@gmail.com>
+ * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
+ * @link     https://github.com/aik099/CodingStandard
  */
 class CodingStandard_Sniffs_Formatting_ItemAssignmentSniff implements PHP_CodeSniffer_Sniff
 {
@@ -106,7 +110,10 @@ class CodingStandard_Sniffs_Formatting_ItemAssignmentSniff implements PHP_CodeSn
 
         // Check if the last item in the array has a "closing" comma.
         if ($tokens[$lastItem]['code'] !== T_COMMA) {
-            $phpcsFile->addWarning('A comma followed by a whitespace should follow the last array item. Found: ' . $tokens[$lastItem]['content'], $lastItem);
+            $phpcsFile->addWarning(
+                'A comma followed by a whitespace should follow the last array item. Found: '.$tokens[$lastItem]['content'],
+                $lastItem
+            );
 
             return;
         }
