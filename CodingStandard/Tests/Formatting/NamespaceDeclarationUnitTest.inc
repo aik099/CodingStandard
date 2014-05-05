@@ -33,7 +33,7 @@ class TooCloseClass
 
 }
 
-namespace SomeNamespace;
+namespace SomeNamespace\TheUseCase;
 
 
 use SomeOtherNamespace\TooCloseClass as OtherClass;

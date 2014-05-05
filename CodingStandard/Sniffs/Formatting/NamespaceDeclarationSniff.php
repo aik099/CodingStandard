@@ -56,12 +56,12 @@ class CodingStandard_Sniffs_Formatting_NamespaceDeclarationSniff implements PHP_
      */
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
-        $tokens = $phpcsFile->getTokens();
+        $tokens            = $phpcsFile->getTokens();
+        $declarationEndPtr = $phpcsFile->findNext(T_SEMICOLON, ($stackPtr + 1));
 
-        // The "4" offset is: whitespace + namespace name + semicolon.
         $nextCodePtr = $phpcsFile->findNext(
             T_WHITESPACE,
-            ($stackPtr + 4),
+            ($declarationEndPtr + 1),
             null,
             true
         );
