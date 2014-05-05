@@ -123,10 +123,12 @@ class CodingStandard_Sniffs_Commenting_InlineCommentSniff implements PHP_CodeSni
                 }
 
                 // Only error once per comment.
-//                if (substr($tokens[$stackPtr]['content'], 0, 3) === '/**') {
-//                    $error  = 'Inline doc block comments are not allowed; use "/* Comment */" or "// Comment" instead';
-//                    $phpcsFile->addError($error, $stackPtr, 'DocBlock');
-//                }
+                if (substr($tokens[$stackPtr]['content'], 0, 3) === '/**'
+                    && strpos($tokens[$stackPtr]['content'], '@var') === false
+                ) {
+                    $error = 'Inline doc block comments are not allowed; use "/* Comment */" or "// Comment" instead';
+                    $phpcsFile->addError($error, $stackPtr, 'DocBlock');
+                }
             }//end if
         }//end if
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * CodingStandard_Sniffs_NamingConventions_InterfacePrefixSniff.
+ * CodingStandard_Sniffs_NamingConventions_ValidInterfaceNameSniff.
  *
  * PHP version 5
  *
@@ -13,18 +13,17 @@
  */
 
 /**
- * CodingStandard_Sniffs_NamingConventions_InterfacePrefixSniff.
+ * CodingStandard_Sniffs_NamingConventions_ValidInterfaceNameSniff.
  *
  * Throws errors if interface names are not prefixed with "I".
  *
  * @category PHP
  * @package  PHP_CodeSniffer
- * @author   Dave Hauenstein <davehauenstein@gmail.com>
  * @author   Alexander Obuhovich <aik.bold@gmail.com>
  * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
  * @link     https://github.com/aik099/CodingStandard
  */
-class CodingStandard_Sniffs_NamingConventions_InterfacePrefixSniff implements PHP_CodeSniffer_Sniff
+class CodingStandard_Sniffs_NamingConventions_ValidInterfaceNameSniff implements PHP_CodeSniffer_Sniff
 {
 
     /**
@@ -58,22 +57,15 @@ class CodingStandard_Sniffs_NamingConventions_InterfacePrefixSniff implements PH
      */
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
-        $tokens = $phpcsFile->getTokens();
-        $line   = $tokens[$stackPtr]['line'];
+        $interfaceName = $phpcsFile->getDeclarationName($stackPtr);
+        $firstLetter   = $interfaceName[0];
+        $secondLetter  = $interfaceName[1];
 
-        while ($tokens[$stackPtr]['line'] == $line) {
-            if ('T_STRING' === $tokens[$stackPtr]['type']) {
-                if (substr($tokens[$stackPtr]['content'], 0, 1) !== 'I') {
-                    $phpcsFile->addError(
-                        'Interface name is not prefixed with "I"',
-                        $stackPtr
-                    );
-                }
-
-                break;
-            }
-
-            $stackPtr++;
+        if ($firstLetter !== 'I' || $secondLetter === strtolower($secondLetter)) {
+            $phpcsFile->addError(
+                'Interface name is not prefixed with "I"',
+                $stackPtr
+            );
         }
 
     }//end process()

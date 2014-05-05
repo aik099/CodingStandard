@@ -7,7 +7,6 @@
  *
  * @category PHP
  * @package  PHP_CodeSniffer
- * @author   Symfony2-phpcs-authors <Symfony2-coding-standard@opensky.github.com>
  * @author   Alexander Obuhovich <aik.bold@gmail.com>
  * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
  * @link     https://github.com/aik099/CodingStandard
@@ -22,7 +21,6 @@
  *
  * @category PHP
  * @package  PHP_CodeSniffer
- * @author   Dave Hauenstein <davehauenstein@gmail.com>
  * @author   Alexander Obuhovich <aik.bold@gmail.com>
  * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
  * @link     https://github.com/aik099/CodingStandard
@@ -64,35 +62,68 @@ class CodingStandard_Sniffs_Formatting_BlankLineBeforeReturnSniff implements PHP
      */
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
-        $tokens         = $phpcsFile->getTokens();
-        $current        = $stackPtr;
-        $previousLine   = ($tokens[$stackPtr]['line'] - 1);
-        $prevLineTokens = array();
+        $tokens    = $phpcsFile->getTokens();
+        $prevToken = $phpcsFile->findPrevious(
+            PHP_CodeSniffer_Tokens::$emptyTokens,
+            ($stackPtr - 1),
+            null,
+            true
+        );
 
-        while ($current >= 0 && $tokens[$current]['line'] >= $previousLine) {
-            if ($tokens[$current]['line'] === $previousLine
-                && $tokens[$current]['type'] !== 'T_WHITESPACE'
-                && $tokens[$current]['type'] !== 'T_COMMENT'
-            ) {
-                $prevLineTokens[] = $tokens[$current]['type'];
-            }
+        $expectedBlankLineCount = 1;
+        $leadingLineNumber      = $this->getLeadingLineNumber($phpcsFile, $stackPtr, $prevToken);
+        $blankLineCount         = ($leadingLineNumber - ($tokens[$prevToken]['line'] + 1));
 
-            $current--;
+        if (isset($tokens[$prevToken]['scope_opener']) === true && $tokens[$prevToken]['scope_opener'] === $prevToken) {
+            $expectedBlankLineCount = 0;
         }
 
-        if (isset($prevLineTokens[0]) === true
-            && ($prevLineTokens[0] === 'T_OPEN_CURLY_BRACKET'
-            || $prevLineTokens[0] === 'T_COLON')
-        ) {
-            return;
-        } else if (count($prevLineTokens) > 0) {
-            $phpcsFile->addError(
-                'Missing blank line before return statement',
-                $stackPtr
-            );
+        if ($blankLineCount !== $expectedBlankLineCount) {
+            $error = 'Expected %s blank line before return statement; %s found';
+            $data  = array(
+                      $expectedBlankLineCount,
+                      $blankLineCount,
+                     );
+            $phpcsFile->addError($error, $stackPtr, 'BlankLineBeforeReturn', $data);
         }
 
     }//end process()
+
+
+    /**
+     * Returns leading comment line number or own line number, when no comment found.
+     *
+     * @param PHP_CodeSniffer_File $phpcsFile    All the tokens found in the document.
+     * @param int                  $fromStackPtr Start from token.
+     * @param int                  $toStackPtr   Stop at token.
+     *
+     * @return int|bool
+     */
+    protected function getLeadingLineNumber(PHP_CodeSniffer_File $phpcsFile, $fromStackPtr, $toStackPtr)
+    {
+        $tokens         = $phpcsFile->getTokens();
+        $fromToken      = $tokens[$fromStackPtr];
+        $prevCommentPtr = $phpcsFile->findPrevious(
+            T_COMMENT,
+            ($fromStackPtr - 1),
+            $toStackPtr
+        );
+
+        if ($prevCommentPtr === false) {
+            return $fromToken['line'];
+        }
+
+        $prevCommentToken = $tokens[$prevCommentPtr];
+
+        if ($prevCommentToken['line'] === ($fromToken['line'] - 1)
+            && $prevCommentToken['column'] === $fromToken['column']
+        ) {
+            return $prevCommentToken['line'];
+        }
+
+        return $fromToken['line'];
+
+    }//end getLeadingLineNumber()
 
 
 }//end class

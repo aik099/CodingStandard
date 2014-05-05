@@ -112,7 +112,7 @@ class CodingStandard_Sniffs_Commenting_FunctionCommentSniff extends Squiz_Sniffs
             // found is just commenting a bit of code on a line. So if it is not the
             // only thing on the line, assume we found nothing.
             $prevContent = $phpcsFile->findPrevious(PHP_CodeSniffer_Tokens::$emptyTokens, $commentEnd);
-            if ($tokens[$commentEnd]['line'] === $tokens[$commentEnd]['line']) {
+            if ($tokens[$commentEnd]['line'] === $tokens[$prevContent]['line']) {
                 $error = 'Missing function doc comment';
                 $phpcsFile->addError($error, $stackPtr, 'Missing');
             } else {

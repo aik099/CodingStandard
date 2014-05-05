@@ -31,6 +31,16 @@ if (class_exists('PHP_CodeSniffer_Standards_AbstractPatternSniff', true) === fal
 class CodingStandard_Sniffs_ControlStructures_ControlSignatureSniff extends PHP_CodeSniffer_Standards_AbstractPatternSniff
 {
 
+    /**
+     * A list of tokenizers this sniff supports.
+     *
+     * @var array
+     */
+    public $supportedTokenizers = array(
+                                   'PHP',
+                                   'JS',
+                                  );
+
 
     /**
      * Constructs a PEAR_Sniffs_ControlStructures_ControlSignatureSniff.
@@ -56,7 +66,6 @@ class CodingStandard_Sniffs_ControlStructures_ControlSignatureSniff extends PHP_
                 'for (...) {EOL',
                 'if (...) {EOL',
                 'foreach (...) {EOL',
-                //'} else if (...) {EOL',
                 '}EOLelseif (...) {EOL',
                 '}EOLelse {EOL',
                 'do {EOL',
