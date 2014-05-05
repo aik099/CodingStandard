@@ -54,11 +54,9 @@
 		<exclude-pattern>**\*_config.php</exclude-pattern>
 	</rule>
 
-	<rule ref="CodingStandard.Classes.ClassDeclaration">
-		<properties>
-			<property name="requireNamespaces" value="false"/>
-		</properties>
-	</rule>
+    <rule ref="CodingStandard.Classes.ClassNamespace">
+        <exclude-pattern>**/*</exclude-pattern>
+    </rule>
 
 	<rule ref="Squiz.Arrays.ArrayBracketSpacing"/>
 
