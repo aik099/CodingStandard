@@ -52,27 +52,7 @@ class CodingStandard_Sniffs_Array_ArraySniff implements PHP_CodeSniffer_Sniff
      */
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
-        $tokens = $phpcsFile->getTokens();
-        $this->sniffItemClosings($phpcsFile, $stackPtr, $tokens);
-
-    }//end process()
-
-
-    /**
-     * Checks if the last item in the array is closed with a comma.
-     *
-     * If the array is written on one line there must also be a space
-     * after the comma.
-     *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
-     * @param int                  $stackPtr  The position of the current token in the
-     *                                        stack passed in $tokens.
-     * @param array                $tokens    Tokens.
-     *
-     * @return void
-     */
-    protected function sniffItemClosings(PHP_CodeSniffer_File $phpcsFile, $stackPtr, array $tokens)
-    {
+        $tokens     = $phpcsFile->getTokens();
         $arrayStart = $tokens[$stackPtr]['parenthesis_opener'];
         $arrayEnd   = $tokens[$arrayStart]['parenthesis_closer'];
 
@@ -135,7 +115,7 @@ class CodingStandard_Sniffs_Array_ArraySniff implements PHP_CodeSniffer_Sniff
             }
         }
 
-    }//end sniffItemClosings()
+    }//end process()
 
 
 }//end class

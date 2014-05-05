@@ -70,7 +70,9 @@ class CodingStandard_Sniffs_Classes_PropertyDeclarationSniff extends PHP_CodeSni
             $phpcsFile->addError($error, $stackPtr, 'ScopeMissing', $data);
         }
 
-        if (($modifier !== false) && ($modifier['code'] === T_PRIVATE) && ($tokens[$stackPtr]['content'][1] !== '_')) {
+        if (($modifier !== false) && ($tokens[$modifier]['code'] === T_PRIVATE)
+            && ($tokens[$stackPtr]['content'][1] !== '_')
+        ) {
             $error = 'Private property name "%s" should be prefixed with an underscore to indicate visibility';
             $data  = array($tokens[$stackPtr]['content']);
             $phpcsFile->addWarning($error, $stackPtr, 'Underscore', $data);

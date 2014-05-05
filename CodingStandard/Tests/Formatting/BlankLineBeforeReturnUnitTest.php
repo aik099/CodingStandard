@@ -6,7 +6,6 @@
  *
  * @category PHP
  * @package  PHP_CodeSniffer
- * @author   Symfony2-phpcs-authors <Symfony2-coding-standard@opensky.github.com>
  * @author   Alexander Obuhovich <aik.bold@gmail.com>
  * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
  * @link     https://github.com/aik099/CodingStandard
@@ -17,7 +16,6 @@
  *
  * @category PHP
  * @package  PHP_CodeSniffer
- * @author   Tom Klingenberg <tklingenberg@lastflood.net>
  * @author   Alexander Obuhovich <aik.bold@gmail.com>
  * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
  * @link     https://github.com/aik099/CodingStandard
@@ -39,7 +37,30 @@ class CodingStandard_Tests_Formatting_BlankLineBeforeReturnUnitTest extends Abst
     public function getErrorList($testFile)
     {
         return array(
-                23 => 1,
+                // One blank line before "return" when it's only construct in scope.
+                10  => 1,
+                // Two blank lines before "return" when it's only construct in scope.
+                17  => 1,
+                // No blank line before "return" when some code exists before it.
+                30  => 1,
+                // One blank line before "return" when it's only construct in scope.
+                49  => 1,
+                53  => 1,
+                62  => 1,
+                // No blank line when "return" follow scope closing brace.
+                76  => 1,
+                // One blank line before "return" when it's only construct in scope.
+                80  => 1,
+                // Two blank lines before "return" and previous construct in same scope.
+                101 => 1,
+                // No blank line when "return" follow scope closing brace.
+                112 => 1,
+                // One blank line before "return" when it's only construct in scope.
+                117 => 1,
+                // Too many blank lines before "return" with an inline comment.
+                136 => 1,
+                // Not preceding inline comment found.
+                143 => 1,
                );
 
     }//end getErrorList()

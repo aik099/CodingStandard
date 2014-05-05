@@ -34,50 +34,21 @@ if (class_exists('PSR2_Sniffs_Classes_ClassDeclarationSniff', true) === false) {
 class CodingStandard_Sniffs_Classes_ClassDeclarationSniff extends PSR2_Sniffs_Classes_ClassDeclarationSniff
 {
 
-    /**
-     * Requires each class declaration to be namespaced.
-     *
-     * @var bool
-     */
-    public $requireNamespaces = true;
-
 
     /**
-     * Processes this test, when one of its tokens is encountered.
+     * Returns an array of tokens this test wants to listen for.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
-     * @param int                  $stackPtr  The position of the current token
-     *                                         in the stack passed in $tokens.
-     *
-     * @return void
+     * @return array
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function register()
     {
-        // We want all the errors from the PSR2 standard, plus some of our own.
-        parent::process($phpcsFile, $stackPtr);
+        return array(
+                T_CLASS,
+                T_INTERFACE,
+                T_TRAIT,
+               );
 
-        if (basename($phpcsFile->getFilename()) === 'constants.php') {
-            // Multiple class constant definitions allowed in this particular file.
-            return;
-        }
-
-        // Check that this is the only class, interface or trait in the file.
-        $nextClass = $phpcsFile->findNext(array(T_CLASS, T_INTERFACE, T_TRAIT), ($stackPtr + 1));
-        if ($nextClass !== false) {
-            // We have another, so an error is thrown.
-            $error = 'Only one class, interface or trait is allowed in a file';
-            $phpcsFile->addError($error, $nextClass, 'MultipleClasses');
-        }
-
-        if ($this->requireNamespaces === true && version_compare(PHP_VERSION, '5.3.0') >= 0) {
-            $namespace = $phpcsFile->findPrevious(T_NAMESPACE, ($stackPtr - 1));
-            if ($namespace === false) {
-                $error = 'Each class must be in a namespace of at least one level (a top-level vendor name)';
-                $phpcsFile->addError($error, $stackPtr, 'MissingNamespace');
-            }
-        }
-
-    }//end process()
+    }//end register()
 
 
     /**
@@ -151,7 +122,7 @@ class CodingStandard_Sniffs_Classes_ClassDeclarationSniff extends PSR2_Sniffs_Cl
         }
 
         // Check that the closing brace has one blank line after it.
-        $nextContent = $phpcsFile->findNext(array(T_WHITESPACE, T_COMMENT), ($closeBrace + 1), null, true);
+        $nextContent = $phpcsFile->findNext(array(T_WHITESPACE), ($closeBrace + 1), null, true);
         if ($nextContent !== false) {
             $nextLine  = $tokens[$nextContent]['line'];
             $braceLine = $tokens[$closeBrace]['line'];
@@ -173,7 +144,9 @@ class CodingStandard_Sniffs_Classes_ClassDeclarationSniff extends PSR2_Sniffs_Cl
         // Check the closing brace is on it's own line, but allow
         // for comments like "//end class".
         $nextContent = $phpcsFile->findNext(T_COMMENT, ($closeBrace + 1), null, true);
-        if ($tokens[$nextContent]['content'] !== $phpcsFile->eolChar && $tokens[$nextContent]['line'] === $tokens[$closeBrace]['line']) {
+        if ($tokens[$nextContent]['content'] !== $phpcsFile->eolChar
+            && $tokens[$nextContent]['line'] === $tokens[$closeBrace]['line']
+        ) {
             $type  = strtolower($tokens[$stackPtr]['content']);
             $error = 'Closing %s brace must be on a line by itself';
             $data  = array($tokens[$stackPtr]['content']);

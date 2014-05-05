@@ -72,8 +72,8 @@ class CodingStandard_Sniffs_NamingConventions_ValidFunctionNameSniff extends PEA
         if (preg_match('|^__|', $methodName) !== 0) {
             $magicPart = strtolower(substr($methodName, 2));
             if (in_array($magicPart, $this->magicMethods) === false) {
-                 $error = 'Method name "%s" is invalid; only PHP magic methods should be prefixed with a double underscore';
-                 $phpcsFile->addError($error, $stackPtr, 'MethodDoubleUnderscore', $errorData);
+                $error = 'Method name "%s" is invalid; only PHP magic methods should be prefixed with a double underscore';
+                $phpcsFile->addError($error, $stackPtr, 'MethodDoubleUnderscore', $errorData);
             }
 
             return;

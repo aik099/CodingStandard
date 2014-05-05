@@ -12,7 +12,6 @@
 	],
 
 	"require-dev": {
-		"phpunit/phpunit": ">=3.7",
 		"squizlabs/php_codesniffer": "~1.5"
 	},
 
