@@ -1,0 +1,16 @@
+<?php
+$a = array('key1' => 'value1');
+$b = array('key1'=> 'value1');
+$c = array('key1' =>'value1');
+$d = array('key1'  => 'value1');
+$e = array('key1' =>  'value1');
+$f = array('key1'	=> 'value1');
+$k = array('key1' =>	'value1');
+$l = array('key1' 	=> 'value1');
+$m = array('key1' => 	'value1');
+$n = array('key1'	 => 'value1');
+$o = array('key1' =>	 'value1');
+$y = array('key1'
+=> 'value1');
+$x = array('key1' =>
+'value1');

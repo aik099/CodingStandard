@@ -1,6 +1,6 @@
 <?php
 /**
- * CodingStandard_Tests_Formatting_BlankLineBeforeReturnUnitTest.
+ * CodingStandard_Tests_ControlStructures_ControlSignatureUnitTest.
  *
  * PHP version 5
  *
@@ -12,7 +12,10 @@
  */
 
 /**
- * Unit test class for the BlankLineBeforeReturn sniff.
+ * Unit test class for the ControlSignature sniff.
+ *
+ * A sniff unit test checks a .inc file for expected violations of a single
+ * coding standard. Expected errors and warnings are stored in this class.
  *
  * @category PHP
  * @package  PHP_CodeSniffer
@@ -20,7 +23,7 @@
  * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
  * @link     https://github.com/aik099/CodingStandard
  */
-class CodingStandard_Tests_Formatting_BlankLineBeforeReturnUnitTest extends AbstractSniffUnitTest
+class CodingStandard_Tests_ControlStructures_ControlSignatureUnitTest extends AbstractSniffUnitTest
 {
 
 
@@ -37,30 +40,45 @@ class CodingStandard_Tests_Formatting_BlankLineBeforeReturnUnitTest extends Abst
     public function getErrorList($testFile)
     {
         return array(
-                // One blank line before "return" when it's only construct in scope.
+                // The "do ... while" construct.
+                5   => 1,
+                7   => 1,
                 10  => 1,
-                // Two blank lines before "return" when it's only construct in scope.
+                12  => 1,
+                14  => 1,
                 17  => 1,
-                // No blank line before "return" when some code exists before it.
-                30  => 1,
-                // One blank line before "return" when it's only construct in scope.
-                49  => 1,
+                // The "while" construct.
+                23  => 1,
+                25  => 1,
+                27  => 1,
+                // The "switch" construct.
+                33  => 1,
+                35  => 1,
+                37  => 1,
+                // The "for" construct.
+                43  => 1,
+                45  => 1,
+                47  => 1,
+                // The "if" construct.
                 53  => 1,
-                62  => 1,
-                // No blank line when "return" follow scope closing brace.
+                55  => 1,
+                57  => 1,
+                // The "foreach" construct.
+                63  => 1,
+                65  => 1,
+                67  => 1,
+                // The "elseif" construct.
                 76  => 1,
-                // One blank line before "return" when it's only construct in scope.
                 80  => 1,
-                // Two blank lines before "return" and previous construct in same scope.
+                84  => 1,
+                88  => 1,
+                // The "else" construct.
+                97  => 1,
                 101 => 1,
-                // No blank line when "return" follow scope closing brace.
-                112 => 1,
-                // One blank line before "return" when it's only construct in scope.
-                117 => 1,
-                // Too many blank lines before "return" with an inline comment.
-                136 => 1,
-                // Not preceding inline comment found.
-                143 => 1,
+                105 => 1,
+                // The "do" construct.
+                111 => 1,
+                113 => 1,
                );
 
     }//end getErrorList()

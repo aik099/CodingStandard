@@ -1,6 +1,6 @@
 <?php
 /**
- * CodingStandard_Tests_Formatting_BlankLineBeforeReturnUnitTest.
+ * CodingStandard_Tests_Formatting_ItemAssignmentUnitTest.
  *
  * PHP version 5
  *
@@ -12,7 +12,7 @@
  */
 
 /**
- * Unit test class for the BlankLineBeforeReturn sniff.
+ * Unit test class for the ItemAssignment sniff.
  *
  * @category PHP
  * @package  PHP_CodeSniffer
@@ -20,7 +20,7 @@
  * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
  * @link     https://github.com/aik099/CodingStandard
  */
-class CodingStandard_Tests_Formatting_BlankLineBeforeReturnUnitTest extends AbstractSniffUnitTest
+class CodingStandard_Tests_Formatting_ItemAssignmentUnitTest extends AbstractSniffUnitTest
 {
 
 
@@ -37,30 +37,20 @@ class CodingStandard_Tests_Formatting_BlankLineBeforeReturnUnitTest extends Abst
     public function getErrorList($testFile)
     {
         return array(
-                // One blank line before "return" when it's only construct in scope.
-                10  => 1,
-                // Two blank lines before "return" when it's only construct in scope.
-                17  => 1,
-                // No blank line before "return" when some code exists before it.
-                30  => 1,
-                // One blank line before "return" when it's only construct in scope.
-                49  => 1,
-                53  => 1,
-                62  => 1,
-                // No blank line when "return" follow scope closing brace.
-                76  => 1,
-                // One blank line before "return" when it's only construct in scope.
-                80  => 1,
-                // Two blank lines before "return" and previous construct in same scope.
-                101 => 1,
-                // No blank line when "return" follow scope closing brace.
-                112 => 1,
-                // One blank line before "return" when it's only construct in scope.
-                117 => 1,
-                // Too many blank lines before "return" with an inline comment.
-                136 => 1,
-                // Not preceding inline comment found.
-                143 => 1,
+                // No whitespace before =>.
+                3  => 1,
+                // No whitespace after =>.
+                4  => 1,
+                // Tabs used instead/alongside with spaces.
+                7  => 1,
+                8  => 1,
+                9  => 1,
+                10 => 1,
+                11 => 1,
+                12 => 1,
+                // Enters used instead/alongside with spaces.
+                14 => 1,
+                15 => 1,
                );
 
     }//end getErrorList()
