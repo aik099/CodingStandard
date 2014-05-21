@@ -83,6 +83,7 @@
 
     <rule ref="CodingStandard.Commenting.FunctionComment">
         <exclude-pattern>*Test.php</exclude-pattern>
+        <exclude-pattern>*TestCase.php</exclude-pattern>
     </rule>
 
     <rule ref="CodingStandard.Classes.ClassNamespace">
