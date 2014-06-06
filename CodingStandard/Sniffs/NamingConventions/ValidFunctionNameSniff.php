@@ -160,7 +160,7 @@ class CodingStandard_Sniffs_NamingConventions_ValidFunctionNameSniff extends PEA
      */
     protected function isEventHandlerExclusion($className, $methodName, array $methodParams)
     {
-        if (substr($className, -12) !== 'EventHandler') {
+        if (strpos($className, 'EventHandler') === false) {
             // Not EventHandler class.
             return false;
         }
@@ -183,7 +183,7 @@ class CodingStandard_Sniffs_NamingConventions_ValidFunctionNameSniff extends PEA
      */
     protected function isTagProcessorExclusion($className, $methodName, array $methodParams)
     {
-        if (substr($className, -12) !== 'TagProcessor') {
+        if (strpos($className, 'TagProcessor') === false) {
             // Not TagProcessor class.
             return false;
         }
