@@ -248,4 +248,49 @@ class SomeTagProcessor extends kDBTagProcessor
     }
 }
 
+class SomeEventHandlerFeature extends kDBEventHandler
+{
+
+    protected function OnSomeEvent(kEvent $event)
+    {
+    }
+
+    protected function SetCustomQuery()
+    {
+    }
+
+    protected function CheckPermission()
+    {
+    }
+
+    protected function LoadItem()
+    {
+    }
+
+    protected function ListPrepareQuery()
+    {
+    }
+
+    protected function ItemPrepareQuery()
+    {
+    }
+
+    protected function SetPagination()
+    {
+    }
+
+    protected function SetSorting()
+    {
+    }
+
+}
+
+class SomeTagProcessorFeature extends kDBTagProcessor
+{
+
+    function PrepareListElementParams()
+    {
+    }
+}
+
 ?>
