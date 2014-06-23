@@ -58,8 +58,7 @@ class CodingStandard_Tests_Classes_PropertyDeclarationUnitTest extends AbstractS
      */
     public function getWarningList($testFile)
     {
-        // Private class property without underscore in it's name.
-        return array(7 => 1);
+        return array();
 
     }//end getWarningList()
 
