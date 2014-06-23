@@ -70,7 +70,14 @@ class CodingStandard_Sniffs_CodeAnalysis_WrongParentCallSniff implements PHP_Cod
             $doubleColonPtr = $phpcsFile->findNext(T_DOUBLE_COLON, ($stackPtr + 1));
 
             if ($doubleColonPtr !== false) {
-                $tokens        = $phpcsFile->getTokens();
+                $tokens     = $phpcsFile->getTokens();
+                $expression = $phpcsFile->getTokensAsString($stackPtr, (($doubleColonPtr - $stackPtr) + 1));
+
+                if ($expression !== 'parent::') {
+                    // Class constant named "PARENT".
+                    return;
+                }
+
                 $functionName  = $phpcsFile->getDeclarationName($functionPtr);
                 $methodNamePtr = $phpcsFile->findNext(T_STRING, ($stackPtr + 1));
 
@@ -79,7 +86,7 @@ class CodingStandard_Sniffs_CodeAnalysis_WrongParentCallSniff implements PHP_Cod
                     $phpcsFile->addError($error, $stackPtr, 'WrongName');
                 }
             }
-        }
+        }//end if
 
     }//end process()
 
