@@ -119,6 +119,7 @@ class CodingStandard_Tests_Commenting_FunctionCommentUnitTest extends AbstractSn
                     500 => 1,
                     526 => 1,
                     548 => 1,
+                    619 => 1,
                    );
         } else if ($testFile === 'FunctionCommentUnitTest.2.inc') {
             return array(
