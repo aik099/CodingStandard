@@ -117,4 +117,8 @@ $code = 'hello';
 
 /** @var \stdClass $some_var */
 $some_var = 'Object';
+
+$foo = 'foo'; // Var set to foo.
+
+echo $foo;
 ?>

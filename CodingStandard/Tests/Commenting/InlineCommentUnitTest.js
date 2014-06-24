@@ -113,3 +113,7 @@ mig.Gallery.prototype = {
 // 5.this is a simple multi-line
 // comment!
 code = 'hello';
+
+var foo = 'foo'; // Var set to foo.
+
+console.info(foo);
