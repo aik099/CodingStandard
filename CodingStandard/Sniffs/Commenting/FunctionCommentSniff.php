@@ -314,6 +314,34 @@ class CodingStandard_Sniffs_Commenting_FunctionCommentSniff extends Squiz_Sniffs
     }//end getClassName()
 
 
+    /**
+     * Process the return comment of this function comment.
+     *
+     * @param int $commentStart The position in the stack where the comment started.
+     * @param int $commentEnd   The position in the stack where the comment ended.
+     *
+     * @return void
+     */
+    protected function processReturn($commentStart, $commentEnd)
+    {
+        parent::processReturn($commentStart, $commentEnd);
+
+        $return = $this->commentParser->getReturn();
+
+        if ($return !== null) {
+            $returnType = trim($return->getRawContent());
+            $errorPos   = ($commentStart + $return->getLine());
+
+            if ($returnType === '$this') {
+                $error = 'Function return type "%s" is invalid, please use "static" or "self" instead';
+                $data  = array($returnType);
+                $this->currentFile->addError($error, $errorPos, 'InvalidReturn', $data);
+            }
+        }
+
+    }//end processReturn()
+
+
 }//end class
 
 ?>

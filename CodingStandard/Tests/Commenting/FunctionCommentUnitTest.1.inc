@@ -612,4 +612,14 @@ public function usesCallable(callable $cb) {
     $cb();
 }
 
+
+/**
+ * Wrong return type.
+ *
+ * @return $this
+ */
+function someFunc() {
+    return $this;
+}
+
 ?>
