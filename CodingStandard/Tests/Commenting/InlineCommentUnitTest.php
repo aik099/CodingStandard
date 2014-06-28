@@ -71,7 +71,6 @@ class CodingStandard_Tests_Commenting_InlineCommentUnitTest extends AbstractSnif
                 if (version_compare(PHP_VERSION, '5.4.0') < 0) {
                     $errors[106] = 1;
                 }
-
                 return $errors;
 
             case 'InlineCommentUnitTest.js':
@@ -110,12 +109,9 @@ class CodingStandard_Tests_Commenting_InlineCommentUnitTest extends AbstractSnif
     {
         return array();
 
-    }
-    //end getWarningList()
+    }//end getWarningList()
 
 
-}
-
-//end class
+}//end class
 
 ?>

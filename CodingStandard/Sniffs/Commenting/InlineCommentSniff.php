@@ -163,8 +163,9 @@ class CodingStandard_Sniffs_Commenting_InlineCommentSniff implements PHP_CodeSni
             return;
         }
 
-        $spaceCount = 0;
-        for ($i = 2; $i < strlen($comment); $i++) {
+        $spaceCount    = 0;
+        $commentLength = strlen($comment);
+        for ($i = 2; $i < $commentLength; $i++) {
             if ($comment[$i] !== ' ') {
                 break;
             }
@@ -190,7 +191,6 @@ class CodingStandard_Sniffs_Commenting_InlineCommentSniff implements PHP_CodeSni
                      );
             $phpcsFile->addError($error, $stackPtr, 'SpacingBefore', $data);
         }
-
 
         // The below section determines if a comment block is correctly capitalised,
         // and ends in a full-stop. It will find the last comment in a block, and

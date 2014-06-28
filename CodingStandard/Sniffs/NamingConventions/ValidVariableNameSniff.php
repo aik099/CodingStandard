@@ -30,7 +30,8 @@ if (class_exists('PHP_CodeSniffer_Standards_AbstractVariableSniff', true) === fa
  * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
  * @link     https://github.com/aik099/CodingStandard
  */
-class CodingStandard_Sniffs_NamingConventions_ValidVariableNameSniff extends PHP_CodeSniffer_Standards_AbstractVariableSniff
+class CodingStandard_Sniffs_NamingConventions_ValidVariableNameSniff extends
+ PHP_CodeSniffer_Standards_AbstractVariableSniff
 {
 
     /**

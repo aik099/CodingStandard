@@ -28,7 +28,8 @@ if (class_exists('PHP_CodeSniffer_Standards_AbstractPatternSniff', true) === fal
  * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
  * @link     https://github.com/aik099/CodingStandard
  */
-class CodingStandard_Sniffs_ControlStructures_ControlSignatureSniff extends PHP_CodeSniffer_Standards_AbstractPatternSniff
+class CodingStandard_Sniffs_ControlStructures_ControlSignatureSniff extends
+ PHP_CodeSniffer_Standards_AbstractPatternSniff
 {
 
     /**

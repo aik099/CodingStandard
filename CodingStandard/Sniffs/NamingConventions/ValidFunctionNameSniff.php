@@ -31,7 +31,8 @@ if (class_exists('PEAR_Sniffs_NamingConventions_ValidFunctionNameSniff', true) =
  * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
  * @link     https://github.com/aik099/CodingStandard
  */
-class CodingStandard_Sniffs_NamingConventions_ValidFunctionNameSniff extends PEAR_Sniffs_NamingConventions_ValidFunctionNameSniff
+class CodingStandard_Sniffs_NamingConventions_ValidFunctionNameSniff extends
+ PEAR_Sniffs_NamingConventions_ValidFunctionNameSniff
 {
 
     protected $eventHandlerExclusions = array(
