@@ -197,8 +197,7 @@ class CodingStandard_Sniffs_Commenting_FunctionCommentSniff extends Squiz_Sniffs
         }
 
         // No extra newline before short description.
-        $newlineCount = 0;
-        $newlineSpan  = strspn($short, $phpcsFile->eolChar);
+        $newlineSpan = strspn($short, $phpcsFile->eolChar);
         if ($short !== '' && $newlineSpan > 0) {
             $error = 'Extra newline(s) found before function comment short description';
             $phpcsFile->addError($error, ($commentStart + 1), 'SpacingBeforeShort');
