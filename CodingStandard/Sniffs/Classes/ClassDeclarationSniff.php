@@ -147,7 +147,6 @@ class CodingStandard_Sniffs_Classes_ClassDeclarationSniff extends PSR2_Sniffs_Cl
         if ($tokens[$nextContent]['content'] !== $phpcsFile->eolChar
             && $tokens[$nextContent]['line'] === $tokens[$closeBrace]['line']
         ) {
-            $type  = strtolower($tokens[$stackPtr]['content']);
             $error = 'Closing %s brace must be on a line by itself';
             $data  = array($tokens[$stackPtr]['content']);
             $phpcsFile->addError($error, $closeBrace, 'CloseBraceSameLine', $data);
