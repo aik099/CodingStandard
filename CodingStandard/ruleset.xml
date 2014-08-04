@@ -34,7 +34,6 @@
 	<rule ref="Generic.WhiteSpace.ScopeIndent">
 		<properties>
 			<property name="indent" value="1"/>
-			<property name="exact" value="true"/>
 		</properties>
 	</rule>
 
