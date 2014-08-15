@@ -46,6 +46,15 @@ class CodingStandard_Sniffs_Commenting_FunctionCommentSniff extends Squiz_Sniffs
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
         parent::process($phpcsFile, $stackPtr);
+        if ($this->commentParser === null) {
+            return;
+        }
+
+        $comment = $this->commentParser->getComment();
+        if (is_null($comment) === true) {
+            $this->commentParser = null;
+            return;
+        }
 
         $tokens = $phpcsFile->getTokens();
 
@@ -57,33 +66,8 @@ class CodingStandard_Sniffs_Commenting_FunctionCommentSniff extends Squiz_Sniffs
                  T_OPEN_TAG,
                 );
 
-        $commentEnd = $phpcsFile->findPrevious($find, ($stackPtr - 1));
-        if ($commentEnd === false) {
-            return;
-        }
-
-        // If the token that we found was a class or a function, then this
-        // function has no doc comment.
-        $code = $tokens[$commentEnd]['code'];
-
-        if ($code === T_COMMENT
-            || $code !== T_DOC_COMMENT
-            || trim($tokens[$commentEnd]['content']) !== '*/'
-        ) {
-            return;
-        }
-
-        // If there is any code between the function keyword and the doc block
-        // then the doc block is not for us.
-        $ignore    = PHP_CodeSniffer_Tokens::$scopeModifiers;
-        $ignore[]  = T_STATIC;
-        $ignore[]  = T_WHITESPACE;
-        $ignore[]  = T_ABSTRACT;
-        $ignore[]  = T_FINAL;
-        $prevToken = $phpcsFile->findPrevious($ignore, ($stackPtr - 1), null, true);
-        if ($prevToken !== $commentEnd) {
-            return;
-        }
+        $commentEnd   = $phpcsFile->findPrevious($find, ($stackPtr - 1));
+        $commentStart = ($phpcsFile->findPrevious(T_DOC_COMMENT, ($commentEnd - 1), null, true) + 1);
 
         $classToken = null;
         foreach ($tokens[$stackPtr]['conditions'] as $condPtr => $condition) {
@@ -93,26 +77,7 @@ class CodingStandard_Sniffs_Commenting_FunctionCommentSniff extends Squiz_Sniffs
             }
         }
 
-        // Find the first doc comment.
-        $commentStart  = ($phpcsFile->findPrevious(T_DOC_COMMENT, ($commentEnd - 1), null, true) + 1);
-        $commentString = $phpcsFile->getTokensAsString($commentStart, ($commentEnd - $commentStart + 1));
-
-        try {
-            $this->commentParser = new PHP_CodeSniffer_CommentParser_FunctionCommentParser($commentString, $phpcsFile);
-            $this->commentParser->parse();
-        } catch (PHP_CodeSniffer_CommentParser_ParserException $e) {
-            $line = ($e->getLineWithinComment() + $commentStart);
-            $phpcsFile->addError($e->getMessage(), $line, 'FailedParse');
-            return;
-        }
-
-        $comment = $this->commentParser->getComment();
-        if (is_null($comment) === true) {
-            return;
-        }
-
         $return = $this->commentParser->getReturn();
-
         if ($return !== null) {
             $returnType = trim($return->getRawContent());
             $errorPos   = ($commentStart + $return->getLine());
@@ -126,6 +91,7 @@ class CodingStandard_Sniffs_Commenting_FunctionCommentSniff extends Squiz_Sniffs
 
         $short = trim($comment->getShortComment());
         if ($short === '') {
+            $this->commentParser = null;
             return;
         }
 
@@ -148,9 +114,9 @@ class CodingStandard_Sniffs_Commenting_FunctionCommentSniff extends Squiz_Sniffs
             $phpcsFile->addError($error, ($commentStart + 1), 'NonEventShortNotCapital');
         }
 
+        $this->commentParser = null;
+
     }//end process()
 
 
 }//end class
-
-?>
