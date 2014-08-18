@@ -47,10 +47,14 @@ class CodingStandard_Sniffs_Commenting_InlineCommentSniff implements PHP_CodeSni
      */
     public function register()
     {
-        return array(
-                T_COMMENT,
-                T_DOC_COMMENT,
-               );
+        $tokens = array(T_COMMENT);
+        if (defined('T_DOC_COMMENT_OPEN_TAG') === true) {
+            $tokens[] = T_DOC_COMMENT_OPEN_TAG;
+        } else {
+            $tokens[] = T_DOC_COMMENT;
+        }
+
+        return $tokens;
 
     }//end register()
 
@@ -71,7 +75,7 @@ class CodingStandard_Sniffs_Commenting_InlineCommentSniff implements PHP_CodeSni
         // If this is a function/class/interface doc block comment, skip it.
         // We are only interested in inline doc block comments, which are
         // not allowed.
-        if ($tokens[$stackPtr]['code'] === T_DOC_COMMENT) {
+        if ($tokens[$stackPtr]['code'] !== T_COMMENT) {
             $nextToken = $phpcsFile->findNext(
                 PHP_CodeSniffer_Tokens::$emptyTokens,
                 ($stackPtr + 1),
