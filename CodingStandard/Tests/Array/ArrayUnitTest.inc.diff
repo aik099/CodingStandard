@@ -1,0 +1,21 @@
+--- CodingStandard/Tests/Array/ArrayUnitTest.inc
++++ PHP_CodeSniffer
+@@ -1,11 +1,10 @@
+ <?php
+-$a = array ();
+-$b = array(
+-);
+-$c = array( );
++$a = array();
++$b = array();
++$c = array();
+ $d = array(
+-    'elem1'
++    'elem1',
+ );
+-$e = array('elem1',);
+-$f = array('elem1' );
+-$k = array( 'elem1');
++$e = array('elem1');
++$f = array('elem1');
++$k = array('elem1');
