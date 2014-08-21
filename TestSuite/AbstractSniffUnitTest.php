@@ -69,17 +69,43 @@ abstract class AbstractSniffUnitTest extends PHPUnit_Framework_TestCase
             $this->markTestSkipped();
         }
 
-        self::$phpcs->process(array(), $this->getStandardName(), array($this->getSniffCode()));
+        if (method_exists(self::$phpcs, 'initStandard') === true) {
+            // Only init standard without processing it's files, when possible.
+            self::$phpcs->initStandard($this->getStandardName(), array($this->getSniffCode()));
+        } else {
+            // Init standard and process all it's files.
+            self::$phpcs->process(array(), $this->getStandardName(), array($this->getSniffCode()));
+        }
+
         self::$phpcs->setIgnorePatterns(array());
 
         $failureMessages = array();
+        $fixingSupported = $this->isFixingSupported();
         foreach ($this->_getTestFiles() as $testFile) {
             try {
                 $phpcsFile       = self::$phpcs->processFile($testFile);
                 $failureMessages = array_merge($failureMessages, $this->generateFailureMessages($phpcsFile));
+
+                if ($fixingSupported === true && $phpcsFile->getFixableCount() > 0) {
+                    // Attempt to fix the errors.
+                    $phpcsFile->fixer->fixFile();
+                    $fixable = $phpcsFile->getFixableCount();
+                    if ($fixable > 0) {
+                        $filename = basename($testFile);
+                        $failureMessages[] = "Failed to fix $fixable fixable violations in $filename.";
+                    } else if (file_exists($testFile.'.diff') === true) {
+                        $actualDiff   = $phpcsFile->fixer->generateDiff();
+                        $expectedDiff = file_get_contents($testFile.'.diff');
+
+                        if (strcmp($actualDiff, $expectedDiff) !== 0) {
+                            $filename = basename($testFile);
+                            $failureMessages[] = "Fixed version of $filename file does not match expected one.";
+                        }
+                    }
+                }
             } catch (Exception $e) {
                 $this->fail('An unexpected exception has been caught: '.$e->getMessage());
-            }
+            }//end try
         }//end foreach
 
         if (empty($failureMessages) === false) {
@@ -87,6 +113,20 @@ abstract class AbstractSniffUnitTest extends PHPUnit_Framework_TestCase
         }
 
     }//end testStandard()
+
+
+    /**
+     * Determines if used PHPCS version supports fixing.
+     *
+     * @return bool
+     */
+    protected function isFixingSupported()
+    {
+        $classReflection = new \ReflectionClass('PHP_CodeSniffer_File');
+
+        return $classReflection->hasProperty('fixer');
+
+    }//end isFixingSupported()
 
 
     /**
@@ -151,7 +191,7 @@ abstract class AbstractSniffUnitTest extends PHPUnit_Framework_TestCase
         foreach ($directoryIterator as $file) {
             $path = $file->getPathname();
 
-            if (substr($path, 0, strlen($testFileBase)) === $testFileBase && $path !== $testFileBase.'php') {
+            if (substr($path, 0, strlen($testFileBase)) === $testFileBase && $path !== $testFileBase.'php' && $file->getExtension() !== 'diff') {
                 $testFiles[] = $path;
             }
         }
@@ -201,10 +241,13 @@ abstract class AbstractSniffUnitTest extends PHPUnit_Framework_TestCase
             throw new PHP_CodeSniffer_Exception('getWarningList() must return an array');
         }
 
-        // We merge errors and warnings together to make it easier
-        // to iterate over them and produce the errors string. In this way,
-        // we can report on errors and warnings in the same line even though
-        // it's not really structured to allow that.
+        /*
+            We merge errors and warnings together to make it easier
+            to iterate over them and produce the errors string. In this way,
+            we can report on errors and warnings in the same line even though
+            it's not really structured to allow that.
+        */
+
         $allProblems     = array();
         $failureMessages = array();
 
