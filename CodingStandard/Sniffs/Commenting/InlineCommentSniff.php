@@ -166,7 +166,7 @@ class CodingStandard_Sniffs_Commenting_InlineCommentSniff implements PHP_CodeSni
         $spaceCount    = 0;
         $commentLength = strlen($comment);
         for ($i = 2; $i < $commentLength; $i++) {
-            if ($comment[$i] !== ' ') {
+            if ($comment[$i] !== ' ' && $comment[$i] !== "\t") {
                 break;
             }
 
@@ -176,13 +176,13 @@ class CodingStandard_Sniffs_Commenting_InlineCommentSniff implements PHP_CodeSni
         if ($spaceCount === 0) {
             $error = 'No space before comment text; expected "// %s" but found "%s"';
             $data  = array(
-                      substr($comment, 2),
+                      ltrim(substr($comment, 2)),
                       $comment,
                      );
             $phpcsFile->addError($error, $stackPtr, 'NoSpaceBefore', $data);
         }
 
-        if ($spaceCount > 1) {
+        if ($phpcsFile->tokenizerType === 'JS' && $spaceCount > 1) {
             $error = '%s spaces found before inline comment line; use block comment if you need indentation';
             $data  = array(
                       $spaceCount,
@@ -234,7 +234,9 @@ class CodingStandard_Sniffs_Commenting_InlineCommentSniff implements PHP_CodeSni
         $acceptedClosers = array(
                             'full-stops'        => '.',
                             'exclamation marks' => '!',
-                            'or question marks' => '?',
+                            'question marks'    => '?',
+                            'commas'            => ',',
+                            'or semicolons'     => ';',
                            );
 
         if (in_array($commentCloser, $acceptedClosers) === false) {

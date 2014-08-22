@@ -121,4 +121,23 @@ $some_var = 'Object';
 $foo = 'foo'; // Var set to foo.
 
 echo $foo;
+
+
+class SomeClass
+{
+    function someMethod()
+    {
+//      This is comment indented with spaces.
+        $a = 5;
+
+//		This is comment indented with tabs.
+		$a = 5;
+    }
+}
+
+// This is ok,
+$code = 5;
+
+// This is also ok;
+$code = 5;
 ?>
