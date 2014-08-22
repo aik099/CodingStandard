@@ -54,12 +54,9 @@ class CodingStandard_Tests_Commenting_InlineCommentUnitTest extends AbstractSnif
                            44  => 2,
                            54  => 1,
                            58  => 1,
-                           61  => 1,
                            64  => 2,
                            67  => 1,
-                           95  => 1,
-                           96  => 1,
-                           97  => 3,
+                           97  => 2,
                            // Comments starting with digit are allowed.
                            114 => 0,
                            // The @var inline comments are allowed.

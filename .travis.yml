@@ -6,8 +6,19 @@ php:
     - 5.5
     - hhvm
 
+env:
+    - PHPCS_VERSION='~1.5@dev'
+    - PHPCS_VERSION='~2.0@dev'
+
+matrix:
+    allow_failures:
+        - env: PHPCS_VERSION='~2.0@dev'
+    exclude:
+        - php: hhvm
+          env: PHPCS_VERSION='~2.0@dev'
+
 before_script:
-    - composer require satooshi/php-coveralls:dev-master --dev --prefer-source
+    - composer require satooshi/php-coveralls:dev-master squizlabs/php_codesniffer:$PHPCS_VERSION --dev --prefer-source
 
 script:
     - mkdir -p build/logs
