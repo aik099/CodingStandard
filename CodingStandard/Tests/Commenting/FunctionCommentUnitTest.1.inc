@@ -152,16 +152,16 @@ class PHP_CodeSniffer_File
 /**
  * A simple function comment.
  *
- * @param string $str The string passed in by reference
+ * @param string &$str The string passed in by reference
+ * @param string $foo  The string passed in by reference.
  *
  * @return void
  * @return
  */
-public function functionOutsideClass(&$str)
+public function functionOutsideClass(&$str, &$foo)
 {
     return;
 }//end functionOutsideClass()
-
 
 function missingCommentOutsideClass()
 {
@@ -612,6 +612,44 @@ public function usesCallable(callable $cb) {
     $cb();
 }
 
+/**
+ * Creates a map of tokens => line numbers for each token.
+ *
+ * @param array  $tokens    The array of tokens to process.
+ * @param object $tokenizer The tokenizer being used to process this file.
+ * @param string $eolChar   The EOL character
+ *                          to use for splitting strings.
+ *
+ * @return void
+ * @throws Exception If something really bad
+ *                   happens while doing foo.
+ */
+public function foo(array &$tokens, $tokenizer, $eolChar)
+{
+
+}//end foo()
+
+/**
+ * Some description.
+ *
+ * @param \Vendor\Package\SomeClass       $someclass  Some class.
+ * @param \OtherVendor\Package\SomeClass2 $someclass2 Some class.
+ * @param \OtherVendor\Package\SomeClass2 $someclass3 Some class.
+ *
+ * @return void
+ */
+public function foo(SomeClass $someclass, \OtherVendor\Package\SomeClass2 $someclass2, SomeClass3 $someclass3)
+{
+}
+
+/**
+ * Gettext.
+ *
+ * @return string
+ */
+public function _() {
+    return $foo;
+}
 
 /**
  * Wrong return type.

@@ -7,7 +7,6 @@
  * @category PHP
  * @package  PHP_CodeSniffer
  * @author   Greg Sherwood <gsherwood@squiz.net>
- * @author   Marc McIntyre <mmcintyre@squiz.net>
  * @author   Alexander Obuhovich <aik.bold@gmail.com>
  * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
  * @link     https://github.com/aik099/CodingStandard
@@ -78,10 +77,7 @@ class CodingStandard_Sniffs_Commenting_FunctionCommentSniff extends Squiz_Sniffs
             return;
         }
 
-        // Run the generic doc processing code.
         $commentStart = $tokens[$commentEnd]['comment_opener'];
-        $sniff        = new Generic_Sniffs_Commenting_DocCommentSniff();
-        $sniff->process($phpcsFile, $commentStart);
 
         $return = null;
         foreach ($tokens[$commentStart]['comment_tags'] as $tag) {
@@ -211,7 +207,7 @@ class CodingStandard_Sniffs_Commenting_FunctionCommentSniff extends Squiz_Sniffs
             $error = 'Event comment short description must start with a capital letter or an [';
             $phpcsFile->addError($error, $errorPos, 'EventShortNotCapital');
         } else if ($isEvent === false && preg_match('/\p{Lu}/u', $short[0]) === 0) {
-            $error = 'Function comment short description must start with a capital letter';
+            $error = 'Doc comment short description must start with a capital letter';
             $phpcsFile->addError($error, $errorPos, 'NonEventShortNotCapital');
         }
 

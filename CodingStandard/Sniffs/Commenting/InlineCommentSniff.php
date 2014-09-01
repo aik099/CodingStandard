@@ -127,18 +127,35 @@ class CodingStandard_Sniffs_Commenting_InlineCommentSniff implements PHP_CodeSni
                 }
 
                 // Only error once per comment.
-                if (substr($tokens[$stackPtr]['content'], 0, 3) === '/**'
-                    && strpos($tokens[$stackPtr]['content'], '@var') === false
-                ) {
-                    $error = 'Inline doc block comments are not allowed; use "/* Comment */" or "// Comment" instead';
-                    $phpcsFile->addError($error, $stackPtr, 'DocBlock');
+                if (substr($tokens[$stackPtr]['content'], 0, 3) === '/**') {
+                    if (defined('T_DOC_COMMENT_CLOSE_TAG') === true) {
+                        // PHPCS 2.x way.
+                        $commentEnd  = $phpcsFile->findNext(T_DOC_COMMENT_CLOSE_TAG, ($stackPtr + 1));
+                        $commentText = $phpcsFile->getTokensAsString($stackPtr, (($commentEnd - $stackPtr) + 1));
+                    } else {
+                        // PHPCS 1.x way.
+                        $commentText = $tokens[$stackPtr]['content'];
+                    }
+
+                    if (strpos($commentText, '@var') === false) {
+                        $error = 'Inline doc block comments are not allowed; use "/* Comment */" or "// Comment" instead';
+                        $phpcsFile->addError($error, $stackPtr, 'DocBlock');
+                    }
                 }
             }//end if
         }//end if
 
         if ($tokens[$stackPtr]['content']{0} === '#') {
             $error = 'Perl-style comments are not allowed; use "// Comment" instead';
-            $phpcsFile->addError($error, $stackPtr, 'WrongStyle');
+            if (isset($phpcsFile->fixer) === true) {
+                $fix = $phpcsFile->addFixableError($error, $stackPtr, 'WrongStyle');
+                if ($fix === true) {
+                    $comment = ltrim($tokens[$stackPtr]['content'], "# \t");
+                    $phpcsFile->fixer->replaceToken($stackPtr, "// $comment");
+                }
+            } else {
+                $phpcsFile->addError($error, $stackPtr, 'WrongStyle');
+            }
         }
 
         // We don't want end of block comments. If the last comment is a closing
@@ -225,7 +242,15 @@ class CodingStandard_Sniffs_Commenting_InlineCommentSniff implements PHP_CodeSni
 
         if ($commentText === '') {
             $error = 'Blank comments are not allowed';
-            $phpcsFile->addError($error, $stackPtr, 'Empty');
+            if (isset($phpcsFile->fixer) === true) {
+                $fix = $phpcsFile->addFixableError($error, $stackPtr, 'Empty');
+                if ($fix === true) {
+                    $phpcsFile->fixer->replaceToken($stackPtr, '');
+                }
+            } else {
+                $phpcsFile->addError($error, $stackPtr, 'Empty');
+            }
+
             return;
         }
 
@@ -250,7 +275,7 @@ class CodingStandard_Sniffs_Commenting_InlineCommentSniff implements PHP_CodeSni
                 $ender .= ' '.$closerName.',';
             }
 
-            $ender = rtrim($ender, ',');
+            $ender = trim($ender, ' ,');
             $data  = array($ender);
             $phpcsFile->addError($error, $stackPtr, 'InvalidEndChar', $data);
         }
@@ -269,8 +294,25 @@ class CodingStandard_Sniffs_Commenting_InlineCommentSniff implements PHP_CodeSni
             }
 
             $error = 'There must be no blank line following an inline comment';
-            $phpcsFile->addError($error, $stackPtr, 'SpacingAfter');
-        }
+            if (isset($phpcsFile->fixer) === true) {
+                $fix = $phpcsFile->addFixableError($error, $stackPtr, 'SpacingAfter');
+                if ($fix === true) {
+                    $next = $phpcsFile->findNext(PHP_CodeSniffer_Tokens::$emptyTokens, ($stackPtr + 1), null, true);
+                    $phpcsFile->fixer->beginChangeset();
+                    for ($i = ($stackPtr + 1); $i < $next; $i++) {
+                        if ($tokens[$i]['line'] === $tokens[$next]['line']) {
+                            break;
+                        }
+
+                        $phpcsFile->fixer->replaceToken($i, '');
+                    }
+
+                    $phpcsFile->fixer->endChangeset();
+                }
+            } else {
+                $phpcsFile->addError($error, $stackPtr, 'SpacingAfter');
+            }
+        }//end if
 
     }//end process()
 
