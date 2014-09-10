@@ -13,7 +13,6 @@
     <rule ref="Generic.CodeAnalysis.UnconditionalIfStatement"/>
     <rule ref="Generic.CodeAnalysis.UnnecessaryFinalModifier"/>
     <!--PMD does this: <rule ref="Generic.CodeAnalysis.UnusedFunctionParameter"/>-->
-    <!--PMD does this: <rule ref="Generic.CodeAnalysis.UnusedFunctionParameter"/>-->
     <rule ref="Generic.CodeAnalysis.UselessOverridingMethod"/>
 
     <rule ref="Generic.ControlStructures.InlineControlStructure"/>
@@ -55,7 +54,6 @@
     <rule ref="Generic.NamingConventions.ConstructorName"/>
 
     <rule ref="Generic.PHP.CharacterBeforePHPOpeningTag"/>
-
     <rule ref="Generic.PHP.DeprecatedFunctions"/>
     <rule ref="Generic.PHP.DisallowShortOpenTag"/>
     <rule ref="Generic.PHP.ForbiddenFunctions"/>
