@@ -10,4 +10,4 @@ TEST_DATA_FILE="$CS/Tests/${SNIFF/.//}UnitTest.*inc"
 REPORT="${2-full}"
 
 echo -e "Report: $REPORT"
-vendor/bin/phpcs -v --report=$REPORT --report-width=120 --standard=$CS --sniffs=$CS.$SNIFF $TEST_DATA_FILE
+vendor/bin/phpcs -vs --report=$REPORT --report-width=120 --standard=$CS --sniffs=$CS.$SNIFF $TEST_DATA_FILE
