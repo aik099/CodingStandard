@@ -27,6 +27,20 @@
 class CodingStandard_Tests_Commenting_FunctionCommentUnitTest extends AbstractSniffUnitTest
 {
 
+    private static $_hasDocCommentSniff = false;
+
+
+    /**
+     * Determines PHP_CodeSniffer version used in tests.
+     *
+     * @return void
+     */
+    public static function setUpBeforeClass()
+    {
+        self::$_hasDocCommentSniff = class_exists('Generic_Sniffs_Commenting_DocCommentSniff');
+
+    }//end setUpBeforeClass()
+
 
     /**
      * Returns the lines where errors should occur.
@@ -41,7 +55,7 @@ class CodingStandard_Tests_Commenting_FunctionCommentUnitTest extends AbstractSn
     public function getErrorList($testFile)
     {
         if ($testFile === 'FunctionCommentUnitTest.1.inc') {
-            return array(
+            $ret = array(
                     6   => 1,
                     8   => 1,
                     10  => 4,
@@ -71,7 +85,7 @@ class CodingStandard_Tests_Commenting_FunctionCommentUnitTest extends AbstractSn
                     139 => 3,
                     143 => 2,
                     155 => 2,
-                    158 => 1,
+                    159 => 1,
                     166 => 1,
                     173 => 1,
                     180 => 1,
@@ -119,8 +133,52 @@ class CodingStandard_Tests_Commenting_FunctionCommentUnitTest extends AbstractSn
                     500 => 1,
                     526 => 1,
                     548 => 1,
-                    619 => 1,
+                    641 => 2,
+                    657 => 1,
                    );
+
+            if (self::$_hasDocCommentSniff === true) {
+                $ret[5] = 1;
+                unset($ret[8]);
+                $ret[10] -= 1;
+                $ret[12] -= 1;
+                $ret[13] -= 1;
+                unset($ret[35], $ret[38], $ret[40], $ret[41], $ret[53]);
+                $ret[112] -= 1;
+                $ret[123] -= 1;
+                $ret[124] -= 1;
+                $ret[125] -= 3;
+                $ret[126] -= 5;
+                $ret[137] += 1;
+                $ret[138] += 2;
+                $ret[139] += 1;
+                $ret[152]  = 1;
+                $ret[190]  = 2;
+                $ret[193] -= 2;
+                unset($ret[195]);
+                $ret[293] -= 1;
+                $ret[294]  = 1;
+                $ret[300] -= 1;
+                $ret[302]  = 1;
+                $ret[308] -= 1;
+                $ret[312]  = 1;
+                $ret[318] -= 1;
+                $ret[359] += 1;
+                $ret[372]  = 1;
+                $ret[373] -= 1;
+                unset($ret[470], $ret[474]);
+                $ret[641] -= 1;
+            } else if (version_compare(PHP_CodeSniffer::VERSION, '1.5.5', '<') === true) {
+                // Fixture file has code that doesn't trigger errors on 1.5.5+ version,
+                // but does trigger errors on lower versions. To compensate for that
+                // allow extra errors.
+                $ret[155] -= 1;
+                $ret[156]  = 1;
+                $ret[618]  = 1;
+                $ret[648]  = 1;
+            }//end if
+
+            return $ret;
         } else if ($testFile === 'FunctionCommentUnitTest.2.inc') {
             return array(
                     // Square bracket not allowed as function short description start.

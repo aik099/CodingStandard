@@ -11,8 +11,6 @@ env:
     - PHPCS_VERSION='~2.0@dev'
 
 matrix:
-    allow_failures:
-        - env: PHPCS_VERSION='~2.0@dev'
     exclude:
         - php: hhvm
           env: PHPCS_VERSION='~2.0@dev'

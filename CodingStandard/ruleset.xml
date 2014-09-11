@@ -130,6 +130,9 @@
 	<rule ref="CodingStandard.Commenting.FunctionComment.ShortNotCapital">
 		<severity>0</severity>
 	</rule>
+	<rule ref="CodingStandard.Commenting.DocCommentWrapper.ShortNotCapital">
+		<severity>0</severity>
+	</rule>
 
 	<rule ref="Squiz.ControlStructures.LowercaseDeclaration"/>
 
