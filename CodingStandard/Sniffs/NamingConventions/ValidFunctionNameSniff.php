@@ -72,7 +72,16 @@ class CodingStandard_Sniffs_NamingConventions_ValidFunctionNameSniff extends
         // Is this a magic method. i.e., is prefixed with "__" ?
         if (preg_match('|^__|', $methodName) !== 0) {
             $magicPart = strtolower(substr($methodName, 2));
-            if (in_array($magicPart, $this->magicMethods) === false) {
+
+            if (isset($this->magicMethods[0]) === true) {
+                // PHPCS 1.x way.
+                $isMagicMethod = in_array($magicPart, $this->magicMethods);
+            } else {
+                // PHPCS 2.x way.
+                $isMagicMethod = isset($this->magicMethods[$magicPart]);
+            }
+
+            if ($isMagicMethod === false) {
                 $error = 'Method name "%s" is invalid; only PHP magic methods should be prefixed with a double underscore';
                 $phpcsFile->addError($error, $stackPtr, 'MethodDoubleUnderscore', $errorData);
             }
@@ -96,10 +105,21 @@ class CodingStandard_Sniffs_NamingConventions_ValidFunctionNameSniff extends
         $scopeSpecified = $methodProps['scope_specified'];
 
         // If it's a private method, it must have an underscore on the front.
-        if ($isPublic === false && $methodName{0} !== '_') {
-            $error = 'Private method name "%s" must be prefixed with an underscore';
-            $phpcsFile->addError($error, $stackPtr, 'PrivateNoUnderscore', $errorData);
-            return;
+        if ($isPublic === false) {
+            if ($methodName{0} !== '_') {
+                $error = 'Private method name "%s" must be prefixed with an underscore';
+                $phpcsFile->addError($error, $stackPtr, 'PrivateNoUnderscore', $errorData);
+
+                if (isset($phpcsFile->fixer) === true) {
+                    $phpcsFile->recordMetric($stackPtr, 'Private method prefixed with underscore', 'no');
+                }
+
+                return;
+            } else {
+                if (isset($phpcsFile->fixer) === true) {
+                    $phpcsFile->recordMetric($stackPtr, 'Private method prefixed with underscore', 'yes');
+                }
+            }
         }
 
         // If it's not a private method, it must not have an underscore on the front.
