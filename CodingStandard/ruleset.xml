@@ -1,76 +1,76 @@
 <?xml version="1.0"?>
 <ruleset name="alex">
 	<description>Alexander Obuhovich's coding standard.</description>
-    <!--
-        Consider using this (from PHPCS 2.0+) instead setting indentation from 4 to 1 in all indentation checking sniffs
-        <arg name="tab-width" value="4" />
-    -->
+	<!--
+		Consider using this (from PHPCS 2.0+) instead setting indentation from 4 to 1 in all indentation checking sniffs
+		<arg name="tab-width" value="4" />
+	-->
 
-    <rule ref="Generic.CodeAnalysis.EmptyStatement"/>
-    <rule ref="Generic.CodeAnalysis.ForLoopShouldBeWhileLoop"/>
-    <rule ref="Generic.CodeAnalysis.ForLoopWithTestFunctionCall"/>
-    <rule ref="Generic.CodeAnalysis.JumbledIncrementer"/>
-    <rule ref="Generic.CodeAnalysis.UnconditionalIfStatement"/>
-    <rule ref="Generic.CodeAnalysis.UnnecessaryFinalModifier"/>
-    <!--PMD does this: <rule ref="Generic.CodeAnalysis.UnusedFunctionParameter"/>-->
-    <rule ref="Generic.CodeAnalysis.UselessOverridingMethod"/>
+	<rule ref="Generic.CodeAnalysis.EmptyStatement"/>
+	<rule ref="Generic.CodeAnalysis.ForLoopShouldBeWhileLoop"/>
+	<rule ref="Generic.CodeAnalysis.ForLoopWithTestFunctionCall"/>
+	<rule ref="Generic.CodeAnalysis.JumbledIncrementer"/>
+	<rule ref="Generic.CodeAnalysis.UnconditionalIfStatement"/>
+	<rule ref="Generic.CodeAnalysis.UnnecessaryFinalModifier"/>
+	<!--PMD does this: <rule ref="Generic.CodeAnalysis.UnusedFunctionParameter"/>-->
+	<rule ref="Generic.CodeAnalysis.UselessOverridingMethod"/>
 
-    <rule ref="Generic.ControlStructures.InlineControlStructure"/>
+	<rule ref="Generic.ControlStructures.InlineControlStructure"/>
 
-    <rule ref="Generic.Files.ByteOrderMark"/>
-    <rule ref="Generic.Files.EndFileNewline"/>
-    <rule ref="Generic.Files.InlineHTML"/>
-    <rule ref="Generic.Files.LineEndings"/>
+	<rule ref="Generic.Files.ByteOrderMark"/>
+	<rule ref="Generic.Files.EndFileNewline"/>
+	<rule ref="Generic.Files.InlineHTML"/>
+	<rule ref="Generic.Files.LineEndings"/>
 
-    <rule ref="Generic.Files.LineLength">
-        <properties>
-            <property name="lineLimit" value="120"/>
-            <property name="absoluteLineLimit" value="140"/>
-        </properties>
-        <exclude-pattern>**/*_config.php</exclude-pattern>
-        <exclude-pattern>**\*_config.php</exclude-pattern>
-    </rule>
+	<rule ref="Generic.Files.LineLength">
+		<properties>
+			<property name="lineLimit" value="120"/>
+			<property name="absoluteLineLimit" value="140"/>
+		</properties>
+		<exclude-pattern>**/*_config.php</exclude-pattern>
+		<exclude-pattern>**\*_config.php</exclude-pattern>
+	</rule>
 
-    <rule ref="Generic.Files.OneClassPerFile">
-        <exclude-pattern>constants.php</exclude-pattern>
-        <exclude-pattern>*Test.php</exclude-pattern>
-    </rule>
+	<rule ref="Generic.Files.OneClassPerFile">
+		<exclude-pattern>constants.php</exclude-pattern>
+		<exclude-pattern>*Test.php</exclude-pattern>
+	</rule>
 
-    <rule ref="Generic.Files.OneInterfacePerFile">
-        <exclude-pattern>*Test.php</exclude-pattern>
-    </rule>
+	<rule ref="Generic.Files.OneInterfacePerFile">
+		<exclude-pattern>*Test.php</exclude-pattern>
+	</rule>
 
-    <rule ref="Generic.Formatting.DisallowMultipleStatements"/>
-    <rule ref="Generic.Formatting.NoSpaceAfterCast"/>
+	<rule ref="Generic.Formatting.DisallowMultipleStatements"/>
+	<rule ref="Generic.Formatting.NoSpaceAfterCast"/>
 
-    <rule ref="Generic.Functions.CallTimePassByReference"/>
-    <rule ref="Generic.Functions.FunctionCallArgumentSpacing"/>
-    <rule ref="Generic.Functions.OpeningFunctionBraceBsdAllman"/>
+	<rule ref="Generic.Functions.CallTimePassByReference"/>
+	<rule ref="Generic.Functions.FunctionCallArgumentSpacing"/>
+	<rule ref="Generic.Functions.OpeningFunctionBraceBsdAllman"/>
 
-    <!--PMD does this: <rule ref="Generic.Metrics.CyclomaticComplexity"/>-->
+	<!--PMD does this: <rule ref="Generic.Metrics.CyclomaticComplexity"/>-->
 
-    <rule ref="Generic.Metrics.NestingLevel"/>
+	<rule ref="Generic.Metrics.NestingLevel"/>
 
-    <rule ref="Generic.NamingConventions.ConstructorName"/>
+	<rule ref="Generic.NamingConventions.ConstructorName"/>
 
-    <rule ref="Generic.PHP.CharacterBeforePHPOpeningTag"/>
-    <rule ref="Generic.PHP.DeprecatedFunctions"/>
-    <rule ref="Generic.PHP.DisallowShortOpenTag"/>
-    <rule ref="Generic.PHP.ForbiddenFunctions"/>
-    <rule ref="Generic.PHP.LowerCaseConstant"/>
-    <rule ref="Generic.PHP.LowerCaseKeyword"/>
-    <rule ref="Generic.PHP.NoSilencedErrors"/>
-    <rule ref="Generic.PHP.SAPIUsage"/>
+	<rule ref="Generic.PHP.CharacterBeforePHPOpeningTag"/>
+	<rule ref="Generic.PHP.DeprecatedFunctions"/>
+	<rule ref="Generic.PHP.DisallowShortOpenTag"/>
+	<rule ref="Generic.PHP.ForbiddenFunctions"/>
+	<rule ref="Generic.PHP.LowerCaseConstant"/>
+	<rule ref="Generic.PHP.LowerCaseKeyword"/>
+	<rule ref="Generic.PHP.NoSilencedErrors"/>
+	<rule ref="Generic.PHP.SAPIUsage"/>
 
-    <rule ref="Generic.Strings.UnnecessaryStringConcat"/>
+	<rule ref="Generic.Strings.UnnecessaryStringConcat"/>
 
-    <rule ref="Generic.WhiteSpace.DisallowSpaceIndent"/>
+	<rule ref="Generic.WhiteSpace.DisallowSpaceIndent"/>
 
-    <rule ref="Generic.WhiteSpace.ScopeIndent">
-        <properties>
-            <property name="indent" value="1"/>
-        </properties>
-    </rule>
+	<rule ref="Generic.WhiteSpace.ScopeIndent">
+		<properties>
+			<property name="indent" value="1"/>
+		</properties>
+	</rule>
 
 	<rule ref="Squiz.Arrays.ArrayBracketSpacing"/>
 
@@ -97,14 +97,14 @@
 	<rule ref="Squiz.Classes.LowercaseClassKeywords"/>
 	<rule ref="Squiz.Classes.SelfMemberReference"/>
 
-    <rule ref="CodingStandard.Commenting.FunctionComment">
-        <exclude-pattern>*Test.php</exclude-pattern>
-        <exclude-pattern>*TestCase.php</exclude-pattern>
-    </rule>
+	<rule ref="CodingStandard.Commenting.FunctionComment">
+		<exclude-pattern>*Test.php</exclude-pattern>
+		<exclude-pattern>*TestCase.php</exclude-pattern>
+	</rule>
 
-    <rule ref="CodingStandard.Classes.ClassNamespace">
-        <exclude-pattern>constants.php</exclude-pattern>
-    </rule>
+	<rule ref="CodingStandard.Classes.ClassNamespace">
+		<exclude-pattern>constants.php</exclude-pattern>
+	</rule>
 
 	<!-- considers "k*" classes as error, which in fact it is -->
 	<rule ref="Squiz.Classes.ValidClassName"/>
