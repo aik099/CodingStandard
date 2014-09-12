@@ -80,11 +80,6 @@
 		</properties>
 	</rule>
 
-	<rule ref="CodingStandard.Classes.ClassNamespace">
-		<exclude-pattern>**/*</exclude-pattern>
-		<exclude-pattern>**\*</exclude-pattern>
-	</rule>
-
 	<rule ref="Squiz.Arrays.ArrayBracketSpacing"/>
 
 	<rule ref="MySource.PHP.EvalObjectFactory"/>
@@ -144,6 +139,9 @@
 		<severity>0</severity>
 	</rule>
 	<rule ref="CodingStandard.Commenting.DocCommentWrapper.ShortNotCapital">
+		<severity>0</severity>
+	</rule>
+	<rule ref="CodingStandard.Classes.ClassNamespace.MissingNamespace">
 		<severity>0</severity>
 	</rule>
 
