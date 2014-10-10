@@ -74,7 +74,7 @@ class CodingStandard_Sniffs_CodeAnalysis_WrongParentCallSniff implements PHP_Cod
                 $expression = $phpcsFile->getTokensAsString($stackPtr, (($doubleColonPtr - $stackPtr) + 1));
 
                 if ($expression !== 'parent::') {
-                    // Class constant named "PARENT".
+                    // Class constant named "PARENT" (not needed after http://bit.ly/phpcs-t_parent-fix-commit).
                     return;
                 }
 
