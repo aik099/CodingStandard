@@ -1,51 +1,54 @@
 <?php
-class ClassName extends ParentClass implements \ArrayAccess,  \Countable
+class ClassName extends ParentClass implements \ArrayAccess, \Countable
 {
     // constants, properties, methods
 }
 
-class ClassName extends ParentClass,AnotherParentClass implements \ArrayAccess,\Countable {
-    // constants, properties, methods
-}
-
-class ClassName
-extends ParentClass
-implements \ArrayAccess, \Countable
+class ClassName extends ParentClass, AnotherParentClass implements \ArrayAccess, \Countable
 {
     // constants, properties, methods
-    
 }
 
-class ClassName extends  ParentClass  implements
-   \ArrayAccess,
-        \Foo\Bar\Countable,
-    \Serializable {
+class ClassName extends ParentClass implements \ArrayAccess, \Countable
+{
+    // constants, properties, methods
+}
+
+class ClassName extends ParentClass implements
+    \ArrayAccess,
+    \Foo\Bar\Countable,
+    \Serializable
+{
     // constants, properties, methods
 
 }
 
-class ClassName extends ParentClass  implements \ArrayAccess,
+class ClassName extends ParentClass implements
+    \ArrayAccess,
     \Countable,
     \Serializable
 {
     // constants, properties, methods
 }
 
-class ClassName extends ParentClass  implements
-    \ArrayAccess, \Countable, \Foo\Serializable
+class ClassName extends ParentClass implements
+    \ArrayAccess,
+    \Countable,
+    \Foo\Serializable
 {
     // constants, properties, methods
 }
 
 // Different indent
 if ($foo) {
-    class ClassName extends ParentClass implements
-        \ArrayAccess,
+class ClassName extends ParentClass implements
+    \ArrayAccess,
     \Countable,
-            \Serializable
+    \Serializable
     {
         // constants, properties, methods
-    }
+}
+
 }
 
 class Foo extends \Foo\Bar\Object
@@ -60,7 +63,7 @@ class ClassName extends ParentClass implements
 }
 
 class ClassName extends ParentClass implements
-    \Foo\Bar\Countable ,
+    \Foo\Bar\Countable,
     \Serializable
 {
     // constants, properties, methods
@@ -113,29 +116,28 @@ interface MyInterface extends
 }
 
 interface MyInterface extends
- LongInterfaceName1,
+    LongInterfaceName1,
     LongInterfaceName2,
-     LongInterfaceName3,
-LongInterfaceName4
+    LongInterfaceName3,
+    LongInterfaceName4
 {
 }
 
-abstract
-class Test
+abstract class Test
 {
 }
 
 class ClassName implements
-
-    \ArrayAccess,\Countable,
-\Serializable
+    \ArrayAccess,
+    \Countable,
+    \Serializable
 {
     // constants, properties, methods
 }
 
-
-
 class SomeClass
 {
 
-}?>
+}
+
+?>

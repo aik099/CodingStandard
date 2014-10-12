@@ -86,8 +86,10 @@ class CodingStandard_Tests_Classes_ClassDeclarationUnitTest extends AbstractSnif
                 119 => 1,
                 130 => 2,
                 131 => 1,
+                // Too much empty lines after interface declaration.
+                134 => 1,
                 // Class closing brace must on it's own line and must have an empty line after it.
-                139 => 2,
+                141 => 1,
                );
 
         if (version_compare(PHP_CodeSniffer::VERSION, '2.0.0RC5', '>=') === true) {
