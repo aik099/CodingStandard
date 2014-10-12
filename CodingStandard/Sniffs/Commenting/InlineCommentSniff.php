@@ -137,7 +137,7 @@ class CodingStandard_Sniffs_Commenting_InlineCommentSniff implements PHP_CodeSni
                         $commentText = $tokens[$stackPtr]['content'];
                     }
 
-                    if (strpos($commentText, '@var') === false) {
+                    if (strpos($commentText, '@var') === false && strpos($commentText, '@type') === false) {
                         $error = 'Inline doc block comments are not allowed; use "/* Comment */" or "// Comment" instead';
                         $phpcsFile->addError($error, $stackPtr, 'DocBlock');
                     }

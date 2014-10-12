@@ -140,4 +140,7 @@ $code = 5;
 
 // This is also ok;
 $code = 5;
+
+/** @type \stdClass $some_var */
+$some_var = 'Object';
 ?>
