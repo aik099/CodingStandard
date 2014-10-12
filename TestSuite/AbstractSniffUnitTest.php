@@ -93,13 +93,16 @@ abstract class AbstractSniffUnitTest extends PHPUnit_Framework_TestCase
                     if ($fixable > 0) {
                         $filename = basename($testFile);
                         $failureMessages[] = "Failed to fix $fixable fixable violations in $filename.";
-                    } else if (file_exists($testFile.'.diff') === true) {
-                        $actualDiff   = $phpcsFile->fixer->generateDiff();
-                        $expectedDiff = file_get_contents($testFile.'.diff');
-
-                        if (strcmp($actualDiff, $expectedDiff) !== 0) {
-                            $filename = basename($testFile);
-                            $failureMessages[] = "Fixed version of $filename file does not match expected one.";
+                    } else {
+                        // Check for a .fixed file to check for accuracy of fixes.
+                        $fixedFile = $testFile.'.fixed';
+                        if (file_exists($fixedFile) === true) {
+                            $diff = $phpcsFile->fixer->generateDiff($fixedFile);
+                            if (trim($diff) !== '') {
+                                $filename          = basename($testFile);
+                                $fixedFilename     = basename($fixedFile);
+                                $failureMessages[] = "Fixed version of $filename does not match expected version in $fixedFilename; the diff is\n$diff";
+                            }
                         }
                     }
                 }
@@ -191,7 +194,7 @@ abstract class AbstractSniffUnitTest extends PHPUnit_Framework_TestCase
         foreach ($directoryIterator as $file) {
             $path = $file->getPathname();
 
-            if (substr($path, 0, strlen($testFileBase)) === $testFileBase && $path !== $testFileBase.'php' && $file->getExtension() !== 'diff') {
+            if (substr($path, 0, strlen($testFileBase)) === $testFileBase && $path !== $testFileBase.'php' && $file->getExtension() !== 'fixed') {
                 $testFiles[] = $path;
             }
         }
