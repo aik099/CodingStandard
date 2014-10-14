@@ -147,39 +147,24 @@ class CodingStandard_Sniffs_Classes_ClassDeclarationSniff extends PSR2_Sniffs_Cl
         // Check that the closing brace has one blank line after it.
         $nextContent = $phpcsFile->findNext(array(T_WHITESPACE), ($closeBrace + 1), null, true);
         if ($nextContent !== false) {
-            $nextLine  = $tokens[$nextContent]['line'];
-            $braceLine = $tokens[$closeBrace]['line'];
-            if ($braceLine === $nextLine) {
-                $error = 'Closing brace of a %s must be followed by a single blank line';
-                $data  = array($tokens[$stackPtr]['content']);
-                if (isset($phpcsFile->fixer) === true) {
-                    $fix = $phpcsFile->addFixableError($error, $closeBrace, 'NoNewlineAfterCloseBrace', $data);
-                    if ($fix === true) {
-                        $phpcsFile->fixer->beginChangeset();
-                        $phpcsFile->fixer->addNewline($closeBrace);
-                        $phpcsFile->fixer->endChangeset();
-                    }
-                } else {
-                    $phpcsFile->addError($error, $closeBrace, 'NoNewlineAfterCloseBrace', $data);
-                }
-            } else if ($nextLine !== ($braceLine + 2)) {
-                $difference = ($nextLine - $braceLine - 1);
-                $error      = 'Closing brace of a %s must be followed by a single blank line; found %s';
-                $data       = array(
-                               $tokens[$stackPtr]['content'],
-                               $difference,
-                              );
+            $difference = ($tokens[$nextContent]['line'] - $tokens[$closeBrace]['line'] - 1);
+            if ($difference !== 1) {
+                $error = 'Closing brace of a %s must be followed by a single blank line; found %s';
+                $data  = array(
+                          $tokens[$stackPtr]['content'],
+                          $difference,
+                         );
                 if (isset($phpcsFile->fixer) === true) {
                     $fix = $phpcsFile->addFixableError($error, $closeBrace, 'NewlinesAfterCloseBrace', $data);
                     if ($fix === true) {
                         $phpcsFile->fixer->beginChangeset();
 
-                        if ($difference === 0) {
-                            $phpcsFile->fixer->addNewline($closeBrace);
-                        } else {
+                        if ($difference > 1) {
                             for ($i = 1; $i < $difference; $i++) {
                                 $phpcsFile->fixer->replaceToken(($closeBrace + $i), '');
                             }
+                        } else {
+                            $phpcsFile->fixer->addNewline($closeBrace);
                         }
 
                         $phpcsFile->fixer->endChangeset();
