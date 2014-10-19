@@ -191,11 +191,7 @@ class CodingStandard_Tests_Commenting_FunctionCommentUnitTest extends AbstractSn
                     27 => 1,
                    );
         } else if ($testFile === 'FunctionCommentUnitTest.3.inc') {
-            if (version_compare(PHP_VERSION, '5.4.0', '<') === true) {
-                return array();
-            }
-
-            return array(
+            $ret = array(
                     // Square bracket not allowed as function short description start.
                     7  => 1,
 
@@ -205,6 +201,13 @@ class CodingStandard_Tests_Commenting_FunctionCommentUnitTest extends AbstractSn
                     // Incorrect event short description start.
                     27 => 1,
                    );
+
+            if (version_compare(PHP_VERSION, '5.4.0', '<') === true) {
+                // Because in PHP < 5.4.0 the "trait " is tokenized as T_STRING.
+                $ret[17] = 1;
+            }
+
+            return $ret;
         }//end if
 
         return array();
