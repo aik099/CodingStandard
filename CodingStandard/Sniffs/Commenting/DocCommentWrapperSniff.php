@@ -81,6 +81,19 @@ class CodingStandard_Sniffs_Commenting_DocCommentWrapperSniff implements PHP_Cod
      */
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
+        $tokens       = $phpcsFile->getTokens();
+        $commentEnd   = $phpcsFile->findNext(T_DOC_COMMENT_CLOSE_TAG, ($stackPtr + 1));
+        $commentStart = $tokens[$commentEnd]['comment_opener'];
+
+        if ($tokens[$commentStart]['line'] === $tokens[$commentEnd]['line']) {
+            $commentText = $phpcsFile->getTokensAsString($commentStart, ($commentEnd - $commentStart + 1));
+
+            if (strpos($commentText, '@var') !== false || strpos($commentText, '@type') !== false) {
+                // Skip inline block comments with variable type definition.
+                return;
+            }
+        }
+
         $this->_docCommentSniff->process($phpcsFile, $stackPtr);
 
     }//end process()

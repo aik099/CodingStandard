@@ -195,7 +195,7 @@ class CodingStandard_Sniffs_Commenting_FunctionCommentSniff extends Squiz_Sniffs
         $isEvent = false;
         if ($classToken !== null) {
             $className = $phpcsFile->getDeclarationName($classToken);
-            if (substr($className, -12) === 'EventHandler') {
+            if (strpos($className, 'EventHandler') !== false) {
                 $methodName = $phpcsFile->getDeclarationName($stackPtr);
                 if (substr($methodName, 0, 2) === 'On') {
                     $isEvent = true;
