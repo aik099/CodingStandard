@@ -183,15 +183,27 @@ class CodingStandard_Tests_Commenting_FunctionCommentUnitTest extends AbstractSn
             return array(
                     // Square bracket not allowed as function short description start.
                     7  => 1,
-                    41 => 1,
 
                     // Square bracket is allowed as event short description start.
                     17 => 0,
-                    51 => 0,
 
                     // Incorrect event short description start.
                     27 => 1,
-                    61 => 1,
+                   );
+        } else if ($testFile === 'FunctionCommentUnitTest.3.inc') {
+            if (version_compare(PHP_VERSION, '5.4.0', '<') === true) {
+                return array();
+            }
+
+            return array(
+                    // Square bracket not allowed as function short description start.
+                    7  => 1,
+
+                    // Square bracket is allowed as event short description start.
+                    17 => 0,
+
+                    // Incorrect event short description start.
+                    27 => 1,
                    );
         }//end if
 

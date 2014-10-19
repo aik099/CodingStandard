@@ -1,6 +1,6 @@
 <?php
 
-class SomeEventHandler extends kDBEventHandler
+trait TSomeEventHandlerFeature
 {
 
     /**
