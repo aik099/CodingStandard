@@ -186,7 +186,7 @@ class CodingStandard_Sniffs_Commenting_FunctionCommentSniff extends Squiz_Sniffs
 
         $classToken = null;
         foreach ($tokens[$stackPtr]['conditions'] as $condPtr => $condition) {
-            if ($condition === T_CLASS || $condition === T_INTERFACE) {
+            if ($condition === T_CLASS || $condition === T_INTERFACE || $condition === T_TRAIT) {
                 $classToken = $condPtr;
                 break;
             }
