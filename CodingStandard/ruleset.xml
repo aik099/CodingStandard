@@ -74,7 +74,7 @@
 
 	<rule ref="Generic.WhiteSpace.DisallowSpaceIndent"/>
 
-	<rule ref="Generic.WhiteSpace.ScopeIndent">
+	<rule ref="Generic.WhiteSpace.ScopeIndent" phpcs-only="true">
 		<properties>
 			<property name="indent" value="1"/>
 		</properties>
@@ -104,6 +104,8 @@
 
 	<rule ref="Squiz.Classes.LowercaseClassKeywords"/>
 	<rule ref="Squiz.Classes.SelfMemberReference"/>
+
+	<rule ref="CodingStandard.Functions.FunctionDeclaration" phpcs-only="true"/>
 
 	<rule ref="CodingStandard.Commenting.FunctionComment">
 		<exclude-pattern>*Test.php</exclude-pattern>
