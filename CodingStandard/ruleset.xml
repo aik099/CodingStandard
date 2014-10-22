@@ -103,6 +103,10 @@
 		<exclude-pattern>*Test.php</exclude-pattern>
 		<exclude-pattern>*TestCase.php</exclude-pattern>
 	</rule>
+	<rule ref="CodingStandard.Commenting.DocCommentWrapper">
+		<exclude-pattern>*Test.php</exclude-pattern>
+		<exclude-pattern>*TestCase.php</exclude-pattern>
+	</rule>
 
 	<rule ref="CodingStandard.Classes.ClassNamespace">
 		<exclude-pattern>constants.php</exclude-pattern>
