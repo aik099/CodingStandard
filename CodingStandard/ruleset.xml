@@ -27,8 +27,7 @@
 			<property name="lineLimit" value="120"/>
 			<property name="absoluteLineLimit" value="140"/>
 		</properties>
-		<exclude-pattern>**/*_config.php</exclude-pattern>
-		<exclude-pattern>**\*_config.php</exclude-pattern>
+		<exclude-pattern>*_config.php</exclude-pattern>
 	</rule>
 
 	<rule ref="Generic.Files.OneClassPerFile">
