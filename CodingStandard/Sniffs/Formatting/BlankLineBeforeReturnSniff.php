@@ -71,8 +71,8 @@ class CodingStandard_Sniffs_Formatting_BlankLineBeforeReturnSniff implements PHP
         );
 
         $expectedBlankLineCount = 1;
-        $leadingLineNumber      = $this->getLeadingLineNumber($phpcsFile, $stackPtr, $prevToken);
-        $blankLineCount         = ($leadingLineNumber - ($tokens[$prevToken]['line'] + 1));
+        $leadingLinePtr         = $this->getLeadingLinePointer($phpcsFile, $stackPtr, $prevToken);
+        $blankLineCount         = ($tokens[$leadingLinePtr]['line'] - ($tokens[$prevToken]['line'] + 1));
 
         if (isset($tokens[$prevToken]['scope_opener']) === true && $tokens[$prevToken]['scope_opener'] === $prevToken) {
             $expectedBlankLineCount = 0;
@@ -91,7 +91,7 @@ class CodingStandard_Sniffs_Formatting_BlankLineBeforeReturnSniff implements PHP
 
 
     /**
-     * Returns leading comment line number or own line number, when no comment found.
+     * Returns leading comment stack pointer or own stack pointer, when no comment found.
      *
      * @param PHP_CodeSniffer_File $phpcsFile    All the tokens found in the document.
      * @param int                  $fromStackPtr Start from token.
@@ -99,7 +99,7 @@ class CodingStandard_Sniffs_Formatting_BlankLineBeforeReturnSniff implements PHP
      *
      * @return int|bool
      */
-    protected function getLeadingLineNumber(PHP_CodeSniffer_File $phpcsFile, $fromStackPtr, $toStackPtr)
+    protected function getLeadingLinePointer(PHP_CodeSniffer_File $phpcsFile, $fromStackPtr, $toStackPtr)
     {
         $tokens         = $phpcsFile->getTokens();
         $fromToken      = $tokens[$fromStackPtr];
@@ -110,7 +110,7 @@ class CodingStandard_Sniffs_Formatting_BlankLineBeforeReturnSniff implements PHP
         );
 
         if ($prevCommentPtr === false) {
-            return $fromToken['line'];
+            return $fromStackPtr;
         }
 
         $prevCommentToken = $tokens[$prevCommentPtr];
@@ -118,12 +118,12 @@ class CodingStandard_Sniffs_Formatting_BlankLineBeforeReturnSniff implements PHP
         if ($prevCommentToken['line'] === ($fromToken['line'] - 1)
             && $prevCommentToken['column'] === $fromToken['column']
         ) {
-            return $prevCommentToken['line'];
+            return $prevCommentPtr;
         }
 
-        return $fromToken['line'];
+        return $fromStackPtr;
 
-    }//end getLeadingLineNumber()
+    }//end getLeadingLinePointer()
 
 
 }//end class
