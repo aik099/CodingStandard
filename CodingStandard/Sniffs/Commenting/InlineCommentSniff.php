@@ -198,23 +198,37 @@ class CodingStandard_Sniffs_Commenting_InlineCommentSniff implements PHP_CodeSni
             $spaceCount++;
         }
 
+        $fix = false;
         if ($spaceCount === 0) {
             $error = 'No space before comment text; expected "// %s" but found "%s"';
             $data  = array(
                       ltrim(substr($comment, 2)),
                       $comment,
                      );
-            $phpcsFile->addError($error, $stackPtr, 'NoSpaceBefore', $data);
-        }
-
-        if ($phpcsFile->tokenizerType === 'JS' && $spaceCount > 1) {
+            if (isset($phpcsFile->fixer) === true) {
+                $fix = $phpcsFile->addFixableError($error, $stackPtr, 'NoSpaceBefore', $data);
+            } else {
+                $phpcsFile->addError($error, $stackPtr, 'NoSpaceBefore', $data);
+            }
+        } else if ($spaceCount > 1) {
             $error = '%s spaces found before inline comment line; use block comment if you need indentation';
             $data  = array(
                       $spaceCount,
                       substr($comment, (2 + $spaceCount)),
                       $comment,
                      );
-            $phpcsFile->addError($error, $stackPtr, 'SpacingBefore', $data);
+            if (isset($phpcsFile->fixer) === true) {
+                $fix = $phpcsFile->addFixableError($error, $stackPtr, 'SpacingBefore', $data);
+            } else {
+                $phpcsFile->addError($error, $stackPtr, 'SpacingBefore', $data);
+            }
+        }//end if
+
+        if ($fix === true) {
+            $phpcsFile->fixer->beginChangeset();
+            $newComment = '// '.ltrim($tokens[$stackPtr]['content'], "/\t ");
+            $phpcsFile->fixer->replaceToken($stackPtr, $newComment);
+            $phpcsFile->fixer->endChangeset();
         }
 
         // The below section determines if a comment block is correctly capitalised,
