@@ -4,7 +4,7 @@ $b = array(
 );
 $c = array( );
 $d = array(
-    'elem1'
+	'elem1'
 );
 $e = array('elem1',);
 $f = array('elem1' );
