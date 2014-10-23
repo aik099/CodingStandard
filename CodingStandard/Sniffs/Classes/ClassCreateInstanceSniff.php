@@ -88,7 +88,7 @@ class CodingStandard_Sniffs_Classes_ClassCreateInstanceSniff implements PHP_Code
                         true
                     );
 
-                    $phpcsFile->fixer->addContent(($classNameEnd - 1), '()');
+                    $phpcsFile->fixer->addContentBefore($classNameEnd, '()');
                     $phpcsFile->fixer->endChangeset();
                 }//end if
             } else {
