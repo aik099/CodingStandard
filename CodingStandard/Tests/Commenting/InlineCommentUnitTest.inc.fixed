@@ -26,6 +26,10 @@ function test()
 
 // This is a long comment
 // that is banned.
+// some code goes here!
+// This comment contains # multiple
+// hash signs (#) but no
+// full stop
 $code = 'hello';
 
 /*
@@ -85,6 +89,17 @@ final class MyClass
 // -> One
 // -> One.One
 // -> Two
+/*
+    Here is some inline example code:
+        -> One
+            -> One.One
+        -> Two
+*/
+
+/**
+ * Comment should be ignored in PHP 5.4.
+ *
+ */
 trait MyTrait {
 
 }
