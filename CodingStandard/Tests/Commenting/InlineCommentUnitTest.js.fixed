@@ -33,6 +33,14 @@ myClass.prototype = {
 };
 
 // some code goes here!
+/*
+    A longer comment goes here.
+    It spans multiple lines!!
+    Or does it?
+*/
+
+// this is a simple multi-line
+// comment!
 code = 'hello';
 
 // This is not valid.
@@ -91,6 +99,15 @@ mig.Gallery.prototype = {
 // -> One
 // -> One.One
 // -> Two
+/*
+    Here is some inline example code:
+        -> One
+            -> One.One
+        -> Two
+*/
+
+// 5.this is a simple multi-line
+// comment!
 code = 'hello';
 
 var foo = 'foo'; // Var set to foo.
