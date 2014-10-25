@@ -52,24 +52,25 @@ class CodingStandard_Sniffs_Array_ArraySniff implements PHP_CodeSniffer_Sniff
      */
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
+        if (isset($phpcsFile->fixerWrapper) === false) {
+            $phpcsFile->fixerWrapper = CodingStandard_Sniffs_FixerWrapper_WrapperFactory::createWrapper($phpcsFile);
+        }
+
         $tokens     = $phpcsFile->getTokens();
         $arrayStart = $tokens[$stackPtr]['parenthesis_opener'];
         $arrayEnd   = $tokens[$arrayStart]['parenthesis_closer'];
 
         if ($arrayStart !== ($stackPtr + 1)) {
             $error = 'There must be no space between the Array keyword and the opening parenthesis';
-            if (isset($phpcsFile->fixer) === false) {
-                $phpcsFile->addError($error, $stackPtr, 'SpaceAfterKeyword');
-            } else {
-                $fix = $phpcsFile->addFixableError($error, $stackPtr, 'SpaceAfterKeyword');
-                if ($fix === true) {
-                    $phpcsFile->fixer->beginChangeset();
-                    for ($i = ($stackPtr + 1); $i < $arrayStart; $i++) {
-                        $phpcsFile->fixer->replaceToken($i, '');
-                    }
+            $fix   = $phpcsFile->fixerWrapper->addFixableError($error, $stackPtr, 'SpaceAfterKeyword');
+            if ($fix === true) {
+                $phpcsFile->fixer->beginChangeset();
 
-                    $phpcsFile->fixer->endChangeset();
+                for ($i = ($stackPtr + 1); $i < $arrayStart; $i++) {
+                    $phpcsFile->fixer->replaceToken($i, '');
                 }
+
+                $phpcsFile->fixer->endChangeset();
             }
         }
 
@@ -79,18 +80,15 @@ class CodingStandard_Sniffs_Array_ArraySniff implements PHP_CodeSniffer_Sniff
             // Empty array, but if the brackets aren't together, there's a problem.
             if (($arrayEnd - $arrayStart) !== 1) {
                 $error = 'Empty array declaration must have no space between the parentheses';
-                if (isset($phpcsFile->fixer) === false) {
-                    $phpcsFile->addError($error, $stackPtr, 'SpaceInEmptyArray');
-                } else {
-                    $fix = $phpcsFile->addFixableError($error, $stackPtr, 'SpaceInEmptyArray');
-                    if ($fix === true) {
-                        $phpcsFile->fixer->beginChangeset();
-                        for ($i = ($arrayStart + 1); $i < $arrayEnd; $i++) {
-                            $phpcsFile->fixer->replaceToken($i, '');
-                        }
+                $fix   = $phpcsFile->fixerWrapper->addFixableError($error, $stackPtr, 'SpaceInEmptyArray');
+                if ($fix === true) {
+                    $phpcsFile->fixer->beginChangeset();
 
-                        $phpcsFile->fixer->endChangeset();
+                    for ($i = ($arrayStart + 1); $i < $arrayEnd; $i++) {
+                        $phpcsFile->fixer->replaceToken($i, '');
                     }
+
+                    $phpcsFile->fixer->endChangeset();
                 }
 
                 // We can return here because there is nothing else to check. All code
@@ -112,13 +110,11 @@ class CodingStandard_Sniffs_Array_ArraySniff implements PHP_CodeSniffer_Sniff
         // Check if the last item in a multiline array has a "closing" comma.
         if ($tokens[$lastItem]['code'] !== T_COMMA && $isInlineArray === false) {
             $error = 'A comma should follow the last multiline array item. Found: '.$tokens[$lastItem]['content'];
-            if (isset($phpcsFile->fixer) === false) {
-                $phpcsFile->addWarning($error, $lastItem, 'NoLastComma');
-            } else {
-                $fix = $phpcsFile->addFixableWarning($error, $lastItem, 'NoLastComma');
-                if ($fix === true) {
-                    $phpcsFile->fixer->addContent($lastItem, ',');
-                }
+            $fix   = $phpcsFile->fixerWrapper->addFixableWarning($error, $lastItem, 'NoLastComma');
+            if ($fix === true) {
+                $phpcsFile->fixer->beginChangeset();
+                $phpcsFile->fixer->addContent($lastItem, ',');
+                $phpcsFile->fixer->endChangeset();
             }
 
             return;
@@ -127,13 +123,11 @@ class CodingStandard_Sniffs_Array_ArraySniff implements PHP_CodeSniffer_Sniff
         if ($isInlineArray === true) {
             if ($tokens[$lastItem]['code'] === T_COMMA) {
                 $error = 'Comma not allowed after last value in single-line array declaration';
-                if (isset($phpcsFile->fixer) === false) {
-                    $phpcsFile->addWarning($error, $lastItem, 'LastComma');
-                } else {
-                    $fix = $phpcsFile->addFixableWarning($error, $lastItem, 'LastComma');
-                    if ($fix === true) {
-                        $phpcsFile->fixer->replaceToken($lastItem, '');
-                    }
+                $fix   = $phpcsFile->fixerWrapper->addFixableWarning($error, $lastItem, 'LastComma');
+                if ($fix === true) {
+                    $phpcsFile->fixer->beginChangeset();
+                    $phpcsFile->fixer->replaceToken($lastItem, '');
+                    $phpcsFile->fixer->endChangeset();
                 }
 
                 return;
@@ -142,38 +136,32 @@ class CodingStandard_Sniffs_Array_ArraySniff implements PHP_CodeSniffer_Sniff
             // Inline array must not have spaces within parenthesis.
             if ($content !== ($arrayStart + 1)) {
                 $error = 'Space found after opening parenthesis of Array';
-                if (isset($phpcsFile->fixer) === false) {
-                    $phpcsFile->addError($error, $stackPtr, 'SpaceAfterOpen');
-                } else {
-                    $fix = $phpcsFile->addFixableError($error, $stackPtr, 'SpaceAfterOpen');
-                    if ($fix === true) {
-                        $phpcsFile->fixer->beginChangeset();
-                        for ($i = ($arrayStart + 1); $i < $content; $i++) {
-                            $phpcsFile->fixer->replaceToken($i, '');
-                        }
+                $fix   = $phpcsFile->fixerWrapper->addFixableError($error, $stackPtr, 'SpaceAfterOpen');
+                if ($fix === true) {
+                    $phpcsFile->fixer->beginChangeset();
 
-                        $phpcsFile->fixer->endChangeset();
+                    for ($i = ($arrayStart + 1); $i < $content; $i++) {
+                        $phpcsFile->fixer->replaceToken($i, '');
                     }
+
+                    $phpcsFile->fixer->endChangeset();
                 }
             }
 
             if ($lastItem !== ($arrayEnd - 1)) {
                 $error = 'Space found before closing parenthesis of Array';
-                if (isset($phpcsFile->fixer) === false) {
-                    $phpcsFile->addError($error, $stackPtr, 'SpaceAfterClose');
-                } else {
-                    $fix = $phpcsFile->addFixableError($error, $stackPtr, 'SpaceAfterClose');
-                    if ($fix === true) {
-                        $phpcsFile->fixer->beginChangeset();
-                        for ($i = ($lastItem + 1); $i < $arrayEnd; $i++) {
-                            $phpcsFile->fixer->replaceToken($i, '');
-                        }
+                $fix   = $phpcsFile->fixerWrapper->addFixableError($error, $stackPtr, 'SpaceAfterClose');
+                if ($fix === true) {
+                    $phpcsFile->fixer->beginChangeset();
 
-                        $phpcsFile->fixer->endChangeset();
+                    for ($i = ($lastItem + 1); $i < $arrayEnd; $i++) {
+                        $phpcsFile->fixer->replaceToken($i, '');
                     }
+
+                    $phpcsFile->fixer->endChangeset();
                 }
             }
-        }
+        }//end if
 
     }//end process()
 

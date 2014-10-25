@@ -52,6 +52,27 @@ class CodingStandard_Sniffs_Classes_ClassDeclarationSniff extends PSR2_Sniffs_Cl
 
 
     /**
+     * Processes this test, when one of its tokens is encountered.
+     *
+     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
+     * @param int                  $stackPtr  The position of the current token
+     *                                         in the stack passed in $tokens.
+     *
+     * @return void
+     */
+    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    {
+        if (isset($phpcsFile->fixerWrapper) === false) {
+            $phpcsFile->fixerWrapper = CodingStandard_Sniffs_FixerWrapper_WrapperFactory::createWrapper($phpcsFile);
+        }
+
+        // We want all the errors from the PEAR standard, plus some of our own.
+        parent::process($phpcsFile, $stackPtr);
+
+    }//end process()
+
+
+    /**
      * Processes the opening section of a class declaration.
      *
      * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
@@ -81,13 +102,11 @@ class CodingStandard_Sniffs_Classes_ClassDeclarationSniff extends PSR2_Sniffs_Cl
                                   $spaces,
                                  );
 
-                        if (isset($phpcsFile->fixer) === true) {
-                            $fix = $phpcsFile->addFixableError($error, $stackPtr, 'SpaceBeforeKeyword', $data);
-                            if ($fix === true) {
-                                $phpcsFile->fixer->replaceToken(($stackPtr - 1), '');
-                            }
-                        } else {
-                            $phpcsFile->addError($error, $stackPtr, 'SpaceBeforeKeyword', $data);
+                        $fix = $phpcsFile->fixerWrapper->addFixableError($error, $stackPtr, 'SpaceBeforeKeyword', $data);
+                        if ($fix === true) {
+                            $phpcsFile->fixer->beginChangeset();
+                            $phpcsFile->fixer->replaceToken(($stackPtr - 1), '');
+                            $phpcsFile->fixer->endChangeset();
                         }
                     }
                 }
@@ -120,19 +139,11 @@ class CodingStandard_Sniffs_Classes_ClassDeclarationSniff extends PSR2_Sniffs_Cl
                     $fix = false;
                     if ($tokens[($closeBrace - 1)]['line'] !== $tokens[$closeBrace]['line']) {
                         $error = 'Expected 0 spaces before closing brace; newline found';
-                        if (isset($phpcsFile->fixer) === true) {
-                            $fix = $phpcsFile->addFixableError($error, $closeBrace, 'NewLineBeforeCloseBrace');
-                        } else {
-                            $phpcsFile->addError($error, $closeBrace, 'NewLineBeforeCloseBrace');
-                        }
+                        $fix   = $phpcsFile->fixerWrapper->addFixableError($error, $closeBrace, 'NewLineBeforeCloseBrace');
                     } else {
                         $error = 'Expected 0 spaces before closing brace; %s found';
                         $data  = array($spaces);
-                        if (isset($phpcsFile->fixer) === true) {
-                            $fix = $phpcsFile->addFixableError($error, $closeBrace, 'SpaceBeforeCloseBrace', $data);
-                        } else {
-                            $phpcsFile->addError($error, $closeBrace, 'SpaceBeforeCloseBrace', $data);
-                        }
+                        $fix   = $phpcsFile->fixerWrapper->addFixableError($error, $closeBrace, 'SpaceBeforeCloseBrace', $data);
                     }//end if
 
                     if ($fix === true) {
@@ -154,23 +165,19 @@ class CodingStandard_Sniffs_Classes_ClassDeclarationSniff extends PSR2_Sniffs_Cl
                           $tokens[$stackPtr]['content'],
                           $difference,
                          );
-                if (isset($phpcsFile->fixer) === true) {
-                    $fix = $phpcsFile->addFixableError($error, $closeBrace, 'NewlinesAfterCloseBrace', $data);
-                    if ($fix === true) {
-                        $phpcsFile->fixer->beginChangeset();
+                $fix   = $phpcsFile->fixerWrapper->addFixableError($error, $closeBrace, 'NewlinesAfterCloseBrace', $data);
+                if ($fix === true) {
+                    $phpcsFile->fixer->beginChangeset();
 
-                        if ($difference > 1) {
-                            for ($i = 1; $i < $difference; $i++) {
-                                $phpcsFile->fixer->replaceToken(($closeBrace + $i), '');
-                            }
-                        } else {
-                            $phpcsFile->fixer->addNewline($closeBrace);
+                    if ($difference > 1) {
+                        for ($i = 1; $i < $difference; $i++) {
+                            $phpcsFile->fixer->replaceToken(($closeBrace + $i), '');
                         }
-
-                        $phpcsFile->fixer->endChangeset();
+                    } else {
+                        $phpcsFile->fixer->addNewline($closeBrace);
                     }
-                } else {
-                    $phpcsFile->addError($error, $closeBrace, 'NewlinesAfterCloseBrace', $data);
+
+                    $phpcsFile->fixer->endChangeset();
                 }
             }//end if
         }//end if

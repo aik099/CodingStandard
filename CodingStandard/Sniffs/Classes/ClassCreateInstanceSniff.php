@@ -51,6 +51,10 @@ class CodingStandard_Sniffs_Classes_ClassCreateInstanceSniff implements PHP_Code
      */
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
+        if (isset($phpcsFile->fixerWrapper) === false) {
+            $phpcsFile->fixerWrapper = CodingStandard_Sniffs_FixerWrapper_WrapperFactory::createWrapper($phpcsFile);
+        }
+
         $scopeEnd = null;
         $tokens   = $phpcsFile->getTokens();
 
@@ -70,43 +74,33 @@ class CodingStandard_Sniffs_Classes_ClassCreateInstanceSniff implements PHP_Code
 
         if ($nextParenthesis === false || $tokens[$nextParenthesis]['line'] !== $tokens[$stackPtr]['line']) {
             $error = 'Calling class constructors must always include parentheses';
+            $fix   = $phpcsFile->fixerWrapper->addFixableError($error, $stackPtr);
+            if ($fix === true) {
+                $phpcsFile->fixer->beginChangeset();
+                $classNameEnd = $phpcsFile->findNext(
+                    array(
+                     T_WHITESPACE,
+                     T_NS_SEPARATOR,
+                     T_STRING,
+                    ),
+                    ($stackPtr + 1),
+                    null,
+                    true,
+                    null,
+                    true
+                );
 
-            if (isset($phpcsFile->fixer) === true) {
-                $fix = $phpcsFile->addFixableError($error, $stackPtr);
-                if ($fix === true) {
-                    $phpcsFile->fixer->beginChangeset();
-                    $classNameEnd = $phpcsFile->findNext(
-                        array(
-                         T_WHITESPACE,
-                         T_NS_SEPARATOR,
-                         T_STRING,
-                        ),
-                        ($stackPtr + 1),
-                        null,
-                        true,
-                        null,
-                        true
-                    );
-
-                    $phpcsFile->fixer->addContentBefore($classNameEnd, '()');
-                    $phpcsFile->fixer->endChangeset();
-                }//end if
-            } else {
-                $phpcsFile->addError($error, $stackPtr);
+                $phpcsFile->fixer->addContentBefore($classNameEnd, '()');
+                $phpcsFile->fixer->endChangeset();
             }//end if
         } else if ($tokens[($nextParenthesis - 1)]['code'] === T_WHITESPACE) {
             $error = 'Between the class name and the opening parenthesis spaces are not welcome';
-
-            if (isset($phpcsFile->fixer) === true) {
-                $fix = $phpcsFile->addFixableError($error, ($nextParenthesis - 1));
-                if ($fix === true) {
-                    $phpcsFile->fixer->beginChangeset();
-                    $phpcsFile->fixer->replaceToken(($nextParenthesis - 1), '');
-                    $phpcsFile->fixer->endChangeset();
-                }//end if
-            } else {
-                $phpcsFile->addError($error, ($nextParenthesis - 1));
-            }
+            $fix   = $phpcsFile->fixerWrapper->addFixableError($error, ($nextParenthesis - 1));
+            if ($fix === true) {
+                $phpcsFile->fixer->beginChangeset();
+                $phpcsFile->fixer->replaceToken(($nextParenthesis - 1), '');
+                $phpcsFile->fixer->endChangeset();
+            }//end if
         }//end if
 
     }//end process()
