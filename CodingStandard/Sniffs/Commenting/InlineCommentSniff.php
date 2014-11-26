@@ -88,6 +88,7 @@ class CodingStandard_Sniffs_Commenting_InlineCommentSniff implements PHP_CodeSni
                        T_INTERFACE,
                        T_TRAIT,
                        T_FUNCTION,
+                       T_CLOSURE,
                        T_PUBLIC,
                        T_PRIVATE,
                        T_PROTECTED,
@@ -110,7 +111,9 @@ class CodingStandard_Sniffs_Commenting_InlineCommentSniff implements PHP_CodeSni
                     $ignore[]  = T_STRING;
                     $ignore[]  = T_OBJECT_OPERATOR;
                     $nextToken = $phpcsFile->findNext($ignore, ($nextToken + 1), null, true);
-                    if ($tokens[$nextToken]['code'] === T_FUNCTION) {
+                    if ($tokens[$nextToken]['code'] === T_FUNCTION
+                        || $tokens[$nextToken]['code'] === T_CLOSURE
+                    ) {
                         return;
                     }
                 }
