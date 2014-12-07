@@ -247,6 +247,10 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
                 return;
             }
 
+            if ($this->isClosure($phpcsFile, $stackPtr, $leadingContent) === true) {
+                return;
+            }
+
             if ($tokens[$leadingContent]['line'] !== ($leadingLineNumber - 1)) {
                 $data  = array(
                           $tokens[$stackPtr]['content'],
@@ -329,6 +333,10 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
             if ($this->isFunction($phpcsFile, $trailingContent) === true) {
                 // The next content is the closing brace of a function
                 // so normal function rules apply and we can ignore it.
+                return;
+            }
+
+            if ($this->isClosure($phpcsFile, $stackPtr, $trailingContent) === true) {
                 return;
             }
 
@@ -530,6 +538,35 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
         return false;
 
     }//end isFunction()
+
+
+    /**
+     * Determines that a closure is located at given position.
+     *
+     * @param PHP_CodeSniffer_File $phpcsFile         The file being scanned.
+     * @param int                  $stackPtr          The position of the current token
+     *                                                in the stack passed in $tokens.
+     *
+     * @param int                  $scopeConditionPtr Position of scope condition.
+     *
+     * @return bool
+     */
+    protected function isClosure(PHP_CodeSniffer_File $phpcsFile, $stackPtr, $scopeConditionPtr)
+    {
+        $tokens = $phpcsFile->getTokens();
+        $owner  = $tokens[$scopeConditionPtr]['scope_condition'];
+
+        if ($tokens[$owner]['code'] === T_CLOSURE
+            && ($phpcsFile->hasCondition($stackPtr, T_FUNCTION) === true
+            || $phpcsFile->hasCondition($stackPtr, T_CLOSURE) === true
+            || isset($tokens[$stackPtr]['nested_parenthesis']) === true)
+        ) {
+            return true;
+        }
+
+        return false;
+
+    }//end isClosure()
 
 
 }//end class

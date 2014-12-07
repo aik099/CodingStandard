@@ -12,3 +12,11 @@
 The PHP_CodeSniffer coding standard I'm using on all of my projects.
 
 Standard itself and it's test suite complies [PHPCS standard](https://github.com/squizlabs/PHP_CodeSniffer/tree/master/CodeSniffer/Standards/PHPCS).
+
+# Usage
+1. clone this repository
+2. run following command in project directory:
+```bash
+$> phpcs --standard="/path/to/CodingStandard/CodingStandard" library tests
+```
+or by make your IDE ([instructions for PhpStorm](http://www.jetbrains.com/phpstorm/webhelp/using-php-code-sniffer-tool.html)) to check them automatically.

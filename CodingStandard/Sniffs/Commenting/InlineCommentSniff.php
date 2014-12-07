@@ -88,6 +88,7 @@ class CodingStandard_Sniffs_Commenting_InlineCommentSniff implements PHP_CodeSni
                        T_INTERFACE,
                        T_TRAIT,
                        T_FUNCTION,
+                       T_CLOSURE,
                        T_PUBLIC,
                        T_PRIVATE,
                        T_PROTECTED,
@@ -95,54 +96,57 @@ class CodingStandard_Sniffs_Commenting_InlineCommentSniff implements PHP_CodeSni
                        T_STATIC,
                        T_ABSTRACT,
                        T_CONST,
-                       T_OBJECT,
                        T_PROPERTY,
                       );
 
             if (in_array($tokens[$nextToken]['code'], $ignore) === true) {
                 return;
-            } else {
-                if ($phpcsFile->tokenizerType === 'JS') {
-                    // We allow block comments if a function is being assigned
-                    // to a variable.
-                    $ignore    = PHP_CodeSniffer_Tokens::$emptyTokens;
-                    $ignore[]  = T_EQUAL;
-                    $ignore[]  = T_STRING;
-                    $ignore[]  = T_OBJECT_OPERATOR;
-                    $nextToken = $phpcsFile->findNext($ignore, ($nextToken + 1), null, true);
-                    if ($tokens[$nextToken]['code'] === T_FUNCTION) {
-                        return;
-                    }
-                }
+            }
 
-                $prevToken = $phpcsFile->findPrevious(
-                    PHP_CodeSniffer_Tokens::$emptyTokens,
-                    ($stackPtr - 1),
-                    null,
-                    true
-                );
-
-                if ($tokens[$prevToken]['code'] === T_OPEN_TAG) {
+            if ($phpcsFile->tokenizerType === 'JS') {
+                // We allow block comments if a function or object
+                // is being assigned to a variable.
+                $ignore    = PHP_CodeSniffer_Tokens::$emptyTokens;
+                $ignore[]  = T_EQUAL;
+                $ignore[]  = T_STRING;
+                $ignore[]  = T_OBJECT_OPERATOR;
+                $nextToken = $phpcsFile->findNext($ignore, ($nextToken + 1), null, true);
+                if ($tokens[$nextToken]['code'] === T_FUNCTION
+                    || $tokens[$nextToken]['code'] === T_CLOSURE
+                    || $tokens[$nextToken]['code'] === T_OBJECT
+                    || $tokens[$nextToken]['code'] === T_PROTOTYPE
+                ) {
                     return;
                 }
+            }
 
-                // Only error once per comment.
-                if (substr($tokens[$stackPtr]['content'], 0, 3) === '/**') {
-                    if (defined('T_DOC_COMMENT_CLOSE_TAG') === true) {
-                        // PHPCS 2.x way.
-                        $commentEnd  = $phpcsFile->findNext(T_DOC_COMMENT_CLOSE_TAG, ($stackPtr + 1));
-                        $commentText = $phpcsFile->getTokensAsString($stackPtr, (($commentEnd - $stackPtr) + 1));
-                    } else {
-                        // PHPCS 1.x way.
-                        $commentText = $tokens[$stackPtr]['content'];
-                    }
+            $prevToken = $phpcsFile->findPrevious(
+                PHP_CodeSniffer_Tokens::$emptyTokens,
+                ($stackPtr - 1),
+                null,
+                true
+            );
 
-                    if (strpos($commentText, '@var') === false && strpos($commentText, '@type') === false) {
-                        $error = 'Inline doc block comments are not allowed; use "/* Comment */" or "// Comment" instead';
-                        $phpcsFile->addError($error, $stackPtr, 'DocBlock');
-                    }
+            if ($tokens[$prevToken]['code'] === T_OPEN_TAG) {
+                return;
+            }
+
+            // Only error once per comment.
+            if (substr($tokens[$stackPtr]['content'], 0, 3) === '/**') {
+                if (defined('T_DOC_COMMENT_CLOSE_TAG') === true) {
+                    // PHPCS 2.x way.
+                    $commentEnd  = $phpcsFile->findNext(T_DOC_COMMENT_CLOSE_TAG, ($stackPtr + 1));
+                    $commentText = $phpcsFile->getTokensAsString($stackPtr, (($commentEnd - $stackPtr) + 1));
+                } else {
+                    // PHPCS 1.x way.
+                    $commentText = $tokens[$stackPtr]['content'];
                 }
-            }//end if
+
+                if (strpos($commentText, '@var') === false && strpos($commentText, '@type') === false) {
+                    $error = 'Inline doc block comments are not allowed; use "/* Comment */" or "// Comment" instead';
+                    $phpcsFile->addError($error, $stackPtr, 'DocBlock');
+                }
+            }
         }//end if
 
         if ($tokens[$stackPtr]['content']{0} === '#') {

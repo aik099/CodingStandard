@@ -39,7 +39,7 @@ class CodingStandard_Tests_Classes_ClassDeclarationUnitTest extends AbstractSnif
      */
     public function getErrorList($testFile)
     {
-        return array(
+        $ret = array(
                 // Extra space between interfaces, that a class implements.
                 2   => 1,
                 // No space after comma, when extending several classes or implementing several interfaces.
@@ -83,9 +83,22 @@ class CodingStandard_Tests_Classes_ClassDeclarationUnitTest extends AbstractSnif
                 116 => 1,
                 // Incorrect extended interface indentation in multi-line interface declaration.
                 118 => 1,
+                119 => 1,
+                130 => 2,
+                131 => 1,
                 // Class closing brace must on it's own line and must have an empty line after it.
-                125 => 2,
+                139 => 2,
                );
+
+        if (version_compare(PHP_CodeSniffer::VERSION, '2.0.0RC5', '>=') === true) {
+            // See https://github.com/squizlabs/PHP_CodeSniffer/commit/13877e17a9a3cc2b1acd74c614eb98bd05acc89b.
+            $ret[27] += 1;
+            $ret[28] -= 1;
+            $ret[29] -= 1;
+            $ret[124] = 1;
+        }
+
+        return $ret;
 
     }//end getErrorList()
 
