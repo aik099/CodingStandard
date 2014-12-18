@@ -178,6 +178,16 @@ class CodingStandard_Tests_Commenting_FunctionCommentUnitTest extends AbstractSn
                 $ret[648]  = 1;
             }//end if
 
+            if (version_compare(PHP_CodeSniffer::VERSION, '2.1.0', '>=') === true) {
+                // Don't threat PHP4 constructor as such and require @return presence.
+                $ret[76] = 1;
+                $ret[87] = 1;
+
+                // Don't report @return tag in constructor/destructor as error.
+                $ret[334] = 0;
+                $ret[344] = 0;
+            }
+
             return $ret;
         } else if ($testFile === 'FunctionCommentUnitTest.2.inc') {
             return array(
