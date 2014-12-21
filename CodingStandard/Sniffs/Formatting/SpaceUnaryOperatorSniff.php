@@ -54,19 +54,34 @@ class CodingStandard_Sniffs_Formatting_SpaceUnaryOperatorSniff implements PHP_Co
      */
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
-        $tokens = $phpcsFile->getTokens();
+        if (isset($phpcsFile->fixerWrapper) === false) {
+            $phpcsFile->fixerWrapper = CodingStandard_Sniffs_FixerWrapper_WrapperFactory::createWrapper($phpcsFile);
+        }
 
+        $tokens     = $phpcsFile->getTokens();
         $modifyLeft = substr($tokens[($stackPtr - 1)]['content'], 0, 1) === '$'
             || $tokens[($stackPtr + 1)]['content'] === ';';
 
         if ($modifyLeft === true && $tokens[($stackPtr - 1)]['code'] === T_WHITESPACE) {
             $error = 'There must not be a single space before an unary operator statement';
-            $phpcsFile->addError($error, $stackPtr);
+            $fix   = $phpcsFile->fixerWrapper->addFixableError($error, $stackPtr);
+
+            if ($fix === true) {
+                $phpcsFile->fixer->beginChangeset();
+                $phpcsFile->fixer->replaceToken($stackPtr - 1, '');
+                $phpcsFile->fixer->endChangeset();
+            }
         }
 
         if ($modifyLeft === false && substr($tokens[($stackPtr + 1)]['content'], 0, 1) !== '$') {
             $error = 'A unary operator statement must not followed by a single space';
-            $phpcsFile->addError($error, $stackPtr);
+            $fix   = $phpcsFile->fixerWrapper->addFixableError($error, $stackPtr);
+
+            if ($fix === true) {
+                $phpcsFile->fixer->beginChangeset();
+                $phpcsFile->fixer->replaceToken($stackPtr + 1, '');
+                $phpcsFile->fixer->endChangeset();
+            }
         }
 
     }//end process()
