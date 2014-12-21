@@ -56,6 +56,10 @@ class CodingStandard_Sniffs_Formatting_NamespaceDeclarationSniff implements PHP_
      */
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
+        if (isset($phpcsFile->fixerWrapper) === false) {
+            $phpcsFile->fixerWrapper = CodingStandard_Sniffs_FixerWrapper_WrapperFactory::createWrapper($phpcsFile);
+        }
+
         $tokens            = $phpcsFile->getTokens();
         $declarationEndPtr = $phpcsFile->findNext(T_SEMICOLON, ($stackPtr + 1));
 
@@ -66,15 +70,46 @@ class CodingStandard_Sniffs_Formatting_NamespaceDeclarationSniff implements PHP_
             true
         );
 
-        if ($nextCodePtr !== false
-            && ($tokens[$nextCodePtr]['line'] - $this->emptyLineCount) !== ($tokens[$stackPtr]['line'] + 1)
-        ) {
-            $data  = array(
-                      ($tokens[$nextCodePtr]['line'] - ($tokens[$stackPtr]['line'] + 1)),
-                     );
-            $error = 'Expected '.$this->emptyLineCount.' blank lines after namespace declaration; %s found';
-            $phpcsFile->addError($error, $stackPtr, 'LineAfter', $data);
+        if ($nextCodePtr === false) {
+            return;
         }
+
+        $diff = $tokens[$nextCodePtr]['line'] - $tokens[$declarationEndPtr]['line'] - 1;
+
+        if ($diff === $this->emptyLineCount) {
+            return;
+        }
+
+        if ($diff < 0) {
+            $diff = 0;
+        }
+
+        $data  = array($diff);
+        $error = 'Expected '.$this->emptyLineCount.' blank line(-s) after namespace declaration; %s found';
+        $fix = $phpcsFile->fixerWrapper->addFixableError($error, $stackPtr, 'BlankLineAfter', $data);
+
+        if ($fix === false) {
+            return;
+        }
+
+        $phpcsFile->fixer->beginChangeset();
+
+        if ($diff > 0) {
+            for ($j = $declarationEndPtr + 1; $j < $nextCodePtr; $j++) {
+                if ($tokens[$j]['line'] === $tokens[$nextCodePtr]['line']) {
+                    // Keep existing indentation.
+                    break;
+                }
+
+                $phpcsFile->fixer->replaceToken($j, '');
+            }
+        }
+
+        for ($i = 0; $i <= $this->emptyLineCount; $i++) {
+            $phpcsFile->fixer->addNewline($declarationEndPtr);
+        }
+
+        $phpcsFile->fixer->endChangeset();
 
     }//end process()
 

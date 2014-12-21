@@ -43,6 +43,7 @@ class CodingStandard_Tests_Formatting_NamespaceDeclarationUnitTest extends Abstr
                 58 => 1,
                 67 => 1,
                 78 => 1,
+                89 => 1,
                );
 
     }//end getErrorList()
