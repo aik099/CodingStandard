@@ -38,43 +38,26 @@ class CodingStandard_Tests_Formatting_SpaceOperatorUnitTest extends AbstractSnif
     {
         return array(
                 // The "=" operator.
-                2  => 2,
+                2  => 1,
                 // The "&=" operator.
-                3  => 2,
+                3  => 1,
                 // The ".=" operator.
-                4  => 2,
+                4  => 1,
                 // The "/=" operator.
-                5  => 2,
+                5  => 1,
                 // The "-=" operator.
-                6  => 2,
+                6  => 1,
                 // The "%=" operator.
-                7  => 2,
+                7  => 1,
                 // The "*=" operator.
-                8  => 2,
+                8  => 1,
                 // The "+=" operator.
-                9  => 2,
+                9  => 1,
                 // The "^=" operator.
-                10 => 2,
+                10 => 1,
                 // The "=>" operator.
-                11 => 2,
-                // The "==" operator.
-                12 => 2,
-                // The "===" operator.
-                13 => 2,
+                11 => 1,
                 // The "!=" operator.
-                14 => 2,
-                // The "<>" operator.
-                15 => 2,
-                // The "!==" operator.
-                16 => 2,
-                // The "<" operator.
-                17 => 2,
-                // The ">" operator.
-                18 => 2,
-                // The "<=" operator.
-                19 => 2,
-                // The "<=" operator.
-                20 => 2,
                );
 
     }//end getErrorList()
