@@ -1,20 +1,21 @@
 <?php
 public function someFunctionWithAVeryLongName($firstParameter='something',
-   $secondParameter='booooo', $third=null, $fourthParameter=false,
-	 $fifthParameter=123.12, $sixthParam=true
+	$secondParameter='booooo', $third=null, $fourthParameter=false,
+	$fifthParameter=123.12, $sixthParam=true
 ){
 }
 
 function someFunctionWithAVeryLongName2($firstParameter='something',
-$secondParameter='booooo', $third=null, $fourthParameter=false,
-$fifthParameter=123.12, $sixthParam=true
+	$secondParameter='booooo', $third=null, $fourthParameter=false,
+	$fifthParameter=123.12, $sixthParam=true
 )  {
 }
 
-function blah() {
+function blah() 
+{
 }
 
-function  blah()
+function blah()
 {
 }
 
@@ -41,7 +42,8 @@ class MyClass
 	protected abstract function processToken(
 		PHP_CodeSniffer_File $phpcsFile,
 		$stackPtr,
-		$currScope);
+		$currScope
+);
 
 }
 
@@ -58,7 +60,8 @@ function &testFunction($arg1,
 }
 
 function testFunction($arg1,
-$arg2) {
+	$arg2
+) {
 }
 
 function validateUrl(
@@ -95,7 +98,7 @@ $longArgs_longVars = function (
 	$longArgument,
 	$longerArgument,
 	$muchLongerArgument
-) use  (
+) use (
 	$longVar1,
 	$longerVar2,
 	$muchLongerVar3
@@ -107,7 +110,7 @@ $longArgs_longVars = function (
 	$longArgument,
 	$longerArgument,
 	$muchLongerArgument
-	)  use (
+) use (
 	$longVar1,
 	$longerVar2,
 	$muchLongerVar3
@@ -117,8 +120,10 @@ $longArgs_longVars = function (
 
 $longArgs_longVars = function (
 	$longArgument,
-	$muchLongerArgument) use (
-	$muchLongerVar3) {
+	$muchLongerArgument
+) use (
+	$muchLongerVar3
+) {
 	// body
 };
 
@@ -137,13 +142,11 @@ function test()
 	};
 }
 
-function
-	myFunction()
+function myFunction()
 {
 }
 
-function
-myFunction()
+function myFunction()
 {
 }
 
@@ -153,9 +156,13 @@ namespace {
 	f();
 }
 
-$var = function() {return true;};
-$var = function() {return true;
+$var = function() {
+return true;};
+$var = function() {
+return true;
 };
-function blah(){return true;
+function blah()
+{
+return true;
 }
 ?>
