@@ -52,11 +52,16 @@ class CodingStandard_Sniffs_Strings_ConcatenationSpacingSniff implements PHP_Cod
      */
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
+        if (isset($phpcsFile->fixerWrapper) === false) {
+            $phpcsFile->fixerWrapper = CodingStandard_Sniffs_FixerWrapper_WrapperFactory::createWrapper($phpcsFile);
+        }
+
         $tokens = $phpcsFile->getTokens();
 
-        $found    = '';
-        $expected = '';
-        $error    = false;
+        $found       = '';
+        $expected    = '';
+        $errorBefore = false;
+        $errorAfter  = false;
 
         $concatOperator = $tokens[$stackPtr]['content'];
         if ($tokens[($stackPtr - 1)]['code'] === T_WHITESPACE) {
@@ -66,7 +71,7 @@ class CodingStandard_Sniffs_Strings_ConcatenationSpacingSniff implements PHP_Cod
             $expected         .= $beforeContent.$whitespaceContent.$concatOperator;
         } else {
             // No whitespace before concat operator.
-            $error         = true;
+            $errorBefore   = true;
             $beforeContent = $this->getBeforeContent($phpcsFile, ($stackPtr - 1));
             $expected     .= $beforeContent.' '.$concatOperator;
             $found        .= $beforeContent.$concatOperator;
@@ -79,13 +84,13 @@ class CodingStandard_Sniffs_Strings_ConcatenationSpacingSniff implements PHP_Cod
             $expected         .= $whitespaceContent.$afterContent;
         } else {
             // No whitespace after concat operator.
-            $error        = true;
+            $errorAfter   = true;
             $afterContent = $this->getAfterContent($phpcsFile, ($stackPtr + 1));
             $expected    .= ' '.$afterContent;
             $found       .= $afterContent;
         }
 
-        if ($error === true) {
+        if ($errorBefore === true || $errorAfter === true) {
             $found    = str_replace("\r\n", '\n', $found);
             $found    = str_replace("\n", '\n', $found);
             $found    = str_replace("\r", '\n', $found);
@@ -94,8 +99,22 @@ class CodingStandard_Sniffs_Strings_ConcatenationSpacingSniff implements PHP_Cod
             $expected = str_replace("\r", '\n', $expected);
 
             $message = "Concat operator must be surrounded by spaces. Found \"$found\"; expected \"$expected\"";
-            $phpcsFile->addError($message, $stackPtr);
-        }
+            $fix     = $phpcsFile->fixerWrapper->addFixableError($message, $stackPtr);
+
+            if ($fix === true) {
+                $phpcsFile->fixer->beginChangeset();
+
+                if ($errorBefore === true) {
+                    $phpcsFile->fixer->addContentBefore($stackPtr, ' ');
+                }
+
+                if ($errorAfter === true) {
+                    $phpcsFile->fixer->addContent($stackPtr, ' ');
+                }
+
+                $phpcsFile->fixer->endChangeset();
+            }
+        }//end if
 
     }//end process()
 
