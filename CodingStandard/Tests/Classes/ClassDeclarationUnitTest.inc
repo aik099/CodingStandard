@@ -134,6 +134,7 @@ class ClassName implements
 }
 
 
+    $something = 'else';
 
 class SomeClass
 {

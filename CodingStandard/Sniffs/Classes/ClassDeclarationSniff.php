@@ -62,6 +62,7 @@ class CodingStandard_Sniffs_Classes_ClassDeclarationSniff extends PSR2_Sniffs_Cl
      */
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
+        // FIXME: Both "PSR2" and "PEAR" super classes will indent using "4 spaces".
         if (isset($phpcsFile->fixerWrapper) === false) {
             $phpcsFile->fixerWrapper = CodingStandard_Sniffs_FixerWrapper_WrapperFactory::createWrapper($phpcsFile);
         }
@@ -159,6 +160,10 @@ class CodingStandard_Sniffs_Classes_ClassDeclarationSniff extends PSR2_Sniffs_Cl
         $nextContent = $phpcsFile->findNext(array(T_WHITESPACE), ($closeBrace + 1), null, true);
         if ($nextContent !== false) {
             $difference = ($tokens[$nextContent]['line'] - $tokens[$closeBrace]['line'] - 1);
+            if ($difference < 0) {
+                $difference = 0;
+            }
+
             if ($difference !== 1) {
                 $error = 'Closing brace of a %s must be followed by a single blank line; found %s';
                 $data  = array(
@@ -170,13 +175,17 @@ class CodingStandard_Sniffs_Classes_ClassDeclarationSniff extends PSR2_Sniffs_Cl
                     $phpcsFile->fixer->beginChangeset();
 
                     if ($difference > 1) {
-                        for ($i = 1; $i < $difference; $i++) {
-                            $phpcsFile->fixer->replaceToken(($closeBrace + $i), '');
+                        for ($i = ($closeBrace + 1); $i < $nextContent; $i++) {
+                            if ($tokens[$i]['line'] === $tokens[$nextContent]['line']) {
+                                // Keep existing indentation.
+                                break;
+                            }
+
+                            $phpcsFile->fixer->replaceToken($i, '');
                         }
-                    } else {
-                        $phpcsFile->fixer->addNewline($closeBrace);
                     }
 
+                    $phpcsFile->fixer->addNewline($closeBrace);
                     $phpcsFile->fixer->endChangeset();
                 }
             }//end if
