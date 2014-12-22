@@ -33,6 +33,24 @@ class CodingStandard_Sniffs_Functions_FunctionDeclarationSniff extends PEAR_Snif
 {
 
     /**
+     * Should tabs be used for indenting?
+     *
+     * If TRUE, fixes will be made using tabs instead of spaces.
+     * The size of each tab is important, so it should be specified
+     * using the --tab-width CLI argument.
+     *
+     * @var bool
+     */
+    public $tabIndent = false;
+
+    /**
+     * The --tab-width CLI value that is being used.
+     *
+     * @var int
+     */
+    private $_tabWidth = null;
+
+    /**
      * The number of spaces code should be indented.
      *
      * @var int
@@ -53,6 +71,18 @@ class CodingStandard_Sniffs_Functions_FunctionDeclarationSniff extends PEAR_Snif
     {
         if (isset($phpcsFile->fixerWrapper) === false) {
             $phpcsFile->fixerWrapper = CodingStandard_Sniffs_FixerWrapper_WrapperFactory::createWrapper($phpcsFile);
+        }
+
+        if ($this->_tabWidth === null) {
+            $cliValues = $phpcsFile->phpcs->cli->getCommandLineValues();
+            if (isset($cliValues['tabWidth']) === false || $cliValues['tabWidth'] === 0) {
+                // We have no idea how wide tabs are, so assume 4 spaces for fixing.
+                // It shouldn't really matter because indent checks elsewhere in the
+                // standard should fix things up.
+                $this->_tabWidth = 4;
+            } else {
+                $this->_tabWidth = $cliValues['tabWidth'];
+            }
         }
 
         parent::process($phpcsFile, $stackPtr);
@@ -169,9 +199,13 @@ class CodingStandard_Sniffs_Functions_FunctionDeclarationSniff extends PEAR_Snif
 
                     $fix = $phpcsFile->fixerWrapper->addFixableError($error, $i, 'Indent', $data);
                     if ($fix === true) {
-                        $numTabs   = floor($expectedIndent / $this->indent);
-                        $numSpaces = ($expectedIndent - ($numTabs * $this->indent));
-                        $spaces    = str_repeat("\t", $numTabs).str_repeat(' ', $numSpaces);
+                        if ($this->tabIndent === true) {
+                            $numTabs   = floor($expectedIndent / $this->_tabWidth);
+                            $numSpaces = ($expectedIndent - ($numTabs * $this->_tabWidth));
+                            $spaces    = str_repeat("\t", $numTabs).str_repeat(' ', $numSpaces);
+                        } else {
+                            $spaces = str_repeat(' ', $expectedIndent);
+                        }
 
                         if ($foundIndent === 0) {
                             $phpcsFile->fixer->addContentBefore($i, $spaces);
@@ -179,7 +213,7 @@ class CodingStandard_Sniffs_Functions_FunctionDeclarationSniff extends PEAR_Snif
                             $phpcsFile->fixer->replaceToken($i, $spaces);
                         }
                     }
-                }
+                }//end if
 
                 $lastLine = $tokens[$i]['line'];
             }//end if

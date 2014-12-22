@@ -1,13 +1,13 @@
 <?php
 public function someFunctionWithAVeryLongName($firstParameter='something',
-	$secondParameter='booooo', $third=null, $fourthParameter=false,
-	$fifthParameter=123.12, $sixthParam=true
+ $secondParameter='booooo', $third=null, $fourthParameter=false,
+ $fifthParameter=123.12, $sixthParam=true
 ){
 }
 
 function someFunctionWithAVeryLongName2($firstParameter='something',
-	$secondParameter='booooo', $third=null, $fourthParameter=false,
-	$fifthParameter=123.12, $sixthParam=true
+ $secondParameter='booooo', $third=null, $fourthParameter=false,
+ $fifthParameter=123.12, $sixthParam=true
 )  {
 }
 
@@ -60,7 +60,7 @@ function &testFunction($arg1,
 }
 
 function testFunction($arg1,
-	$arg2
+ $arg2
 ) {
 }
 
