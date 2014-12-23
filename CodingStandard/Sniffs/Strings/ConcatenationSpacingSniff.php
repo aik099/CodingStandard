@@ -32,7 +32,7 @@ class CodingStandard_Sniffs_Strings_ConcatenationSpacingSniff implements PHP_Cod
     /**
      * Returns an array of tokens this test wants to listen for.
      *
-     * @return array
+     * @return integer[]
      */
     public function register()
     {

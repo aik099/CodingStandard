@@ -27,7 +27,7 @@ class CodingStandard_Sniffs_Files_OneTraitPerFileSniff implements PHP_CodeSniffe
     /**
      * Returns an array of tokens this test wants to listen for.
      *
-     * @return array
+     * @return integer[]
      */
     public function register()
     {
