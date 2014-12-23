@@ -31,7 +31,7 @@ class CodingStandard_Sniffs_Classes_ClassCreateInstanceSniff implements PHP_Code
     /**
      * Returns an array of tokens this test wants to listen for.
      *
-     * @return array
+     * @return integer[]
      */
     public function register()
     {

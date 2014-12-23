@@ -36,7 +36,7 @@ class CodingStandard_Sniffs_Formatting_NamespaceDeclarationSniff implements PHP_
     /**
      * Returns an array of tokens this test wants to listen for.
      *
-     * @return array
+     * @return integer[]
      */
     public function register()
     {
