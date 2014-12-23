@@ -72,5 +72,3 @@ class CodingStandard_Sniffs_NamingConventions_ValidInterfaceNameSniff implements
 
 
 }//end class
-
-?>

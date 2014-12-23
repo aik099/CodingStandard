@@ -183,5 +183,3 @@ class CodingStandard_Tests_NamingConventions_ValidFunctionNameUnitTest extends A
 
 
 }//end class
-
-?>

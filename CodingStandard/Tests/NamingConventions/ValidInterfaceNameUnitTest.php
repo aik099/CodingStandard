@@ -62,5 +62,3 @@ class CodingStandard_Tests_NamingConventions_ValidInterfaceNameUnitTest extends 
 
 
 }//end class
-
-?>

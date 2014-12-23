@@ -86,12 +86,15 @@ class CodingStandard_Tests_Classes_ClassDeclarationUnitTest extends AbstractSnif
                 119 => 1,
                 130 => 2,
                 131 => 1,
+                // Too much empty lines after interface declaration.
+                134 => 1,
                 // Class closing brace must on it's own line and must have an empty line after it.
-                139 => 2,
+                142 => 1,
                );
 
-        if (version_compare(PHP_CodeSniffer::VERSION, '2.0.0RC5', '>=') === true) {
-            // See https://github.com/squizlabs/PHP_CodeSniffer/commit/13877e17a9a3cc2b1acd74c614eb98bd05acc89b.
+        if (version_compare(PHP_CodeSniffer::VERSION, '2.0.0RC3', '>') === true) {
+            // In https://github.com/squizlabs/PHP_CodeSniffer/commit/13877e17a9a3cc2b1acd74c614eb98bd05acc89b commit
+            // a change in interface usage validation was introduced.
             $ret[27] += 1;
             $ret[28] -= 1;
             $ret[29] -= 1;
@@ -121,5 +124,3 @@ class CodingStandard_Tests_Classes_ClassDeclarationUnitTest extends AbstractSnif
 
 
 }//end class
-
-?>

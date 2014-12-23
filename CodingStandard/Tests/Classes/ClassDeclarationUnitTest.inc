@@ -133,6 +133,9 @@ class ClassName implements
     // constants, properties, methods
 }
 
+
+    $something = 'else';
+
 class SomeClass
 {
 

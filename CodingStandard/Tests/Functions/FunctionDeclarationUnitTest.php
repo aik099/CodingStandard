@@ -44,7 +44,7 @@ class CodingStandard_Tests_Functions_FunctionDeclarationUnitTest extends Abstrac
      */
     public function getErrorList($testFile)
     {
-        return array(
+        $ret = array(
                 3   => 1,
                 4   => 1,
                 9   => 1,
@@ -53,11 +53,22 @@ class CodingStandard_Tests_Functions_FunctionDeclarationUnitTest extends Abstrac
                 17  => 1,
                 44  => 1,
                 61  => 2,
-                86  => 1,
-                98  => 2,
-                108 => 1,
-                109 => 1,
+                98  => 1,
+                110 => 2,
+                120 => 1,
+                121 => 1,
+                156 => 1,
+                157 => 1,
+                159 => 1,
                );
+
+        if (version_compare(PHP_CodeSniffer::VERSION, '2.1.0', '>=') === true) {
+            $ret[140]  = 1;
+            $ret[145]  = 1;
+            $ret[159] += 1;
+        }
+
+        return $ret;
 
     }//end getErrorList()
 
@@ -80,5 +91,3 @@ class CodingStandard_Tests_Functions_FunctionDeclarationUnitTest extends Abstrac
 
 
 }//end class
-
-?>

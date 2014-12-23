@@ -243,5 +243,3 @@ class CodingStandard_Tests_Commenting_FunctionCommentUnitTest extends AbstractSn
 
 
 }//end class
-
-?>

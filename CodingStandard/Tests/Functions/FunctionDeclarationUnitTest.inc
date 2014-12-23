@@ -67,7 +67,19 @@ function validateUrl(
 	array $allowedSchemes=array(
 						   'http',
 						   'https',
-						  )
+						  ),
+	array $notAllowedSchemes=array('ftp', 'sftp')
+) {
+}
+
+function validateUrlShort(
+	$url,
+	$requireScheme=TRUE,
+	array $allowedSchemes=[
+		'http',
+		'https',
+	],
+	array $notAllowedSchemes=['ftp', 'sftp']
 ) {
 }
 
@@ -123,5 +135,27 @@ function test()
 	) {
 		// body
 	};
+}
+
+function
+	myFunction()
+{
+}
+
+function
+myFunction()
+{
+}
+
+
+namespace {
+	use function Name\Space\f;
+	f();
+}
+
+$var = function() {return true;};
+$var = function() {return true;
+};
+function blah(){return true;
 }
 ?>

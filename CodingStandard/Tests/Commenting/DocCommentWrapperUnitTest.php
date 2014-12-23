@@ -43,7 +43,6 @@ class CodingStandard_Tests_Commenting_DocCommentWrapperUnitTest extends Abstract
         }
 
         return array(
-                // 14  => 1,
                 16  => 1,
                 18  => 1,
                 23  => 1,
@@ -66,7 +65,6 @@ class CodingStandard_Tests_Commenting_DocCommentWrapperUnitTest extends Abstract
                 95  => 1,
                 156 => 1,
                 158 => 1,
-                // 167 => 1,
                );
 
     }//end getErrorList()
@@ -90,5 +88,3 @@ class CodingStandard_Tests_Commenting_DocCommentWrapperUnitTest extends Abstract
 
 
 }//end class
-
-?>

@@ -246,5 +246,3 @@ class CodingStandard_Tests_WhiteSpace_ControlStructureSpacingUnitTest extends Ab
 
 
 }//end class
-
-?>

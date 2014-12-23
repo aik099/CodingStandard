@@ -157,6 +157,10 @@
 		<severity>0</severity>
 	</rule>
 
+	<rule ref="PSR2.ControlStructures.ElseIfDeclaration.NotAllowed">
+		<type>error</type>
+	</rule>
+
 	<rule ref="Squiz.ControlStructures.LowercaseDeclaration"/>
 
 	<rule ref="Squiz.Functions.FunctionDeclarationArgumentSpacing">

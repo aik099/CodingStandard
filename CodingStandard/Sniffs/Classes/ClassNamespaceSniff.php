@@ -70,5 +70,3 @@ class CodingStandard_Sniffs_Classes_ClassNamespaceSniff implements PHP_CodeSniff
 
 
 }//end class
-
-?>

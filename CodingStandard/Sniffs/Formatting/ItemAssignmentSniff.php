@@ -52,23 +52,74 @@ class CodingStandard_Sniffs_Formatting_ItemAssignmentSniff implements PHP_CodeSn
      */
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
-        $tokens          = $phpcsFile->getTokens();
-        $tokenBeforeData = $tokens[($stackPtr - 1)];
-        $tokenAfterData  = $tokens[($stackPtr + 1)];
-
-        if ($tokenBeforeData['code'] !== T_WHITESPACE) {
-            $phpcsFile->addError('Whitespace must prefix the item assignment operator =>', $stackPtr);
-        } else if ($this->hasOnlySpaces($tokenBeforeData['content']) === false) {
-            $phpcsFile->addError('Spaces must be used to prefix the item assignment operator =>', $stackPtr);
+        if (isset($phpcsFile->fixerWrapper) === false) {
+            $phpcsFile->fixerWrapper = CodingStandard_Sniffs_FixerWrapper_WrapperFactory::createWrapper($phpcsFile);
         }
 
-        if ($tokenAfterData['code'] !== T_WHITESPACE) {
-            $phpcsFile->addError('Whitespace must follow the item assignment operator =>', $stackPtr);
-        } else if ($this->hasOnlySpaces($tokenAfterData['content']) === false) {
-            $phpcsFile->addError('Spaces must be used to follow the item assignment operator =>', $stackPtr);
-        }
+        $this->checkSpacing($phpcsFile, $stackPtr, true);
+        $this->checkSpacing($phpcsFile, $stackPtr, false);
 
     }//end process()
+
+
+    /**
+     * Checks spacing at given position.
+     *
+     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
+     * @param int                  $stackPtr  The position of the current token in the
+     *                                        stack passed in $tokens.
+     * @param bool                 $before    Determines direction in which to check spacing.
+     *
+     * @return void
+     */
+    protected function checkSpacing(PHP_CodeSniffer_File $phpcsFile, $stackPtr, $before)
+    {
+        if ($before === true) {
+            $stackPtrDiff = -1;
+            $errorWord    = 'prefix';
+            $errorCode    = 'Before';
+        } else {
+            $stackPtrDiff = 1;
+            $errorWord    = 'follow';
+            $errorCode    = 'After';
+        }
+
+        $tokens    = $phpcsFile->getTokens();
+        $tokenData = $tokens[($stackPtr + $stackPtrDiff)];
+
+        if ($tokenData['code'] !== T_WHITESPACE) {
+            $error = 'Whitespace must '.$errorWord.' the item assignment operator =>';
+            $fix   = $phpcsFile->fixerWrapper->addFixableError($error, $stackPtr, 'NoSpacing'.$errorCode);
+            if ($fix === true) {
+                $phpcsFile->fixer->beginChangeset();
+
+                if ($before === true) {
+                    $phpcsFile->fixer->addContentBefore($stackPtr, ' ');
+                } else {
+                    $phpcsFile->fixer->addContent($stackPtr, ' ');
+                }
+
+                $phpcsFile->fixer->endChangeset();
+            }
+
+            return;
+        }
+
+        $content = $tokenData['content'];
+        if ($this->hasOnlySpaces($content) === false) {
+            $error = 'Spaces must be used to '.$errorWord.' the item assignment operator =>';
+            $fix   = $phpcsFile->fixerWrapper->addFixableError($error, $stackPtr, 'MixedWhitespace'.$errorCode);
+            if ($fix === true) {
+                $phpcsFile->fixer->beginChangeset();
+                $phpcsFile->fixer->replaceToken(
+                    ($stackPtr + $stackPtrDiff),
+                    str_repeat(' ', strlen($content))
+                );
+                $phpcsFile->fixer->endChangeset();
+            }
+        }
+
+    }//end checkSpacing()
 
 
     /**
@@ -86,5 +137,3 @@ class CodingStandard_Sniffs_Formatting_ItemAssignmentSniff implements PHP_CodeSn
 
 
 }//end class
-
-?>

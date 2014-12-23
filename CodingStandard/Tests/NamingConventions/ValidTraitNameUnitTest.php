@@ -74,5 +74,3 @@ class CodingStandard_Tests_NamingConventions_ValidTraitNameUnitTest extends Abst
 
 
 }//end class
-
-?>

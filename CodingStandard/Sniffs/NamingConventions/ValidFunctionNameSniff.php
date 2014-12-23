@@ -217,5 +217,3 @@ class CodingStandard_Sniffs_NamingConventions_ValidFunctionNameSniff extends
 
 
 }//end class
-
-?>

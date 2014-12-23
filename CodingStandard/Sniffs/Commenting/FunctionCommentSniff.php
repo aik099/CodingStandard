@@ -215,5 +215,3 @@ class CodingStandard_Sniffs_Commenting_FunctionCommentSniff extends Squiz_Sniffs
 
 
 }//end class
-
-?>

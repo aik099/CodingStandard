@@ -70,6 +70,10 @@ class CodingStandard_Sniffs_Commenting_InlineCommentSniff implements PHP_CodeSni
      */
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
+        if (isset($phpcsFile->fixerWrapper) === false) {
+            $phpcsFile->fixerWrapper = CodingStandard_Sniffs_FixerWrapper_WrapperFactory::createWrapper($phpcsFile);
+        }
+
         $tokens = $phpcsFile->getTokens();
 
         // If this is a function/class/interface doc block comment, skip it.
@@ -151,14 +155,10 @@ class CodingStandard_Sniffs_Commenting_InlineCommentSniff implements PHP_CodeSni
 
         if ($tokens[$stackPtr]['content']{0} === '#') {
             $error = 'Perl-style comments are not allowed; use "// Comment" instead';
-            if (isset($phpcsFile->fixer) === true) {
-                $fix = $phpcsFile->addFixableError($error, $stackPtr, 'WrongStyle');
-                if ($fix === true) {
-                    $comment = ltrim($tokens[$stackPtr]['content'], "# \t");
-                    $phpcsFile->fixer->replaceToken($stackPtr, "// $comment");
-                }
-            } else {
-                $phpcsFile->addError($error, $stackPtr, 'WrongStyle');
+            $fix   = $phpcsFile->fixerWrapper->addFixableError($error, $stackPtr, 'WrongStyle');
+            if ($fix === true) {
+                $comment = ltrim($tokens[$stackPtr]['content'], "# \t");
+                $phpcsFile->fixer->replaceToken($stackPtr, "// $comment");
             }
         }
 
@@ -198,23 +198,29 @@ class CodingStandard_Sniffs_Commenting_InlineCommentSniff implements PHP_CodeSni
             $spaceCount++;
         }
 
+        $fix = false;
         if ($spaceCount === 0) {
             $error = 'No space before comment text; expected "// %s" but found "%s"';
             $data  = array(
                       ltrim(substr($comment, 2)),
                       $comment,
                      );
-            $phpcsFile->addError($error, $stackPtr, 'NoSpaceBefore', $data);
-        }
-
-        if ($phpcsFile->tokenizerType === 'JS' && $spaceCount > 1) {
+            $fix   = $phpcsFile->fixerWrapper->addFixableError($error, $stackPtr, 'NoSpaceBefore', $data);
+        } else if ($spaceCount > 1) {
             $error = '%s spaces found before inline comment line; use block comment if you need indentation';
             $data  = array(
                       $spaceCount,
                       substr($comment, (2 + $spaceCount)),
                       $comment,
                      );
-            $phpcsFile->addError($error, $stackPtr, 'SpacingBefore', $data);
+            $fix   = $phpcsFile->fixerWrapper->addFixableError($error, $stackPtr, 'SpacingBefore', $data);
+        }//end if
+
+        if ($fix === true) {
+            $phpcsFile->fixer->beginChangeset();
+            $newComment = '// '.ltrim($tokens[$stackPtr]['content'], "/\t ");
+            $phpcsFile->fixer->replaceToken($stackPtr, $newComment);
+            $phpcsFile->fixer->endChangeset();
         }
 
         // The below section determines if a comment block is correctly capitalised,
@@ -246,13 +252,9 @@ class CodingStandard_Sniffs_Commenting_InlineCommentSniff implements PHP_CodeSni
 
         if ($commentText === '') {
             $error = 'Blank comments are not allowed';
-            if (isset($phpcsFile->fixer) === true) {
-                $fix = $phpcsFile->addFixableError($error, $stackPtr, 'Empty');
-                if ($fix === true) {
-                    $phpcsFile->fixer->replaceToken($stackPtr, '');
-                }
-            } else {
-                $phpcsFile->addError($error, $stackPtr, 'Empty');
+            $fix   = $phpcsFile->fixerWrapper->addFixableError($error, $stackPtr, 'Empty');
+            if ($fix === true) {
+                $phpcsFile->fixer->replaceToken($stackPtr, '');
             }
 
             return;
@@ -298,23 +300,19 @@ class CodingStandard_Sniffs_Commenting_InlineCommentSniff implements PHP_CodeSni
             }
 
             $error = 'There must be no blank line following an inline comment';
-            if (isset($phpcsFile->fixer) === true) {
-                $fix = $phpcsFile->addFixableError($error, $stackPtr, 'SpacingAfter');
-                if ($fix === true) {
-                    $next = $phpcsFile->findNext(PHP_CodeSniffer_Tokens::$emptyTokens, ($stackPtr + 1), null, true);
-                    $phpcsFile->fixer->beginChangeset();
-                    for ($i = ($stackPtr + 1); $i < $next; $i++) {
-                        if ($tokens[$i]['line'] === $tokens[$next]['line']) {
-                            break;
-                        }
-
-                        $phpcsFile->fixer->replaceToken($i, '');
+            $fix   = $phpcsFile->fixerWrapper->addFixableError($error, $stackPtr, 'SpacingAfter');
+            if ($fix === true) {
+                $next = $phpcsFile->findNext(T_WHITESPACE, ($stackPtr + 1), null, true);
+                $phpcsFile->fixer->beginChangeset();
+                for ($i = ($stackPtr + 1); $i < $next; $i++) {
+                    if ($tokens[$i]['line'] === $tokens[$next]['line']) {
+                        break;
                     }
 
-                    $phpcsFile->fixer->endChangeset();
+                    $phpcsFile->fixer->replaceToken($i, '');
                 }
-            } else {
-                $phpcsFile->addError($error, $stackPtr, 'SpacingAfter');
+
+                $phpcsFile->fixer->endChangeset();
             }
         }//end if
 
@@ -322,5 +320,3 @@ class CodingStandard_Sniffs_Commenting_InlineCommentSniff implements PHP_CodeSni
 
 
 }//end class
-
-?>

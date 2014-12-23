@@ -100,5 +100,3 @@ class CodingStandard_Sniffs_Commenting_DocCommentWrapperSniff implements PHP_Cod
 
 
 }//end class
-
-?>

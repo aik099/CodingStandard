@@ -74,5 +74,3 @@ class CodingStandard_Tests_Formatting_ItemAssignmentUnitTest extends AbstractSni
 
 
 }//end class
-
-?>
