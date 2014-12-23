@@ -68,7 +68,7 @@ class CodingStandard_Sniffs_Formatting_SpaceUnaryOperatorSniff implements PHP_Co
 
             if ($fix === true) {
                 $phpcsFile->fixer->beginChangeset();
-                $phpcsFile->fixer->replaceToken($stackPtr - 1, '');
+                $phpcsFile->fixer->replaceToken(($stackPtr - 1), '');
                 $phpcsFile->fixer->endChangeset();
             }
         }
@@ -79,7 +79,7 @@ class CodingStandard_Sniffs_Formatting_SpaceUnaryOperatorSniff implements PHP_Co
 
             if ($fix === true) {
                 $phpcsFile->fixer->beginChangeset();
-                $phpcsFile->fixer->replaceToken($stackPtr + 1, '');
+                $phpcsFile->fixer->replaceToken(($stackPtr + 1), '');
                 $phpcsFile->fixer->endChangeset();
             }
         }

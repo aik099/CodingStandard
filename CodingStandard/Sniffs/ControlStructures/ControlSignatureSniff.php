@@ -56,7 +56,7 @@ class CodingStandard_Sniffs_ControlStructures_ControlSignatureSniff extends
     /**
      * Returns the patterns that this test wishes to verify.
      *
-     * @return array(string)
+     * @return string[]
      */
     protected function getPatterns()
     {

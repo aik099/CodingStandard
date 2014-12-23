@@ -497,7 +497,7 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
         );
 
         if ($tokens[$trailingContent]['code'] === T_WHILE) {
-            return $tokens[$trailingContent]['parenthesis_closer'] + 1;
+            return ($tokens[$trailingContent]['parenthesis_closer'] + 1);
         }
 
         return $scopeCloser;

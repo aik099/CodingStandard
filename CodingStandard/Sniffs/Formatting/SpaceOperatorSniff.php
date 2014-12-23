@@ -64,7 +64,7 @@ class CodingStandard_Sniffs_Formatting_SpaceOperatorSniff implements PHP_CodeSni
 
         if ($tokens[($stackPtr - 2)]['line'] !== $tokens[$stackPtr]['line']) {
             $found = 'newline';
-        } elseif (isset($tokens[($stackPtr - 1)]['length']) === true) {
+        } else if (isset($tokens[($stackPtr - 1)]['length']) === true) {
             // The PHPCS 2.0+ way.
             $found = $tokens[($stackPtr - 1)]['length'];
         } else {

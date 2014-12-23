@@ -137,7 +137,6 @@ class CodingStandard_Sniffs_Classes_ClassDeclarationSniff extends PSR2_Sniffs_Cl
                 $blankSpace = substr($prevContent, strpos($prevContent, $phpcsFile->eolChar));
                 $spaces     = strlen($blankSpace);
                 if ($spaces !== 0) {
-                    $fix = false;
                     if ($tokens[($closeBrace - 1)]['line'] !== $tokens[$closeBrace]['line']) {
                         $error = 'Expected 0 spaces before closing brace; newline found';
                         $fix   = $phpcsFile->fixerWrapper->addFixableError($error, $closeBrace, 'NewLineBeforeCloseBrace');

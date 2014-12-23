@@ -74,7 +74,7 @@ class CodingStandard_Sniffs_Formatting_NamespaceDeclarationSniff implements PHP_
             return;
         }
 
-        $diff = $tokens[$nextCodePtr]['line'] - $tokens[$declarationEndPtr]['line'] - 1;
+        $diff = ($tokens[$nextCodePtr]['line'] - $tokens[$declarationEndPtr]['line'] - 1);
 
         if ($diff === $this->emptyLineCount) {
             return;
@@ -95,7 +95,7 @@ class CodingStandard_Sniffs_Formatting_NamespaceDeclarationSniff implements PHP_
         $phpcsFile->fixer->beginChangeset();
 
         if ($diff > 0) {
-            for ($j = $declarationEndPtr + 1; $j < $nextCodePtr; $j++) {
+            for ($j = ($declarationEndPtr + 1); $j < $nextCodePtr; $j++) {
                 if ($tokens[$j]['line'] === $tokens[$nextCodePtr]['line']) {
                     // Keep existing indentation.
                     break;
