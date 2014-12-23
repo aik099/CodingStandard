@@ -74,5 +74,3 @@ class CodingStandard_Tests_Files_OneTraitPerFileUnitTest extends AbstractSniffUn
 
 
 }//end class
-
-?>

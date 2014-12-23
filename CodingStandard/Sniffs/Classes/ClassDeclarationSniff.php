@@ -52,6 +52,28 @@ class CodingStandard_Sniffs_Classes_ClassDeclarationSniff extends PSR2_Sniffs_Cl
 
 
     /**
+     * Processes this test, when one of its tokens is encountered.
+     *
+     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
+     * @param int                  $stackPtr  The position of the current token
+     *                                         in the stack passed in $tokens.
+     *
+     * @return void
+     */
+    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    {
+        // FIXME: Both "PSR2" and "PEAR" super classes will indent using "4 spaces".
+        if (isset($phpcsFile->fixerWrapper) === false) {
+            $phpcsFile->fixerWrapper = CodingStandard_Sniffs_FixerWrapper_WrapperFactory::createWrapper($phpcsFile);
+        }
+
+        // We want all the errors from the PEAR standard, plus some of our own.
+        parent::process($phpcsFile, $stackPtr);
+
+    }//end process()
+
+
+    /**
      * Processes the opening section of a class declaration.
      *
      * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
@@ -80,10 +102,16 @@ class CodingStandard_Sniffs_Classes_ClassDeclarationSniff extends PSR2_Sniffs_Cl
                                   $type,
                                   $spaces,
                                  );
-                        $phpcsFile->addError($error, $stackPtr, 'SpaceBeforeKeyword', $data);
+
+                        $fix = $phpcsFile->fixerWrapper->addFixableError($error, $stackPtr, 'SpaceBeforeKeyword', $data);
+                        if ($fix === true) {
+                            $phpcsFile->fixer->beginChangeset();
+                            $phpcsFile->fixer->replaceToken(($stackPtr - 1), '');
+                            $phpcsFile->fixer->endChangeset();
+                        }
                     }
                 }
-            }
+            }//end if
         }//end if
 
     }//end processOpen()
@@ -111,50 +139,58 @@ class CodingStandard_Sniffs_Classes_ClassDeclarationSniff extends PSR2_Sniffs_Cl
                 if ($spaces !== 0) {
                     if ($tokens[($closeBrace - 1)]['line'] !== $tokens[$closeBrace]['line']) {
                         $error = 'Expected 0 spaces before closing brace; newline found';
-                        $phpcsFile->addError($error, $closeBrace, 'NewLineBeforeCloseBrace');
+                        $fix   = $phpcsFile->fixerWrapper->addFixableError($error, $closeBrace, 'NewLineBeforeCloseBrace');
                     } else {
                         $error = 'Expected 0 spaces before closing brace; %s found';
                         $data  = array($spaces);
-                        $phpcsFile->addError($error, $closeBrace, 'SpaceBeforeCloseBrace', $data);
+                        $fix   = $phpcsFile->fixerWrapper->addFixableError($error, $closeBrace, 'SpaceBeforeCloseBrace', $data);
+                    }//end if
+
+                    if ($fix === true) {
+                        $phpcsFile->fixer->beginChangeset();
+                        $phpcsFile->fixer->replaceToken(($closeBrace - 1), '');
+                        $phpcsFile->fixer->endChangeset();
                     }
-                }
-            }
-        }
+                }//end if
+            }//end if
+        }//end if
 
         // Check that the closing brace has one blank line after it.
         $nextContent = $phpcsFile->findNext(array(T_WHITESPACE), ($closeBrace + 1), null, true);
         if ($nextContent !== false) {
-            $nextLine  = $tokens[$nextContent]['line'];
-            $braceLine = $tokens[$closeBrace]['line'];
-            if ($braceLine === $nextLine) {
-                $error = 'Closing brace of a %s must be followed by a single blank line';
-                $data  = array($tokens[$stackPtr]['content']);
-                $phpcsFile->addError($error, $closeBrace, 'NoNewlineAfterCloseBrace', $data);
-            } else if ($nextLine !== ($braceLine + 2)) {
-                $difference = ($nextLine - $braceLine - 1);
-                $error      = 'Closing brace of a %s must be followed by a single blank line; found %s';
-                $data       = array(
-                               $tokens[$stackPtr]['content'],
-                               $difference,
-                              );
-                $phpcsFile->addError($error, $closeBrace, 'NewlinesAfterCloseBrace', $data);
+            $difference = ($tokens[$nextContent]['line'] - $tokens[$closeBrace]['line'] - 1);
+            if ($difference < 0) {
+                $difference = 0;
             }
-        }//end if
 
-        // Check the closing brace is on it's own line, but allow
-        // for comments like "//end class".
-        $nextContent = $phpcsFile->findNext(T_COMMENT, ($closeBrace + 1), null, true);
-        if ($tokens[$nextContent]['content'] !== $phpcsFile->eolChar
-            && $tokens[$nextContent]['line'] === $tokens[$closeBrace]['line']
-        ) {
-            $error = 'Closing %s brace must be on a line by itself';
-            $data  = array($tokens[$stackPtr]['content']);
-            $phpcsFile->addError($error, $closeBrace, 'CloseBraceSameLine', $data);
-        }
+            if ($difference !== 1) {
+                $error = 'Closing brace of a %s must be followed by a single blank line; found %s';
+                $data  = array(
+                          $tokens[$stackPtr]['content'],
+                          $difference,
+                         );
+                $fix   = $phpcsFile->fixerWrapper->addFixableError($error, $closeBrace, 'NewlinesAfterCloseBrace', $data);
+                if ($fix === true) {
+                    $phpcsFile->fixer->beginChangeset();
+
+                    if ($difference > 1) {
+                        for ($i = ($closeBrace + 1); $i < $nextContent; $i++) {
+                            if ($tokens[$i]['line'] === $tokens[$nextContent]['line']) {
+                                // Keep existing indentation.
+                                break;
+                            }
+
+                            $phpcsFile->fixer->replaceToken($i, '');
+                        }
+                    }
+
+                    $phpcsFile->fixer->addNewline($closeBrace);
+                    $phpcsFile->fixer->endChangeset();
+                }
+            }//end if
+        }//end if
 
     }//end processClose()
 
 
 }//end class
-
-?>

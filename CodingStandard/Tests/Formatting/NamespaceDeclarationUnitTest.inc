@@ -1,10 +1,10 @@
 <?php
-namespace SomeNamespace;
+    namespace SomeNamespace;
 
-class TooCloseClass
-{
+    class TooCloseClass
+    {
 
-}
+    }
 
 namespace SomeNamespace;
 
@@ -25,13 +25,13 @@ class AnotherClass
 
 // =====
 
-namespace SomeNamespace;
+    namespace SomeNamespace;
 
 
-class TooCloseClass
-{
+    class TooCloseClass
+    {
 
-}
+    }
 
 namespace SomeNamespace\TheUseCase;
 
@@ -84,5 +84,8 @@ class AnotherClass
 {
 
 }
+
+
+namespace SomeNamespace; // Something.
 
 ?>

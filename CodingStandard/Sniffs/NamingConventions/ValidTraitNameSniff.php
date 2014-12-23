@@ -72,5 +72,3 @@ class CodingStandard_Sniffs_NamingConventions_ValidTraitNameSniff implements PHP
 
 
 }//end class
-
-?>

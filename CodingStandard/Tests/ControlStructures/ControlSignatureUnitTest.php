@@ -102,5 +102,3 @@ class CodingStandard_Tests_ControlStructures_ControlSignatureUnitTest extends Ab
 
 
 }//end class
-
-?>

@@ -59,5 +59,3 @@ class CodingStandard_Tests_Classes_ClassNamespaceUnitTest extends AbstractSniffU
 
 
 }//end class
-
-?>

@@ -64,5 +64,3 @@ class CodingStandard_Tests_Classes_PropertyDeclarationUnitTest extends AbstractS
 
 
 }//end class
-
-?>

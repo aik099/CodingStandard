@@ -35,12 +35,7 @@ class CodingStandard_Sniffs_Formatting_SpaceOperatorSniff implements PHP_CodeSni
      */
     public function register()
     {
-         $tokens = array_merge(
-             PHP_CodeSniffer_Tokens::$assignmentTokens,
-             PHP_CodeSniffer_Tokens::$comparisonTokens
-         );
-
-         return $tokens;
+         return PHP_CodeSniffer_Tokens::$assignmentTokens;
 
     }//end register()
 
@@ -56,33 +51,45 @@ class CodingStandard_Sniffs_Formatting_SpaceOperatorSniff implements PHP_CodeSni
      */
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
-        $tokens   = $phpcsFile->getTokens();
-        $operator = $tokens[$stackPtr]['content'];
-
-        if ($tokens[($stackPtr - 1)]['code'] !== T_WHITESPACE || $tokens[($stackPtr - 1)]['content'] !== ' ') {
-            $found = strlen($tokens[($stackPtr - 1)]['content']);
-            $error = 'Expected 1 space before "%s"; %s found';
-            $data  = array(
-                      $operator,
-                      $found,
-                     );
-            $phpcsFile->addError($error, $stackPtr, 'SpacingBefore', $data);
+        // Only cover places, that are not handled by "Squiz.WhiteSpace.OperatorSpacing" sniff.
+        if (isset($phpcsFile->fixerWrapper) === false) {
+            $phpcsFile->fixerWrapper = CodingStandard_Sniffs_FixerWrapper_WrapperFactory::createWrapper($phpcsFile);
         }
 
-        // is handled by "Squiz.WhiteSpace.OperatorSpacing"
-        /*if ($tokens[($stackPtr + 1)]['code'] !== T_WHITESPACE || $tokens[($stackPtr + 1)]['content'] != ' ') {
-            $found = strlen($tokens[($stackPtr + 1)]['content']);
-            $error = 'Expected 1 space after "%s"; %s found';
-            $data = array(
-                $operator,
-                $found,
-            );
-            $phpcsFile->addError($error, $stackPtr, 'SpacingAfter', $data);
-        }*/
+        $tokens = $phpcsFile->getTokens();
+
+        if ($tokens[($stackPtr - 1)]['code'] !== T_WHITESPACE) {
+            return;
+        }
+
+        if ($tokens[($stackPtr - 2)]['line'] !== $tokens[$stackPtr]['line']) {
+            $found = 'newline';
+        } else if (isset($tokens[($stackPtr - 1)]['length']) === true) {
+            // The PHPCS 2.0+ way.
+            $found = $tokens[($stackPtr - 1)]['length'];
+        } else {
+            // The PHPCS 1.5 way.
+            $found = strlen($tokens[($stackPtr - 1)]['content']);
+        }
+
+        if (isset($phpcsFile->fixer) === true) {
+            $phpcsFile->recordMetric($stackPtr, 'Space before operator', $found);
+        }
+
+        if ($found !== 1) {
+            $error = 'Expected 1 space before "%s"; %s found';
+            $data  = array(
+                      $tokens[$stackPtr]['content'],
+                      $found,
+                     );
+            $fix   = $phpcsFile->fixerWrapper->addFixableError($error, $stackPtr, 'SpacingBefore', $data);
+
+            if ($fix === true) {
+                $phpcsFile->fixer->replaceToken(($stackPtr - 1), ' ');
+            }
+        }
 
     }//end process()
 
 
 }//end class
-
-?>

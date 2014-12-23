@@ -39,8 +39,10 @@ class CodingStandard_Tests_Classes_ClassCreateInstanceUnitTest extends AbstractS
         return array(
                 // Class instantiation without empty braces.
                 2 => 1,
-                // Space after class name and it's opening brace.
                 3 => 1,
+                // Space after class name and it's opening brace.
+                4 => 1,
+                5 => 1,
                );
 
     }//end getErrorList()
@@ -64,5 +66,3 @@ class CodingStandard_Tests_Classes_ClassCreateInstanceUnitTest extends AbstractS
 
 
 }//end class
-
-?>

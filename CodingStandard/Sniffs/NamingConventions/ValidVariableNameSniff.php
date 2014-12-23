@@ -309,5 +309,3 @@ class CodingStandard_Sniffs_NamingConventions_ValidVariableNameSniff extends
 
 
 }//end class
-
-?>

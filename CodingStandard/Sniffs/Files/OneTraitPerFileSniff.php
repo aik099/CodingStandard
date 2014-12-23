@@ -57,5 +57,3 @@ class CodingStandard_Sniffs_Files_OneTraitPerFileSniff implements PHP_CodeSniffe
 
 
 }//end class
-
-?>

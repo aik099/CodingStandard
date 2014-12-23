@@ -86,6 +86,10 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
      */
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
+        if (isset($phpcsFile->fixerWrapper) === false) {
+            $phpcsFile->fixerWrapper = CodingStandard_Sniffs_FixerWrapper_WrapperFactory::createWrapper($phpcsFile);
+        }
+
         $this->requiredSpacesAfterOpen   = (int) $this->requiredSpacesAfterOpen;
         $this->requiredSpacesBeforeClose = (int) $this->requiredSpacesBeforeClose;
         $tokens = $phpcsFile->getTokens();
@@ -134,7 +138,17 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
                       $tokens[$stackPtr]['content'],
                       $spaceAfterOpen,
                      );
-            $phpcsFile->addError($error, ($parenOpener + 1), 'SpacingAfterOpenBrace', $data);
+            $fix   = $phpcsFile->fixerWrapper->addFixableError($error, ($parenOpener + 1), 'SpacingAfterOpenBrace', $data);
+
+            if ($fix === true) {
+                $phpcsFile->fixer->beginChangeset();
+
+                for ($i = $spaceAfterOpen; $i < $this->requiredSpacesAfterOpen; $i++) {
+                    $phpcsFile->fixer->addContent($parenOpener, ' ');
+                }
+
+                $phpcsFile->fixer->endChangeset();
+            }
         }
 
         if ($tokens[$parenOpener]['line'] === $tokens[$parenCloser]['line']) {
@@ -150,9 +164,19 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
                           $tokens[$stackPtr]['content'],
                           $spaceBeforeClose,
                          );
-                $phpcsFile->addError($error, ($parenCloser - 1), 'SpaceBeforeCloseBrace', $data);
+                $fix   = $phpcsFile->fixerWrapper->addFixableError($error, ($parenCloser - 1), 'SpaceBeforeCloseBrace', $data);
+
+                if ($fix === true) {
+                    $phpcsFile->fixer->beginChangeset();
+
+                    for ($i = $spaceBeforeClose; $i < $this->requiredSpacesBeforeClose; $i++) {
+                        $phpcsFile->fixer->addContentBefore($parenCloser, ' ');
+                    }
+
+                    $phpcsFile->fixer->endChangeset();
+                }
             }
-        }
+        }//end if
 
     }//end checkBracketSpacing()
 
@@ -185,8 +209,24 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
                       $tokens[$stackPtr]['content'],
                       ($tokens[$firstContent]['line'] - ($tokens[$scopeOpener]['line'] + 1)),
                      );
-            $phpcsFile->addError($error, $scopeOpener, 'SpacingBeforeOpen', $data);
-        }
+            $fix   = $phpcsFile->fixerWrapper->addFixableError($error, $scopeOpener, 'SpacingBeforeOpen', $data);
+
+            if ($fix === true) {
+                $phpcsFile->fixer->beginChangeset();
+
+                for ($i = ($scopeOpener + 1); $i < $firstContent; $i++) {
+                    if ($tokens[$i]['line'] === $tokens[$firstContent]['line']) {
+                        // Keep existing indentation.
+                        break;
+                    }
+
+                    $phpcsFile->fixer->replaceToken($i, '');
+                }
+
+                $phpcsFile->fixer->addNewline($scopeOpener);
+                $phpcsFile->fixer->endChangeset();
+            }
+        }//end if
 
         if ($firstContent !== $scopeCloser) {
             // Not an empty control structure.
@@ -203,9 +243,25 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
                           $tokens[$stackPtr]['content'],
                           (($tokens[$scopeCloser]['line'] - 1) - $tokens[$lastContent]['line']),
                          );
-                $phpcsFile->addError($error, $scopeCloser, 'SpacingAfterClose', $data);
-            }
-        }
+                $fix   = $phpcsFile->fixerWrapper->addFixableError($error, $scopeCloser, 'SpacingAfterClose', $data);
+
+                if ($fix === true) {
+                    $phpcsFile->fixer->beginChangeset();
+
+                    for ($i = ($lastContent + 1); $i < $scopeCloser; $i++) {
+                        if ($tokens[$i]['line'] === $tokens[$scopeCloser]['line']) {
+                            // Keep existing indentation.
+                            break;
+                        }
+
+                        $phpcsFile->fixer->replaceToken($i, '');
+                    }
+
+                    $phpcsFile->fixer->addNewlineBefore($scopeCloser);
+                    $phpcsFile->fixer->endChangeset();
+                }
+            }//end if
+        }//end if
 
     }//end checkContentInside()
 
@@ -257,13 +313,35 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
                           (($leadingLineNumber - 1) - $tokens[$leadingContent]['line']),
                          );
                 $error = 'Expected 0 blank lines before "%s" control structure; %s found';
-                $phpcsFile->addError($error, $stackPtr, 'LineBeforeOpen', $data);
-            }
+                $fix   = $phpcsFile->fixerWrapper->addFixableError($error, $stackPtr, 'LineBeforeOpen', $data);
+
+                if ($fix === true) {
+                    $phpcsFile->fixer->beginChangeset();
+
+                    for ($i = ($leadingContent + 1); $i < $stackPtr; $i++) {
+                        if ($tokens[$i]['line'] === $tokens[$stackPtr]['line']) {
+                            // Keep existing indentation.
+                            break;
+                        }
+
+                        $phpcsFile->fixer->replaceToken($i, '');
+                    }
+
+                    $phpcsFile->fixer->addNewline($leadingContent);
+                    $phpcsFile->fixer->endChangeset();
+                }
+            }//end if
         } else if ($tokens[$leadingContent]['line'] === ($leadingLineNumber - 1)) {
             // Code on the previous line before control structure start.
             $data  = array($tokens[$stackPtr]['content']);
             $error = 'No blank line found before "%s" control structure';
-            $phpcsFile->addError($error, $stackPtr, 'NoLineBeforeOpen', $data);
+            $fix   = $phpcsFile->fixerWrapper->addFixableError($error, $stackPtr, 'NoLineBeforeOpen', $data);
+
+            if ($fix === true) {
+                $phpcsFile->fixer->beginChangeset();
+                $phpcsFile->fixer->addNewline($leadingContent);
+                $phpcsFile->fixer->endChangeset();
+            }
         }//end if
 
     }//end checkLeadingContent()
@@ -317,15 +395,24 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
     protected function checkTrailingContent(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
         $tokens          = $phpcsFile->getTokens();
-        $scopeCloser     = $tokens[$stackPtr]['scope_closer'];
-        $trailingContent = $this->searchTrailingContent($phpcsFile, $stackPtr);
+        $scopeCloser     = $this->getScopeCloser($phpcsFile, $stackPtr);
+        $trailingContent = $phpcsFile->findNext(
+            PHP_CodeSniffer_Tokens::$emptyTokens,
+            ($scopeCloser + 1),
+            null,
+            true
+        );
 
         if ($tokens[$trailingContent]['code'] === T_CLOSE_TAG) {
             // At the end of the script or embedded code.
             return;
         }
 
-        $trailingLineNumber = $this->getTrailingLineNumber($phpcsFile, $scopeCloser, $trailingContent);
+        $trailingLineNumber = $this->getTrailingLineNumber(
+            $phpcsFile,
+            $tokens[$stackPtr]['scope_closer'],
+            $trailingContent
+        );
 
         if ($tokens[$trailingContent]['code'] === T_CLOSE_CURLY_BRACKET
             || $this->insideSwitchCase($phpcsFile, $trailingContent) === true
@@ -346,8 +433,24 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
                           $tokens[$stackPtr]['content'],
                           ($tokens[$trailingContent]['line'] - ($trailingLineNumber + 1)),
                          );
-                $phpcsFile->addError($error, $scopeCloser, 'LineAfterClose', $data);
-            }
+                $fix   = $phpcsFile->fixerWrapper->addFixableError($error, $scopeCloser, 'LineAfterClose', $data);
+
+                if ($fix === true) {
+                    $phpcsFile->fixer->beginChangeset();
+
+                    for ($i = ($scopeCloser + 1); $i < $trailingContent; $i++) {
+                        if ($tokens[$i]['line'] === $tokens[$trailingContent]['line']) {
+                            // Keep existing indentation.
+                            break;
+                        }
+
+                        $phpcsFile->fixer->replaceToken($i, '');
+                    }
+
+                    $phpcsFile->fixer->addNewlineBefore($this->findFirstOnLine($phpcsFile, $trailingContent));
+                    $phpcsFile->fixer->endChangeset();
+                }
+            }//end if
         } else if ($tokens[$trailingContent]['line'] === ($trailingLineNumber + 1)) {
             // Code on the next line after control structure scope closer.
             if ($this->elseOrElseIf($phpcsFile, $trailingContent) === true) {
@@ -356,14 +459,20 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
 
             $error = 'No blank line found after "%s" control structure';
             $data  = array($tokens[$stackPtr]['content']);
-            $phpcsFile->addError($error, $scopeCloser, 'NoLineAfterClose', $data);
+            $fix   = $phpcsFile->fixerWrapper->addFixableError($error, $scopeCloser, 'NoLineAfterClose', $data);
+
+            if ($fix === true) {
+                $phpcsFile->fixer->beginChangeset();
+                $phpcsFile->fixer->addNewlineBefore($this->findFirstOnLine($phpcsFile, $trailingContent));
+                $phpcsFile->fixer->endChangeset();
+            }
         }//end if
 
     }//end checkTrailingContent()
 
 
     /**
-     * Searches for trailing content with special check for "do...while" statements.
+     * Returns scope closer  with special check for "do...while" statements.
      *
      * @param PHP_CodeSniffer_File $phpcsFile All the tokens found in the document.
      * @param int                  $stackPtr  The position of the current token
@@ -371,10 +480,14 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
      *
      * @return int|bool
      */
-    protected function searchTrailingContent(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    protected function getScopeCloser(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
         $tokens      = $phpcsFile->getTokens();
         $scopeCloser = $tokens[$stackPtr]['scope_closer'];
+
+        if ($tokens[$stackPtr]['code'] !== T_DO) {
+            return $scopeCloser;
+        }
 
         $trailingContent = $phpcsFile->findNext(
             PHP_CodeSniffer_Tokens::$emptyTokens,
@@ -383,21 +496,13 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
             true
         );
 
-        if ($tokens[$stackPtr]['code'] === T_DO && $tokens[$trailingContent]['code'] === T_WHILE) {
-            $conditionCloser = $tokens[$trailingContent]['parenthesis_closer'];
-
-            // Look right after the semicolon placed after closing brace of condition.
-            $trailingContent = $phpcsFile->findNext(
-                PHP_CodeSniffer_Tokens::$emptyTokens,
-                ($conditionCloser + 2),
-                null,
-                true
-            );
+        if ($tokens[$trailingContent]['code'] === T_WHILE) {
+            return ($tokens[$trailingContent]['parenthesis_closer'] + 1);
         }
 
-        return $trailingContent;
+        return $scopeCloser;
 
-    }//end searchTrailingContent()
+    }//end getScopeCloser()
 
 
     /**
@@ -434,6 +539,31 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
         return $fromToken['line'];
 
     }//end getTrailingLineNumber()
+
+
+    /**
+     * Finds first token on a line.
+     *
+     * @param PHP_CodeSniffer_File $phpcsFile All the tokens found in the document.
+     * @param int                  $start     Start from token.
+     *
+     * @return int | bool
+     */
+    public function findFirstOnLine(PHP_CodeSniffer_File $phpcsFile, $start)
+    {
+        $tokens = $phpcsFile->getTokens();
+
+        for ($i = $start; $i >= 0; $i--) {
+            if ($tokens[$i]['line'] === $tokens[$start]['line']) {
+                continue;
+            }
+
+            return ($i + 1);
+        }
+
+        return false;
+
+    }//end findFirstOnLine()
 
 
     /**
@@ -544,9 +674,8 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
      * Determines that a closure is located at given position.
      *
      * @param PHP_CodeSniffer_File $phpcsFile         The file being scanned.
-     * @param int                  $stackPtr          The position of the current token
+     * @param int                  $stackPtr          The position of the current token.
      *                                                in the stack passed in $tokens.
-     *
      * @param int                  $scopeConditionPtr Position of scope condition.
      *
      * @return bool
@@ -570,5 +699,3 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
 
 
 }//end class
-
-?>
