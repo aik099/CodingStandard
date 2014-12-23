@@ -66,5 +66,3 @@ class CodingStandard_Tests_Classes_ClassCreateInstanceUnitTest extends AbstractS
 
 
 }//end class
-
-?>

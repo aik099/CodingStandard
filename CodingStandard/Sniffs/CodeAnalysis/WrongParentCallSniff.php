@@ -92,5 +92,3 @@ class CodingStandard_Sniffs_CodeAnalysis_WrongParentCallSniff implements PHP_Cod
 
 
 }//end class
-
-?>

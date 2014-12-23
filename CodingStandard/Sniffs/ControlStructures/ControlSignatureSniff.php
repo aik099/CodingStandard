@@ -76,5 +76,3 @@ class CodingStandard_Sniffs_ControlStructures_ControlSignatureSniff extends
 
 
 }//end class
-
-?>

@@ -86,7 +86,7 @@ class CodingStandard_Sniffs_Formatting_NamespaceDeclarationSniff implements PHP_
 
         $data  = array($diff);
         $error = 'Expected '.$this->emptyLineCount.' blank line(-s) after namespace declaration; %s found';
-        $fix = $phpcsFile->fixerWrapper->addFixableError($error, $stackPtr, 'BlankLineAfter', $data);
+        $fix   = $phpcsFile->fixerWrapper->addFixableError($error, $stackPtr, 'BlankLineAfter', $data);
 
         if ($fix === false) {
             return;
@@ -115,5 +115,3 @@ class CodingStandard_Sniffs_Formatting_NamespaceDeclarationSniff implements PHP_
 
 
 }//end class
-
-?>

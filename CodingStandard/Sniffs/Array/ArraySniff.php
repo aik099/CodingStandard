@@ -167,5 +167,3 @@ class CodingStandard_Sniffs_Array_ArraySniff implements PHP_CodeSniffer_Sniff
 
 
 }//end class
-
-?>

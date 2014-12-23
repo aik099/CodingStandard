@@ -60,5 +60,3 @@ class CodingStandard_Tests_CodeAnalysis_WrongParentCallUnitTest extends Abstract
 
 
 }//end class
-
-?>

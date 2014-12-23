@@ -44,5 +44,3 @@ class CodingStandard_Sniffs_FixerWrapper_WrapperFactory
 
 
 }//end class
-
-?>

@@ -67,5 +67,3 @@ class CodingStandard_Tests_Formatting_NamespaceDeclarationUnitTest extends Abstr
 
 
 }//end class
-
-?>

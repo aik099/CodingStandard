@@ -79,5 +79,3 @@ abstract class CodingStandard_Sniffs_FixerWrapper_AbstractWrapper
 
 
 }//end class
-
-?>

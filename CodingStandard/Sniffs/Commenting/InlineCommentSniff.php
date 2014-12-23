@@ -320,5 +320,3 @@ class CodingStandard_Sniffs_Commenting_InlineCommentSniff implements PHP_CodeSni
 
 
 }//end class
-
-?>

@@ -124,5 +124,3 @@ class CodingStandard_Tests_Classes_ClassDeclarationUnitTest extends AbstractSnif
 
 
 }//end class
-
-?>

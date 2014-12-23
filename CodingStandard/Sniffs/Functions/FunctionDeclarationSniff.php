@@ -235,5 +235,3 @@ class CodingStandard_Sniffs_Functions_FunctionDeclarationSniff extends PEAR_Snif
 
 
 }//end class
-
-?>

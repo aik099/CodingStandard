@@ -107,5 +107,3 @@ class CodingStandard_Sniffs_Classes_ClassCreateInstanceSniff implements PHP_Code
 
 
 }//end class
-
-?>

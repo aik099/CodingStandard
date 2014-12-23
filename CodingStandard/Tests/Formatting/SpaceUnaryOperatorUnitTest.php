@@ -64,5 +64,3 @@ class CodingStandard_Tests_Formatting_SpaceUnaryOperatorUnitTest extends Abstrac
 
 
 }//end class
-
-?>

@@ -127,5 +127,3 @@ class CodingStandard_Sniffs_Formatting_BlankLineBeforeReturnSniff implements PHP
 
 
 }//end class
-
-?>

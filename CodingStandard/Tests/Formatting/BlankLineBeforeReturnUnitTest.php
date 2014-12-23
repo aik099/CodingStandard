@@ -84,5 +84,3 @@ class CodingStandard_Tests_Formatting_BlankLineBeforeReturnUnitTest extends Abst
 
 
 }//end class
-
-?>

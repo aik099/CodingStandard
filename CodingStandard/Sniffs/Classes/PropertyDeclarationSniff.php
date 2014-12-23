@@ -104,5 +104,3 @@ class CodingStandard_Sniffs_Classes_PropertyDeclarationSniff extends PHP_CodeSni
 
 
 }//end class
-
-?>

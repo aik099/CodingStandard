@@ -88,5 +88,3 @@ class CodingStandard_Sniffs_Formatting_SpaceUnaryOperatorSniff implements PHP_Co
 
 
 }//end class
-
-?>

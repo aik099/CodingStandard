@@ -156,5 +156,3 @@ class CodingStandard_Sniffs_Strings_ConcatenationSpacingSniff implements PHP_Cod
 
 
 }//end class
-
-?>

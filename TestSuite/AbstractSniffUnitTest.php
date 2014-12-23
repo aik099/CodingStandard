@@ -91,7 +91,7 @@ abstract class AbstractSniffUnitTest extends PHPUnit_Framework_TestCase
                     $phpcsFile->fixer->fixFile();
                     $fixable = $phpcsFile->getFixableCount();
                     if ($fixable > 0) {
-                        $filename = basename($testFile);
+                        $filename          = basename($testFile);
                         $failureMessages[] = "Failed to fix $fixable fixable violations in $filename.";
                     } else {
                         // Check for a .fixed file to check for accuracy of fixes.
@@ -436,5 +436,3 @@ abstract class AbstractSniffUnitTest extends PHPUnit_Framework_TestCase
 
 
 }//end class
-
-?>

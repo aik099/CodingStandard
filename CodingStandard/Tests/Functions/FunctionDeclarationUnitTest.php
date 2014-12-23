@@ -91,5 +91,3 @@ class CodingStandard_Tests_Functions_FunctionDeclarationUnitTest extends Abstrac
 
 
 }//end class
-
-?>

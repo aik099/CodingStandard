@@ -63,5 +63,3 @@ class CodingStandard_Tests_Strings_ConcatenationSpacingUnitTest extends Abstract
 
 
 }//end class
-
-?>

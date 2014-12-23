@@ -670,9 +670,8 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
      * Determines that a closure is located at given position.
      *
      * @param PHP_CodeSniffer_File $phpcsFile         The file being scanned.
-     * @param int                  $stackPtr          The position of the current token
+     * @param int                  $stackPtr          The position of the current token.
      *                                                in the stack passed in $tokens.
-     *
      * @param int                  $scopeConditionPtr Position of scope condition.
      *
      * @return bool
@@ -696,5 +695,3 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
 
 
 }//end class
-
-?>

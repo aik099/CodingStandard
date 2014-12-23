@@ -81,5 +81,3 @@ class CodingStandard_Tests_Formatting_SpaceOperatorUnitTest extends AbstractSnif
 
 
 }//end class
-
-?>

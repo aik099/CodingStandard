@@ -90,5 +90,3 @@ class CodingStandard_Tests_Commenting_DocCommentWrapperUnitTest extends Abstract
 
 
 }//end class
-
-?>

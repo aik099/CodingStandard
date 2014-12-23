@@ -74,5 +74,3 @@ class CodingStandard_Tests_Array_ArrayUnitTest extends AbstractSniffUnitTest
 
 
 }//end class
-
-?>

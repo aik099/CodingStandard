@@ -82,7 +82,8 @@ class CodingStandard_Sniffs_Formatting_SpaceOperatorSniff implements PHP_CodeSni
                       $tokens[$stackPtr]['content'],
                       $found,
                      );
-            $fix = $phpcsFile->fixerWrapper->addFixableError($error, $stackPtr, 'SpacingBefore', $data);
+            $fix   = $phpcsFile->fixerWrapper->addFixableError($error, $stackPtr, 'SpacingBefore', $data);
+
             if ($fix === true) {
                 $phpcsFile->fixer->replaceToken(($stackPtr - 1), ' ');
             }
@@ -92,5 +93,3 @@ class CodingStandard_Sniffs_Formatting_SpaceOperatorSniff implements PHP_CodeSni
 
 
 }//end class
-
-?>

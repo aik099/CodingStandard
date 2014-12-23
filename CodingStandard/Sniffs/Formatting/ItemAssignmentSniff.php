@@ -137,5 +137,3 @@ class CodingStandard_Sniffs_Formatting_ItemAssignmentSniff implements PHP_CodeSn
 
 
 }//end class
-
-?>

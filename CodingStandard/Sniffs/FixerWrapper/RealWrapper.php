@@ -68,5 +68,3 @@ class CodingStandard_Sniffs_FixerWrapper_RealWrapper extends CodingStandard_Snif
 
 
 }//end class
-
-?>

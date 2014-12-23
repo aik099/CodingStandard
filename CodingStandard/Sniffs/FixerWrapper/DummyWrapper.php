@@ -72,5 +72,3 @@ class CodingStandard_Sniffs_FixerWrapper_DummyWrapper extends CodingStandard_Sni
 
 
 }//end class
-
-?>

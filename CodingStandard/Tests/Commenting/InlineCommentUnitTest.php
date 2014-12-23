@@ -115,5 +115,3 @@ class CodingStandard_Tests_Commenting_InlineCommentUnitTest extends AbstractSnif
 
 
 }//end class
-
-?>

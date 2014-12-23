@@ -105,5 +105,3 @@ class CodingStandard_Tests_NamingConventions_ValidVariableNameUnitTest extends A
 
 
 }//end class
-
-?>
