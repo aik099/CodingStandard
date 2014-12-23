@@ -408,7 +408,11 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
             return;
         }
 
-        $trailingLineNumber = $this->getTrailingLineNumber($phpcsFile, $scopeCloser, $trailingContent);
+        $trailingLineNumber = $this->getTrailingLineNumber(
+            $phpcsFile,
+            $tokens[$stackPtr]['scope_closer'],
+            $trailingContent
+        );
 
         if ($tokens[$trailingContent]['code'] === T_CLOSE_CURLY_BRACKET
             || $this->insideSwitchCase($phpcsFile, $trailingContent) === true

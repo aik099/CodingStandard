@@ -937,6 +937,7 @@ do {
     $a = 'b';
 } while ( $a );
 // After Comment.
+
 $a = 5;
 
 // Before comment.
