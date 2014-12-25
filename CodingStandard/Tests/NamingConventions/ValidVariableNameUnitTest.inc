@@ -137,6 +137,9 @@ class TheClass
     function funcName2($varName1, $varName2) {
         echo $object->myFunction($oneTwo);
         echo $object->myFunction($one_two);
+
+        echo "Hello {$_varName}";
+        echo "Hello {$var_name}";
     }
 
 }

@@ -12,9 +12,12 @@
  * @link     https://github.com/aik099/CodingStandard
  */
 
+// @codeCoverageIgnoreStart
 if (class_exists('PHP_CodeSniffer_Standards_AbstractVariableSniff', true) === false) {
-    throw new PHP_CodeSniffer_Exception('Class PHP_CodeSniffer_Standards_AbstractVariableSniff not found');
+    $error = 'Class PHP_CodeSniffer_Standards_AbstractVariableSniff not found';
+    throw new PHP_CodeSniffer_Exception($error);
 }
+// @codeCoverageIgnoreEnd
 
 /**
  * Verifies that properties are declared correctly.
@@ -80,6 +83,7 @@ class CodingStandard_Sniffs_Classes_PropertyDeclarationSniff extends PHP_CodeSni
      * @param int                  $stackPtr  The position where the token was found.
      *
      * @return void
+     * @codeCoverageIgnore
      */
     protected function processVariable(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
@@ -95,6 +99,7 @@ class CodingStandard_Sniffs_Classes_PropertyDeclarationSniff extends PHP_CodeSni
      * @param int                  $stackPtr  The position where the token was found.
      *
      * @return void
+     * @codeCoverageIgnore
      */
     protected function processVariableInString(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {

@@ -13,10 +13,12 @@
  * @link     https://github.com/aik099/CodingStandard
  */
 
+// @codeCoverageIgnoreStart
 if (class_exists('PSR2_Sniffs_Classes_ClassDeclarationSniff', true) === false) {
     $error = 'Class PSR2_Sniffs_Classes_ClassDeclarationSniff not found';
     throw new PHP_CodeSniffer_Exception($error);
 }
+// @codeCoverageIgnoreEnd
 
 /**
  * Class Declaration Test.
@@ -63,10 +65,6 @@ class CodingStandard_Sniffs_Classes_ClassDeclarationSniff extends PSR2_Sniffs_Cl
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
         // FIXME: Both "PSR2" and "PEAR" super classes will indent using "4 spaces".
-        if (isset($phpcsFile->fixerWrapper) === false) {
-            $phpcsFile->fixerWrapper = CodingStandard_Sniffs_FixerWrapper_WrapperFactory::createWrapper($phpcsFile);
-        }
-
         // We want all the errors from the PEAR standard, plus some of our own.
         parent::process($phpcsFile, $stackPtr);
 
@@ -103,7 +101,7 @@ class CodingStandard_Sniffs_Classes_ClassDeclarationSniff extends PSR2_Sniffs_Cl
                                   $spaces,
                                  );
 
-                        $fix = $phpcsFile->fixerWrapper->addFixableError($error, $stackPtr, 'SpaceBeforeKeyword', $data);
+                        $fix = $phpcsFile->addFixableError($error, $stackPtr, 'SpaceBeforeKeyword', $data);
                         if ($fix === true) {
                             $phpcsFile->fixer->beginChangeset();
                             $phpcsFile->fixer->replaceToken(($stackPtr - 1), '');
@@ -139,11 +137,11 @@ class CodingStandard_Sniffs_Classes_ClassDeclarationSniff extends PSR2_Sniffs_Cl
                 if ($spaces !== 0) {
                     if ($tokens[($closeBrace - 1)]['line'] !== $tokens[$closeBrace]['line']) {
                         $error = 'Expected 0 spaces before closing brace; newline found';
-                        $fix   = $phpcsFile->fixerWrapper->addFixableError($error, $closeBrace, 'NewLineBeforeCloseBrace');
+                        $fix   = $phpcsFile->addFixableError($error, $closeBrace, 'NewLineBeforeCloseBrace');
                     } else {
                         $error = 'Expected 0 spaces before closing brace; %s found';
                         $data  = array($spaces);
-                        $fix   = $phpcsFile->fixerWrapper->addFixableError($error, $closeBrace, 'SpaceBeforeCloseBrace', $data);
+                        $fix   = $phpcsFile->addFixableError($error, $closeBrace, 'SpaceBeforeCloseBrace', $data);
                     }//end if
 
                     if ($fix === true) {
@@ -169,7 +167,7 @@ class CodingStandard_Sniffs_Classes_ClassDeclarationSniff extends PSR2_Sniffs_Cl
                           $tokens[$stackPtr]['content'],
                           $difference,
                          );
-                $fix   = $phpcsFile->fixerWrapper->addFixableError($error, $closeBrace, 'NewlinesAfterCloseBrace', $data);
+                $fix   = $phpcsFile->addFixableError($error, $closeBrace, 'NewlinesAfterCloseBrace', $data);
                 if ($fix === true) {
                     $phpcsFile->fixer->beginChangeset();
 

@@ -56,10 +56,6 @@ class CodingStandard_Sniffs_Formatting_NamespaceDeclarationSniff implements PHP_
      */
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
-        if (isset($phpcsFile->fixerWrapper) === false) {
-            $phpcsFile->fixerWrapper = CodingStandard_Sniffs_FixerWrapper_WrapperFactory::createWrapper($phpcsFile);
-        }
-
         $tokens            = $phpcsFile->getTokens();
         $declarationEndPtr = $phpcsFile->findNext(T_SEMICOLON, ($stackPtr + 1));
 
@@ -86,7 +82,7 @@ class CodingStandard_Sniffs_Formatting_NamespaceDeclarationSniff implements PHP_
 
         $data  = array($diff);
         $error = 'Expected '.$this->emptyLineCount.' blank line(-s) after namespace declaration; %s found';
-        $fix   = $phpcsFile->fixerWrapper->addFixableError($error, $stackPtr, 'BlankLineAfter', $data);
+        $fix   = $phpcsFile->addFixableError($error, $stackPtr, 'BlankLineAfter', $data);
 
         if ($fix === false) {
             return;

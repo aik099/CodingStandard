@@ -172,3 +172,5 @@ $test = 'value';
 
 /** @type TheClass $test */
 $test = 'value';
+
+/** this is wrong */

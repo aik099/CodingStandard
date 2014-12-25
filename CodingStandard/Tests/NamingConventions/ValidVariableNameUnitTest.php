@@ -82,6 +82,7 @@ class CodingStandard_Tests_NamingConventions_ValidVariableNameUnitTest extends A
                 133 => 1,
                 137 => 2,
                 138 => 1,
+                142 => 1,
                );
 
     }//end getErrorList()
