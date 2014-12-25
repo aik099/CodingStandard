@@ -52,10 +52,6 @@ class CodingStandard_Sniffs_Formatting_SpaceOperatorSniff implements PHP_CodeSni
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
         // Only cover places, that are not handled by "Squiz.WhiteSpace.OperatorSpacing" sniff.
-        if (isset($phpcsFile->fixerWrapper) === false) {
-            $phpcsFile->fixerWrapper = CodingStandard_Sniffs_FixerWrapper_WrapperFactory::createWrapper($phpcsFile);
-        }
-
         $tokens = $phpcsFile->getTokens();
 
         if ($tokens[($stackPtr - 1)]['code'] !== T_WHITESPACE) {
@@ -64,12 +60,8 @@ class CodingStandard_Sniffs_Formatting_SpaceOperatorSniff implements PHP_CodeSni
 
         if ($tokens[($stackPtr - 2)]['line'] !== $tokens[$stackPtr]['line']) {
             $found = 'newline';
-        } else if (isset($tokens[($stackPtr - 1)]['length']) === true) {
-            // The PHPCS 2.0+ way.
-            $found = $tokens[($stackPtr - 1)]['length'];
         } else {
-            // The PHPCS 1.5 way.
-            $found = strlen($tokens[($stackPtr - 1)]['content']);
+            $found = $tokens[($stackPtr - 1)]['length'];
         }
 
         if (isset($phpcsFile->fixer) === true) {
@@ -82,7 +74,7 @@ class CodingStandard_Sniffs_Formatting_SpaceOperatorSniff implements PHP_CodeSni
                       $tokens[$stackPtr]['content'],
                       $found,
                      );
-            $fix   = $phpcsFile->fixerWrapper->addFixableError($error, $stackPtr, 'SpacingBefore', $data);
+            $fix   = $phpcsFile->addFixableError($error, $stackPtr, 'SpacingBefore', $data);
 
             if ($fix === true) {
                 $phpcsFile->fixer->replaceToken(($stackPtr - 1), ' ');

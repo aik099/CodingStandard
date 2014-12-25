@@ -31,7 +31,7 @@ class CodingStandard_Sniffs_Formatting_SpaceUnaryOperatorSniff implements PHP_Co
     /**
      * Returns an array of tokens this test wants to listen for.
      *
-     * @return array
+     * @return integer[]
      */
     public function register()
     {
@@ -54,17 +54,13 @@ class CodingStandard_Sniffs_Formatting_SpaceUnaryOperatorSniff implements PHP_Co
      */
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
-        if (isset($phpcsFile->fixerWrapper) === false) {
-            $phpcsFile->fixerWrapper = CodingStandard_Sniffs_FixerWrapper_WrapperFactory::createWrapper($phpcsFile);
-        }
-
         $tokens     = $phpcsFile->getTokens();
         $modifyLeft = substr($tokens[($stackPtr - 1)]['content'], 0, 1) === '$'
             || $tokens[($stackPtr + 1)]['content'] === ';';
 
         if ($modifyLeft === true && $tokens[($stackPtr - 1)]['code'] === T_WHITESPACE) {
             $error = 'There must not be a single space before an unary operator statement';
-            $fix   = $phpcsFile->fixerWrapper->addFixableError($error, $stackPtr);
+            $fix   = $phpcsFile->addFixableError($error, $stackPtr);
 
             if ($fix === true) {
                 $phpcsFile->fixer->beginChangeset();
@@ -75,7 +71,7 @@ class CodingStandard_Sniffs_Formatting_SpaceUnaryOperatorSniff implements PHP_Co
 
         if ($modifyLeft === false && substr($tokens[($stackPtr + 1)]['content'], 0, 1) !== '$') {
             $error = 'A unary operator statement must not followed by a single space';
-            $fix   = $phpcsFile->fixerWrapper->addFixableError($error, $stackPtr);
+            $fix   = $phpcsFile->addFixableError($error, $stackPtr);
 
             if ($fix === true) {
                 $phpcsFile->fixer->beginChangeset();

@@ -43,18 +43,14 @@ class CodingStandard_Sniffs_Commenting_InlineCommentSniff implements PHP_CodeSni
     /**
      * Returns an array of tokens this test wants to listen for.
      *
-     * @return array
+     * @return integer[]
      */
     public function register()
     {
-        $tokens = array(T_COMMENT);
-        if (defined('T_DOC_COMMENT_OPEN_TAG') === true) {
-            $tokens[] = T_DOC_COMMENT_OPEN_TAG;
-        } else {
-            $tokens[] = T_DOC_COMMENT;
-        }
-
-        return $tokens;
+        return array(
+                T_COMMENT,
+                T_DOC_COMMENT_OPEN_TAG,
+               );
 
     }//end register()
 
@@ -70,16 +66,12 @@ class CodingStandard_Sniffs_Commenting_InlineCommentSniff implements PHP_CodeSni
      */
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
-        if (isset($phpcsFile->fixerWrapper) === false) {
-            $phpcsFile->fixerWrapper = CodingStandard_Sniffs_FixerWrapper_WrapperFactory::createWrapper($phpcsFile);
-        }
-
         $tokens = $phpcsFile->getTokens();
 
         // If this is a function/class/interface doc block comment, skip it.
         // We are only interested in inline doc block comments, which are
         // not allowed.
-        if ($tokens[$stackPtr]['code'] !== T_COMMENT) {
+        if ($tokens[$stackPtr]['code'] === T_DOC_COMMENT_OPEN_TAG) {
             $nextToken = $phpcsFile->findNext(
                 PHP_CodeSniffer_Tokens::$emptyTokens,
                 ($stackPtr + 1),
@@ -136,15 +128,9 @@ class CodingStandard_Sniffs_Commenting_InlineCommentSniff implements PHP_CodeSni
             }
 
             // Only error once per comment.
-            if (substr($tokens[$stackPtr]['content'], 0, 3) === '/**') {
-                if (defined('T_DOC_COMMENT_CLOSE_TAG') === true) {
-                    // PHPCS 2.x way.
-                    $commentEnd  = $phpcsFile->findNext(T_DOC_COMMENT_CLOSE_TAG, ($stackPtr + 1));
-                    $commentText = $phpcsFile->getTokensAsString($stackPtr, (($commentEnd - $stackPtr) + 1));
-                } else {
-                    // PHPCS 1.x way.
-                    $commentText = $tokens[$stackPtr]['content'];
-                }
+            if ($tokens[$stackPtr]['content'] === '/**') {
+                $commentEnd  = $phpcsFile->findNext(T_DOC_COMMENT_CLOSE_TAG, ($stackPtr + 1));
+                $commentText = $phpcsFile->getTokensAsString($stackPtr, (($commentEnd - $stackPtr) + 1));
 
                 if (strpos($commentText, '@var') === false && strpos($commentText, '@type') === false) {
                     $error = 'Inline doc block comments are not allowed; use "/* Comment */" or "// Comment" instead';
@@ -155,7 +141,7 @@ class CodingStandard_Sniffs_Commenting_InlineCommentSniff implements PHP_CodeSni
 
         if ($tokens[$stackPtr]['content']{0} === '#') {
             $error = 'Perl-style comments are not allowed; use "// Comment" instead';
-            $fix   = $phpcsFile->fixerWrapper->addFixableError($error, $stackPtr, 'WrongStyle');
+            $fix   = $phpcsFile->addFixableError($error, $stackPtr, 'WrongStyle');
             if ($fix === true) {
                 $comment = ltrim($tokens[$stackPtr]['content'], "# \t");
                 $phpcsFile->fixer->replaceToken($stackPtr, "// $comment");
@@ -205,7 +191,7 @@ class CodingStandard_Sniffs_Commenting_InlineCommentSniff implements PHP_CodeSni
                       ltrim(substr($comment, 2)),
                       $comment,
                      );
-            $fix   = $phpcsFile->fixerWrapper->addFixableError($error, $stackPtr, 'NoSpaceBefore', $data);
+            $fix   = $phpcsFile->addFixableError($error, $stackPtr, 'NoSpaceBefore', $data);
         } else if ($spaceCount > 1) {
             $error = '%s spaces found before inline comment line; use block comment if you need indentation';
             $data  = array(
@@ -213,7 +199,7 @@ class CodingStandard_Sniffs_Commenting_InlineCommentSniff implements PHP_CodeSni
                       substr($comment, (2 + $spaceCount)),
                       $comment,
                      );
-            $fix   = $phpcsFile->fixerWrapper->addFixableError($error, $stackPtr, 'SpacingBefore', $data);
+            $fix   = $phpcsFile->addFixableError($error, $stackPtr, 'SpacingBefore', $data);
         }//end if
 
         if ($fix === true) {
@@ -252,7 +238,7 @@ class CodingStandard_Sniffs_Commenting_InlineCommentSniff implements PHP_CodeSni
 
         if ($commentText === '') {
             $error = 'Blank comments are not allowed';
-            $fix   = $phpcsFile->fixerWrapper->addFixableError($error, $stackPtr, 'Empty');
+            $fix   = $phpcsFile->addFixableError($error, $stackPtr, 'Empty');
             if ($fix === true) {
                 $phpcsFile->fixer->replaceToken($stackPtr, '');
             }
@@ -300,7 +286,7 @@ class CodingStandard_Sniffs_Commenting_InlineCommentSniff implements PHP_CodeSni
             }
 
             $error = 'There must be no blank line following an inline comment';
-            $fix   = $phpcsFile->fixerWrapper->addFixableError($error, $stackPtr, 'SpacingAfter');
+            $fix   = $phpcsFile->addFixableError($error, $stackPtr, 'SpacingAfter');
             if ($fix === true) {
                 $next = $phpcsFile->findNext(T_WHITESPACE, ($stackPtr + 1), null, true);
                 $phpcsFile->fixer->beginChangeset();

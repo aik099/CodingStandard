@@ -13,9 +13,12 @@
  * @link     https://github.com/aik099/CodingStandard
  */
 
+// @codeCoverageIgnoreStart
 if (class_exists('PEAR_Sniffs_NamingConventions_ValidFunctionNameSniff', true) === false) {
-    throw new PHP_CodeSniffer_Exception('Class PEAR_Sniffs_NamingConventions_ValidFunctionNameSniff not found');
+    $error = 'Class PEAR_Sniffs_NamingConventions_ValidFunctionNameSniff not found';
+    throw new PHP_CodeSniffer_Exception($error);
 }
+// @codeCoverageIgnoreEnd
 
 /**
  * CodingStandard_Sniffs_NamingConventions_ValidFunctionNameSniff.
@@ -73,15 +76,7 @@ class CodingStandard_Sniffs_NamingConventions_ValidFunctionNameSniff extends
         if (preg_match('|^__|', $methodName) !== 0) {
             $magicPart = strtolower(substr($methodName, 2));
 
-            if (isset($this->magicMethods[0]) === true) {
-                // PHPCS 1.x way.
-                $isMagicMethod = in_array($magicPart, $this->magicMethods);
-            } else {
-                // PHPCS 2.x way.
-                $isMagicMethod = isset($this->magicMethods[$magicPart]);
-            }
-
-            if ($isMagicMethod === false) {
+            if (isset($this->magicMethods[$magicPart]) === false) {
                 $error = 'Method name "%s" is invalid; only PHP magic methods should be prefixed with a double underscore';
                 $phpcsFile->addError($error, $stackPtr, 'MethodDoubleUnderscore', $errorData);
             }

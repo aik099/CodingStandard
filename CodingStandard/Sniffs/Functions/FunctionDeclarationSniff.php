@@ -12,10 +12,12 @@
  * @link     https://github.com/aik099/CodingStandard
  */
 
+// @codeCoverageIgnoreStart
 if (class_exists('PEAR_Sniffs_Functions_FunctionDeclarationSniff', true) === false) {
     $error = 'Class PEAR_Sniffs_Functions_FunctionDeclarationSniff not found';
     throw new PHP_CodeSniffer_Exception($error);
 }
+// @codeCoverageIgnoreEnd
 
 /**
  * CodingStandard_Sniffs_Functions_FunctionDeclarationSniff.
@@ -69,10 +71,6 @@ class CodingStandard_Sniffs_Functions_FunctionDeclarationSniff extends PEAR_Snif
      */
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
-        if (isset($phpcsFile->fixerWrapper) === false) {
-            $phpcsFile->fixerWrapper = CodingStandard_Sniffs_FixerWrapper_WrapperFactory::createWrapper($phpcsFile);
-        }
-
         if ($this->_tabWidth === null) {
             $cliValues = $phpcsFile->phpcs->cli->getCommandLineValues();
             if (isset($cliValues['tabWidth']) === false || $cliValues['tabWidth'] === 0) {
@@ -115,7 +113,7 @@ class CodingStandard_Sniffs_Functions_FunctionDeclarationSniff extends PEAR_Snif
         }
 
         if ($tokens[$i]['code'] === T_WHITESPACE) {
-            $functionIndent = strlen($tokens[$i]['content']);
+            $functionIndent = $tokens[$i]['length'];
         }
 
         // The closing parenthesis must be on a new line, even
@@ -131,7 +129,7 @@ class CodingStandard_Sniffs_Functions_FunctionDeclarationSniff extends PEAR_Snif
         if ($tokens[$closeBracket]['line'] !== $tokens[$tokens[$closeBracket]['parenthesis_opener']]['line']) {
             if ($tokens[$prev]['line'] === $tokens[$closeBracket]['line']) {
                 $error = 'The closing parenthesis of a multi-line function declaration must be on a new line';
-                $fix   = $phpcsFile->fixerWrapper->addFixableError($error, $closeBracket, 'CloseBracketLine');
+                $fix   = $phpcsFile->addFixableError($error, $closeBracket, 'CloseBracketLine');
                 if ($fix === true) {
                     $phpcsFile->fixer->addNewlineBefore($closeBracket);
                 }
@@ -157,7 +155,7 @@ class CodingStandard_Sniffs_Functions_FunctionDeclarationSniff extends PEAR_Snif
                 if ($tokens[$closeBracket]['line'] !== $tokens[$tokens[$closeBracket]['parenthesis_opener']]['line']) {
                     if ($tokens[$prev]['line'] === $tokens[$closeBracket]['line']) {
                         $error = 'The closing parenthesis of a multi-line use declaration must be on a new line';
-                        $fix   = $phpcsFile->fixerWrapper->addFixableError($error, $closeBracket, 'UseCloseBracketLine');
+                        $fix   = $phpcsFile->addFixableError($error, $closeBracket, 'UseCloseBracketLine');
                         if ($fix === true) {
                             $phpcsFile->fixer->addNewlineBefore($closeBracket);
                         }
@@ -187,7 +185,7 @@ class CodingStandard_Sniffs_Functions_FunctionDeclarationSniff extends PEAR_Snif
                 if ($tokens[$i]['code'] !== T_WHITESPACE) {
                     $foundIndent = 0;
                 } else {
-                    $foundIndent = strlen($tokens[$i]['content']);
+                    $foundIndent = $tokens[$i]['length'];
                 }
 
                 if ($expectedIndent !== $foundIndent) {
@@ -197,7 +195,7 @@ class CodingStandard_Sniffs_Functions_FunctionDeclarationSniff extends PEAR_Snif
                               $foundIndent,
                              );
 
-                    $fix = $phpcsFile->fixerWrapper->addFixableError($error, $i, 'Indent', $data);
+                    $fix = $phpcsFile->addFixableError($error, $i, 'Indent', $data);
                     if ($fix === true) {
                         if ($this->tabIndent === true) {
                             $numTabs   = floor($expectedIndent / $this->_tabWidth);

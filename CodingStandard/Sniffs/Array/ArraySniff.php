@@ -32,7 +32,7 @@ class CodingStandard_Sniffs_Array_ArraySniff implements PHP_CodeSniffer_Sniff
     /**
      * Returns an array of tokens this test wants to listen for.
      *
-     * @return array
+     * @return integer[]
      */
     public function register()
     {
@@ -52,17 +52,13 @@ class CodingStandard_Sniffs_Array_ArraySniff implements PHP_CodeSniffer_Sniff
      */
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
-        if (isset($phpcsFile->fixerWrapper) === false) {
-            $phpcsFile->fixerWrapper = CodingStandard_Sniffs_FixerWrapper_WrapperFactory::createWrapper($phpcsFile);
-        }
-
         $tokens     = $phpcsFile->getTokens();
         $arrayStart = $tokens[$stackPtr]['parenthesis_opener'];
         $arrayEnd   = $tokens[$arrayStart]['parenthesis_closer'];
 
         if ($arrayStart !== ($stackPtr + 1)) {
             $error = 'There must be no space between the Array keyword and the opening parenthesis';
-            $fix   = $phpcsFile->fixerWrapper->addFixableError($error, $stackPtr, 'SpaceAfterKeyword');
+            $fix   = $phpcsFile->addFixableError($error, $stackPtr, 'SpaceAfterKeyword');
             if ($fix === true) {
                 $phpcsFile->fixer->beginChangeset();
 
@@ -80,7 +76,7 @@ class CodingStandard_Sniffs_Array_ArraySniff implements PHP_CodeSniffer_Sniff
             // Empty array, but if the brackets aren't together, there's a problem.
             if (($arrayEnd - $arrayStart) !== 1) {
                 $error = 'Empty array declaration must have no space between the parentheses';
-                $fix   = $phpcsFile->fixerWrapper->addFixableError($error, $stackPtr, 'SpaceInEmptyArray');
+                $fix   = $phpcsFile->addFixableError($error, $stackPtr, 'SpaceInEmptyArray');
                 if ($fix === true) {
                     $phpcsFile->fixer->beginChangeset();
 
@@ -110,7 +106,7 @@ class CodingStandard_Sniffs_Array_ArraySniff implements PHP_CodeSniffer_Sniff
         // Check if the last item in a multiline array has a "closing" comma.
         if ($tokens[$lastItem]['code'] !== T_COMMA && $isInlineArray === false) {
             $error = 'A comma should follow the last multiline array item. Found: '.$tokens[$lastItem]['content'];
-            $fix   = $phpcsFile->fixerWrapper->addFixableWarning($error, $lastItem, 'NoLastComma');
+            $fix   = $phpcsFile->addFixableWarning($error, $lastItem, 'NoLastComma');
             if ($fix === true) {
                 $phpcsFile->fixer->beginChangeset();
                 $phpcsFile->fixer->addContent($lastItem, ',');
@@ -123,7 +119,7 @@ class CodingStandard_Sniffs_Array_ArraySniff implements PHP_CodeSniffer_Sniff
         if ($isInlineArray === true) {
             if ($tokens[$lastItem]['code'] === T_COMMA) {
                 $error = 'Comma not allowed after last value in single-line array declaration';
-                $fix   = $phpcsFile->fixerWrapper->addFixableWarning($error, $lastItem, 'LastComma');
+                $fix   = $phpcsFile->addFixableWarning($error, $lastItem, 'LastComma');
                 if ($fix === true) {
                     $phpcsFile->fixer->beginChangeset();
                     $phpcsFile->fixer->replaceToken($lastItem, '');
@@ -136,7 +132,7 @@ class CodingStandard_Sniffs_Array_ArraySniff implements PHP_CodeSniffer_Sniff
             // Inline array must not have spaces within parenthesis.
             if ($content !== ($arrayStart + 1)) {
                 $error = 'Space found after opening parenthesis of Array';
-                $fix   = $phpcsFile->fixerWrapper->addFixableError($error, $stackPtr, 'SpaceAfterOpen');
+                $fix   = $phpcsFile->addFixableError($error, $stackPtr, 'SpaceAfterOpen');
                 if ($fix === true) {
                     $phpcsFile->fixer->beginChangeset();
 
@@ -150,7 +146,7 @@ class CodingStandard_Sniffs_Array_ArraySniff implements PHP_CodeSniffer_Sniff
 
             if ($lastItem !== ($arrayEnd - 1)) {
                 $error = 'Space found before closing parenthesis of Array';
-                $fix   = $phpcsFile->fixerWrapper->addFixableError($error, $stackPtr, 'SpaceAfterClose');
+                $fix   = $phpcsFile->addFixableError($error, $stackPtr, 'SpaceAfterClose');
                 if ($fix === true) {
                     $phpcsFile->fixer->beginChangeset();
 

@@ -32,7 +32,7 @@ class CodingStandard_Sniffs_Strings_ConcatenationSpacingSniff implements PHP_Cod
     /**
      * Returns an array of tokens this test wants to listen for.
      *
-     * @return array
+     * @return integer[]
      */
     public function register()
     {
@@ -52,10 +52,6 @@ class CodingStandard_Sniffs_Strings_ConcatenationSpacingSniff implements PHP_Cod
      */
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
-        if (isset($phpcsFile->fixerWrapper) === false) {
-            $phpcsFile->fixerWrapper = CodingStandard_Sniffs_FixerWrapper_WrapperFactory::createWrapper($phpcsFile);
-        }
-
         $tokens = $phpcsFile->getTokens();
 
         $found       = '';
@@ -99,7 +95,7 @@ class CodingStandard_Sniffs_Strings_ConcatenationSpacingSniff implements PHP_Cod
             $expected = str_replace("\r", '\n', $expected);
 
             $message = "Concat operator must be surrounded by spaces. Found \"$found\"; expected \"$expected\"";
-            $fix     = $phpcsFile->fixerWrapper->addFixableError($message, $stackPtr);
+            $fix     = $phpcsFile->addFixableError($message, $stackPtr);
 
             if ($fix === true) {
                 $phpcsFile->fixer->beginChangeset();

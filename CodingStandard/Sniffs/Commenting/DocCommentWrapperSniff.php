@@ -11,6 +11,13 @@
  * @link     https://github.com/aik099/CodingStandard
  */
 
+// @codeCoverageIgnoreStart
+if (class_exists('Generic_Sniffs_Commenting_DocCommentSniff', true) === false) {
+    $error = 'Class Generic_Sniffs_Commenting_DocCommentSniff not found';
+    throw new PHP_CodeSniffer_Exception($error);
+}
+// @codeCoverageIgnoreEnd
+
 /**
  * Ensures doc blocks follow basic formatting.
  *
@@ -21,54 +28,8 @@
  * @link     https://github.com/aik099/CodingStandard
  */
 
-class CodingStandard_Sniffs_Commenting_DocCommentWrapperSniff implements PHP_CodeSniffer_Sniff
+class CodingStandard_Sniffs_Commenting_DocCommentWrapperSniff extends Generic_Sniffs_Commenting_DocCommentSniff
 {
-
-    /**
-     * A list of tokenizers this sniff supports.
-     *
-     * @var array
-     */
-    public $supportedTokenizers = array(
-                                   'PHP',
-                                   'JS',
-                                  );
-
-    /**
-     * Instance of DocCommentSniff
-     *
-     * @var Generic_Sniffs_Commenting_DocCommentSniff
-     */
-    private $_docCommentSniff;
-
-
-    /**
-     * Creates sniff.
-     */
-    public function __construct()
-    {
-        if (class_exists('Generic_Sniffs_Commenting_DocCommentSniff') === true) {
-            $this->_docCommentSniff = new Generic_Sniffs_Commenting_DocCommentSniff();
-        }
-
-    }//end __construct()
-
-
-    /**
-     * Returns an array of tokens this test wants to listen for.
-     *
-     * @return array
-     */
-    public function register()
-    {
-        if (isset($this->_docCommentSniff) === true) {
-            return $this->_docCommentSniff->register();
-        }
-
-        return array();
-
-    }//end register()
-
 
     /**
      * Processes this test, when one of its tokens is encountered.
@@ -94,7 +55,7 @@ class CodingStandard_Sniffs_Commenting_DocCommentWrapperSniff implements PHP_Cod
             }
         }
 
-        $this->_docCommentSniff->process($phpcsFile, $stackPtr);
+        parent::process($phpcsFile, $stackPtr);
 
     }//end process()
 

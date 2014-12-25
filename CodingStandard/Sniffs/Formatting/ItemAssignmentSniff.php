@@ -32,7 +32,7 @@ class CodingStandard_Sniffs_Formatting_ItemAssignmentSniff implements PHP_CodeSn
     /**
      * Returns an array of tokens this test wants to listen for.
      *
-     * @return array
+     * @return integer[]
      */
     public function register()
     {
@@ -52,10 +52,6 @@ class CodingStandard_Sniffs_Formatting_ItemAssignmentSniff implements PHP_CodeSn
      */
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
-        if (isset($phpcsFile->fixerWrapper) === false) {
-            $phpcsFile->fixerWrapper = CodingStandard_Sniffs_FixerWrapper_WrapperFactory::createWrapper($phpcsFile);
-        }
-
         $this->checkSpacing($phpcsFile, $stackPtr, true);
         $this->checkSpacing($phpcsFile, $stackPtr, false);
 
@@ -89,7 +85,7 @@ class CodingStandard_Sniffs_Formatting_ItemAssignmentSniff implements PHP_CodeSn
 
         if ($tokenData['code'] !== T_WHITESPACE) {
             $error = 'Whitespace must '.$errorWord.' the item assignment operator =>';
-            $fix   = $phpcsFile->fixerWrapper->addFixableError($error, $stackPtr, 'NoSpacing'.$errorCode);
+            $fix   = $phpcsFile->addFixableError($error, $stackPtr, 'NoSpacing'.$errorCode);
             if ($fix === true) {
                 $phpcsFile->fixer->beginChangeset();
 
@@ -105,15 +101,14 @@ class CodingStandard_Sniffs_Formatting_ItemAssignmentSniff implements PHP_CodeSn
             return;
         }
 
-        $content = $tokenData['content'];
-        if ($this->hasOnlySpaces($content) === false) {
+        if ($this->hasOnlySpaces($tokenData['content']) === false) {
             $error = 'Spaces must be used to '.$errorWord.' the item assignment operator =>';
-            $fix   = $phpcsFile->fixerWrapper->addFixableError($error, $stackPtr, 'MixedWhitespace'.$errorCode);
+            $fix   = $phpcsFile->addFixableError($error, $stackPtr, 'MixedWhitespace'.$errorCode);
             if ($fix === true) {
                 $phpcsFile->fixer->beginChangeset();
                 $phpcsFile->fixer->replaceToken(
                     ($stackPtr + $stackPtrDiff),
-                    str_repeat(' ', strlen($content))
+                    str_repeat(' ', $tokenData['length'])
                 );
                 $phpcsFile->fixer->endChangeset();
             }

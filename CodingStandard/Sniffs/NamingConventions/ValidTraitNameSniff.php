@@ -37,7 +37,7 @@ class CodingStandard_Sniffs_NamingConventions_ValidTraitNameSniff implements PHP
     /**
      * Returns an array of tokens this test wants to listen for.
      *
-     * @return array
+     * @return integer[]
      */
     public function register()
     {

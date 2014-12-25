@@ -13,9 +13,12 @@
  * @link     https://github.com/aik099/CodingStandard
  */
 
+// @codeCoverageIgnoreStart
 if (class_exists('PHP_CodeSniffer_Standards_AbstractVariableSniff', true) === false) {
-    throw new PHP_CodeSniffer_Exception('Class PHP_CodeSniffer_Standards_AbstractVariableSniff not found');
+    $error = 'Class PHP_CodeSniffer_Standards_AbstractVariableSniff not found';
+    throw new PHP_CodeSniffer_Exception($error);
 }
+// @codeCoverageIgnoreEnd
 
 /**
  * CodingStandard_Sniffs_NamingConventions_ValidVariableNameSniff.
@@ -169,6 +172,8 @@ class CodingStandard_Sniffs_NamingConventions_ValidVariableNameSniff extends
 
         $varName     = ltrim($tokens[$stackPtr]['content'], '$');
         $memberProps = $phpcsFile->getMemberProperties($stackPtr);
+
+        // @codeCoverageIgnoreStart
         if (empty($memberProps) === true) {
             // Couldn't get any info about this variable, which
             // generally means it is invalid or possibly has a parse
@@ -176,6 +181,7 @@ class CodingStandard_Sniffs_NamingConventions_ValidVariableNameSniff extends
             // we can ignore it.
             return;
         }
+        // @codeCoverageIgnoreEnd
 
         $public    = ($memberProps['scope'] !== 'private');
         $errorData = array($varName);

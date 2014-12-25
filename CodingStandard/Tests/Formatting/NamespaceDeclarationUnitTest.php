@@ -36,6 +36,10 @@ class CodingStandard_Tests_Formatting_NamespaceDeclarationUnitTest extends Abstr
      */
     public function getErrorList($testFile)
     {
+        if ($testFile !== 'NamespaceDeclarationUnitTest.1.inc') {
+            return array();
+        }
+
         return array(
                 2  => 1,
                 9  => 1,
