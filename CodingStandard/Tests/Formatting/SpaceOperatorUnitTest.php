@@ -57,7 +57,8 @@ class CodingStandard_Tests_Formatting_SpaceOperatorUnitTest extends AbstractSnif
                 10 => 1,
                 // The "=>" operator.
                 11 => 1,
-                // The "!=" operator.
+                // The "=" on a new line.
+                23 => 1,
                );
 
     }//end getErrorList()

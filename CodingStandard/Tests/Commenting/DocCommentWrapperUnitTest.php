@@ -38,11 +38,7 @@ class CodingStandard_Tests_Commenting_DocCommentWrapperUnitTest extends Abstract
      */
     public function getErrorList($testFile)
     {
-        if (class_exists('Generic_Sniffs_Commenting_DocCommentSniff') === false) {
-            return array();
-        }
-
-        return array(
+        $ret = array(
                 16  => 1,
                 18  => 1,
                 23  => 1,
@@ -66,6 +62,12 @@ class CodingStandard_Tests_Commenting_DocCommentWrapperUnitTest extends Abstract
                 156 => 1,
                 158 => 1,
                );
+
+        if ($testFile === 'DocCommentWrapperUnitTest.inc') {
+            $ret[176] = 3;
+        }
+
+        return $ret;
 
     }//end getErrorList()
 
