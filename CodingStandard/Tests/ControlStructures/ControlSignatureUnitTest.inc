@@ -113,4 +113,38 @@ do{
 do
 {
 } while ($condition);
+//'try {EOL',
+try {
+}
+catch (Exception $e) {
+}
+try{
+}
+catch (Exception $e) {
+}
+try
+{
+}
+catch (Exception $e) {
+}
+//'}EOLcatch (...) {EOL'
+try {
+}
+catch (Exception $e) {
+}
+try {
+}catch (Exception $e) {
+}
+try {
+} catch (Exception $e) {
+}
+try {
+}
+catch(Exception $e) {
+}
+try {
+}
+catch
+(Exception $e) {
+}
 ?>

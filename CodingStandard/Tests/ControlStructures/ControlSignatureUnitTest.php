@@ -79,6 +79,14 @@ class CodingStandard_Tests_ControlStructures_ControlSignatureUnitTest extends Ab
                 // The "do" construct.
                 111 => 1,
                 113 => 1,
+                // The "try" construct.
+                121 => 1,
+                125 => 1,
+                // The "catch" construct.
+                136 => 1,
+                139 => 1,
+                143 => 1,
+                147 => 1,
                );
 
     }//end getErrorList()

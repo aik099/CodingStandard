@@ -73,6 +73,8 @@ class CodingStandard_Sniffs_ControlStructures_ControlSignatureSniff extends
                 '}EOLelseif (...) {EOL',
                 '}EOLelse {EOL',
                 'do {EOL',
+                'try {EOL',
+                '}EOLcatch (...) {EOL'
                );
 
     }//end getPatterns()
