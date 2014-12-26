@@ -1,6 +1,6 @@
 <?php
 /**
- * Unit test class for DocCommentWrapperSniff.
+ * Unit test class for DocCommentSniff.
  *
  * PHP version 5
  *
@@ -13,7 +13,7 @@
  */
 
 /**
- * Unit test class for DocCommentWrapperSniff.
+ * Unit test class for DocCommentSniff.
  *
  * @category PHP
  * @package  PHP_CodeSniffer
@@ -22,7 +22,7 @@
  * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
  * @link     https://github.com/aik099/CodingStandard
  */
-class CodingStandard_Tests_Commenting_DocCommentWrapperUnitTest extends AbstractSniffUnitTest
+class CodingStandard_Tests_Commenting_DocCommentUnitTest extends AbstractSniffUnitTest
 {
 
 
@@ -63,7 +63,7 @@ class CodingStandard_Tests_Commenting_DocCommentWrapperUnitTest extends Abstract
                 158 => 1,
                );
 
-        if ($testFile === 'DocCommentWrapperUnitTest.inc') {
+        if ($testFile === 'DocCommentUnitTest.inc') {
             $ret[176] = 3;
         }
 

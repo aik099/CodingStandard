@@ -117,7 +117,7 @@
 		<exclude-pattern>*Test.php</exclude-pattern>
 		<exclude-pattern>*TestCase.php</exclude-pattern>
 	</rule>
-	<rule ref="CodingStandard.Commenting.DocCommentWrapper">
+	<rule ref="CodingStandard.Commenting.DocComment">
 		<exclude-pattern>*Test.php</exclude-pattern>
 		<exclude-pattern>*TestCase.php</exclude-pattern>
 	</rule>
@@ -150,7 +150,7 @@
 	<rule ref="CodingStandard.Commenting.FunctionComment.ShortNotCapital">
 		<severity>0</severity>
 	</rule>
-	<rule ref="CodingStandard.Commenting.DocCommentWrapper.ShortNotCapital">
+	<rule ref="CodingStandard.Commenting.DocComment.ShortNotCapital">
 		<severity>0</severity>
 	</rule>
 	<rule ref="CodingStandard.Classes.ClassNamespace.MissingNamespace">

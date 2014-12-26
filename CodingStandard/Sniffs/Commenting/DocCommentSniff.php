@@ -28,7 +28,7 @@ if (class_exists('Generic_Sniffs_Commenting_DocCommentSniff', true) === false) {
  * @link     https://github.com/aik099/CodingStandard
  */
 
-class CodingStandard_Sniffs_Commenting_DocCommentWrapperSniff extends Generic_Sniffs_Commenting_DocCommentSniff
+class CodingStandard_Sniffs_Commenting_DocCommentSniff extends Generic_Sniffs_Commenting_DocCommentSniff
 {
 
     /**
