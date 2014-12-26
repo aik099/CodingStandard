@@ -307,9 +307,14 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
             }
 
             if ($tokens[$leadingContent]['line'] !== ($leadingLineNumber - 1)) {
+                $diff = ($leadingLineNumber - 1) - $tokens[$leadingContent]['line'];
+                if ($diff < 0) {
+                    $diff = 0;
+                }
+
                 $data  = array(
                           $tokens[$stackPtr]['content'],
-                          (($leadingLineNumber - 1) - $tokens[$leadingContent]['line']),
+                          $diff,
                          );
                 $error = 'Expected 0 blank lines before "%s" control structure; %s found';
                 $fix   = $phpcsFile->addFixableError($error, $stackPtr, 'LineBeforeOpen', $data);
@@ -428,11 +433,16 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
             }
 
             if ($tokens[$trailingContent]['line'] !== ($trailingLineNumber + 1)) {
-                $error = 'Expected 0 blank lines after "%s" control structure; %s found';
+                $diff = $tokens[$trailingContent]['line'] - ($trailingLineNumber + 1);
+                if ($diff < 0) {
+                    $diff = 0;
+                }
+
                 $data  = array(
                           $tokens[$stackPtr]['content'],
-                          ($tokens[$trailingContent]['line'] - ($trailingLineNumber + 1)),
+                          $diff,
                          );
+                $error = 'Expected 0 blank lines after "%s" control structure; %s found';
                 $fix   = $phpcsFile->addFixableError($error, $scopeCloser, 'LineAfterClose', $data);
 
                 if ($fix === true) {
