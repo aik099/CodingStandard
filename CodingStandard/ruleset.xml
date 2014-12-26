@@ -52,7 +52,6 @@
 
 	<rule ref="Generic.Functions.CallTimePassByReference"/>
 	<rule ref="Generic.Functions.FunctionCallArgumentSpacing"/>
-	<rule ref="Generic.Functions.OpeningFunctionBraceBsdAllman"/>
 
 	<!--PMD does this: <rule ref="Generic.Metrics.CyclomaticComplexity"/>-->
 
@@ -103,7 +102,11 @@
 	<rule ref="Squiz.Classes.LowercaseClassKeywords"/>
 	<rule ref="Squiz.Classes.SelfMemberReference"/>
 
-	<rule ref="CodingStandard.Functions.FunctionDeclaration" phpcs-only="true"/>
+	<rule ref="CodingStandard.Functions.FunctionDeclaration" phpcs-only="true">
+		<properties>
+			<property name="indent" value="1"/>
+		</properties>
+	</rule>
 
 	<rule ref="CodingStandard.Commenting.FunctionComment">
 		<exclude-pattern>*Test.php</exclude-pattern>

@@ -52,13 +52,6 @@ class CodingStandard_Sniffs_Functions_FunctionDeclarationSniff extends PEAR_Snif
      */
     private $_tabWidth = null;
 
-    /**
-     * The number of spaces code should be indented.
-     *
-     * @var int
-     */
-    public $indent = 1;
-
 
     /**
      * Processes this test, when one of its tokens is encountered.
