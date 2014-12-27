@@ -307,17 +307,16 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
             }
 
             if ($tokens[$leadingContent]['line'] !== ($leadingLineNumber - 1)) {
+                $data = array($tokens[$stackPtr]['content']);
                 $diff = ($leadingLineNumber - 1) - $tokens[$leadingContent]['line'];
                 if ($diff < 0) {
-                    $diff = 0;
+                    $error = 'Beginning of the "%s" control structure must be first content on the line';
+                    $fix   = $phpcsFile->addFixableError($error, $stackPtr, 'ContentBeforeOpen', $data);
+                } else {
+                    $data[] = $diff;
+                    $error  = 'Expected 0 blank lines before "%s" control structure; %s found';
+                    $fix    = $phpcsFile->addFixableError($error, $stackPtr, 'LineBeforeOpen', $data);
                 }
-
-                $data  = array(
-                          $tokens[$stackPtr]['content'],
-                          $diff,
-                         );
-                $error = 'Expected 0 blank lines before "%s" control structure; %s found';
-                $fix   = $phpcsFile->addFixableError($error, $stackPtr, 'LineBeforeOpen', $data);
 
                 if ($fix === true) {
                     $phpcsFile->fixer->beginChangeset();
@@ -420,7 +419,6 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
 
         if ($tokens[$trailingContent]['code'] === T_CLOSE_CURLY_BRACKET
             || $this->insideSwitchCase($phpcsFile, $trailingContent) === true
-            || ($this->isTry($phpcsFile, $stackPtr) === true && $this->isCatch($phpcsFile, $trailingContent) === true)
         ) {
             if ($this->isFunction($phpcsFile, $trailingContent) === true) {
                 // The next content is the closing brace of a function
@@ -433,14 +431,9 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
             }
 
             if ($tokens[$trailingContent]['line'] !== ($trailingLineNumber + 1)) {
-                $diff = $tokens[$trailingContent]['line'] - ($trailingLineNumber + 1);
-                if ($diff < 0) {
-                    $diff = 0;
-                }
-
                 $data  = array(
                           $tokens[$stackPtr]['content'],
-                          $diff,
+                          ($tokens[$trailingContent]['line'] - ($trailingLineNumber + 1)),
                          );
                 $error = 'Expected 0 blank lines after "%s" control structure; %s found';
                 $fix   = $phpcsFile->addFixableError($error, $scopeCloser, 'LineAfterClose', $data);
@@ -463,7 +456,9 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
             }//end if
         } else if ($tokens[$trailingContent]['line'] === ($trailingLineNumber + 1)) {
             // Code on the next line after control structure scope closer.
-            if ($this->elseOrElseIf($phpcsFile, $trailingContent) === true) {
+            if ($this->elseOrElseIf($phpcsFile, $trailingContent) === true
+                || $this->isCatch($phpcsFile, $trailingContent) === true
+            ) {
                 return;
             }
 
@@ -689,9 +684,8 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
     protected function isClosure(PHP_CodeSniffer_File $phpcsFile, $stackPtr, $scopeConditionPtr)
     {
         $tokens = $phpcsFile->getTokens();
-        $owner  = $tokens[$scopeConditionPtr]['scope_condition'];
 
-        if ($tokens[$owner]['code'] === T_CLOSURE
+        if ($this->isScopeCondition($phpcsFile, $scopeConditionPtr, T_CLOSURE) === true
             && ($phpcsFile->hasCondition($stackPtr, T_FUNCTION) === true
             || $phpcsFile->hasCondition($stackPtr, T_CLOSURE) === true
             || isset($tokens[$stackPtr]['nested_parenthesis']) === true)

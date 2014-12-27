@@ -1196,4 +1196,22 @@ $a = 5;
 if ( $a ) {
     $a = 'b';
 }
+
+if ( $a ) {
+    $a = 'b';
+}
+ elseif ( $b ) {
+    $b = 'c';
+}
+ else {
+    $d = 'e';
+}
+
+try {
+    $a = 'b';
+}
+ catch ( Exception $e ) {
+    $c = 'd';
+}
+
 ?>

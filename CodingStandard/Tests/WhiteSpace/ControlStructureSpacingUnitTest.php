@@ -243,6 +243,13 @@ class CodingStandard_Tests_WhiteSpace_ControlStructureSpacingUnitTest extends Ab
                 // TRY/CATCH (no blank line before/after inline comment).
                 1125 => 1,
                 1130 => 1,
+
+                // ELSE/ELSEIF not on own line
+                1265 => 1,
+                1267 => 1,
+
+                // CATCH not on own line
+                1273 => 1,
                );
 
     }//end getErrorList()
