@@ -1274,4 +1274,44 @@ try {
     $c = 'd';
 }
 
+if ( $a ) { // comment
+    $a = 'b';
+}
+elseif ( $b ) { // comment
+    $a = 'b';
+}
+elseif ( $b ) { // comment
+    $a = 'b';
+}
+else { // comment
+    $a = 'b';
+}
+
+while ( $a ) { // comment
+    $a = 'b';
+}
+
+do { // comment
+    $a = 'b';
+} while ( $a );
+
+foreach ( $a as $b => $c ) { // comment
+    $e = 'b';
+}
+
+for ( $i = 0; $i < count($array); $i++ ) { // comment
+    $e = 'b';
+}
+
+switch ( $a ) { // comment
+    default:
+}
+
+try { // comment
+    $a = 'b';
+}
+catch ( Exception $e ) { // comment
+    $c = 'd';
+}
+
 ?>

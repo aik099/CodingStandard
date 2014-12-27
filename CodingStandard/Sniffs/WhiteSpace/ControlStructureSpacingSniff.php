@@ -202,12 +202,16 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
         );
 
         if ($tokens[$firstContent]['line'] !== ($tokens[$scopeOpener]['line'] + 1)) {
-            $error = 'Expected 0 blank lines at start of "%s" control structure; %s found';
-            $data  = array(
-                      $tokens[$stackPtr]['content'],
-                      ($tokens[$firstContent]['line'] - ($tokens[$scopeOpener]['line'] + 1)),
-                     );
-            $fix   = $phpcsFile->addFixableError($error, $scopeOpener, 'SpacingBeforeOpen', $data);
+            $data  = array($tokens[$stackPtr]['content']);
+            $diff  = $tokens[$firstContent]['line'] - ($tokens[$scopeOpener]['line'] + 1);
+            if ($diff < 0) {
+                $error  = 'Opening brace of the "%s" control structure must be last content on the line';
+                $fix    = $phpcsFile->addFixableError($error, $scopeOpener, 'ContentAfterOpen', $data);
+            } else {
+                $data[] = $diff;
+                $error  = 'Expected 0 blank lines at start of "%s" control structure; %s found';
+                $fix    = $phpcsFile->addFixableError($error, $scopeOpener, 'SpacingBeforeOpen', $data);
+            }
 
             if ($fix === true) {
                 $phpcsFile->fixer->beginChangeset();

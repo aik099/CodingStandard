@@ -250,6 +250,19 @@ class CodingStandard_Tests_WhiteSpace_ControlStructureSpacingUnitTest extends Ab
 
                 // CATCH not on own line
                 1273 => 1,
+
+                // content after opening brace
+                1277 => 1,
+                1280 => 1,
+                1283 => 1,
+                1286 => 1,
+                1290 => 1,
+                1294 => 1,
+                1298 => 1,
+                1302 => 1,
+                1306 => 1,
+                1310 => 1,
+                1313 => 1,
                );
 
     }//end getErrorList()
