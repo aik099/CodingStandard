@@ -38,191 +38,218 @@ class CodingStandard_Tests_WhiteSpace_ControlStructureSpacingUnitTest extends Ab
     {
         return array(
                 // IF (condition spacing, blank line at the scope edges).
-                70   => 3,
-                74   => 1,
-                75   => 3,
-                79   => 1,
-                80   => 3,
-                84   => 1,
-                85   => 1,
-                89   => 1,
-                91   => 3,
-                95   => 1,
-                96   => 3,
-                100  => 1,
-                101  => 3,
-                105  => 1,
-                107  => 3,
-                111  => 1,
-                112  => 3,
-                116  => 1,
-                117  => 1,
-                121  => 1,
-                123  => 3,
-                127  => 1,
+                77   => 3,
+                81   => 1,
+                82   => 3,
+                86   => 1,
+                87   => 3,
+                91   => 1,
+                92   => 1,
+                96   => 1,
+                98   => 3,
+                102  => 1,
+                103  => 3,
+                107  => 1,
+                108  => 3,
+                112  => 1,
+                114  => 3,
+                118  => 1,
+                119  => 3,
+                123  => 1,
+                124  => 1,
                 128  => 1,
-                132  => 1,
-                134  => 3,
-                138  => 1,
+                130  => 3,
+                134  => 1,
+                135  => 1,
+                139  => 1,
+                141  => 3,
+                145  => 1,
                 // WHILE (condition spacing, blank line at the scope edges).
-                140  => 3,
-                144  => 1,
+                147  => 3,
+                151  => 1,
                 // DO (condition spacing, blank line at the scope edges).
-                146  => 1,
-                150  => 3,
+                153  => 1,
+                157  => 3,
                 // FOREACH (condition spacing, blank line at the scope edges).
-                152  => 3,
-                156  => 1,
-                158  => 3,
-                162  => 1,
+                159  => 3,
+                163  => 1,
+                165  => 3,
+                169  => 1,
                 // FOR (condition spacing, blank line at the scope edges).
-                164  => 3,
-                168  => 1,
+                171  => 3,
+                175  => 1,
                 // SWITCH (condition spacing, blank line at the scope edges).
-                170  => 3,
-                174  => 1,
+                177  => 3,
+                181  => 1,
+                // TRY/CATCH (condition spacing, blank line at the scope edges).
+                183  => 1,
+                187  => 1,
+                188  => 3,
+                192  => 1,
 
                 // IF (empty control structure).
-                176  => 1,
-                179  => 1,
-                182  => 1,
-                185  => 1,
-                189  => 1,
-                192  => 1,
-                195  => 1,
-                199  => 1,
-                202  => 1,
-                205  => 1,
-                209  => 1,
-                212  => 1,
-                216  => 1,
-                // WHILE (empty control structure).
+                194  => 1,
+                197  => 1,
+                200  => 1,
+                203  => 1,
+                207  => 1,
+                210  => 1,
+                213  => 1,
+                217  => 1,
                 220  => 1,
+                223  => 1,
+                227  => 1,
+                230  => 1,
+                234  => 1,
+                // WHILE (empty control structure).
+                238  => 1,
                 // DO (empty control structure).
-                224  => 1,
+                242  => 1,
                 // FOREACH (empty control structure).
-                228  => 1,
-                232  => 1,
+                246  => 1,
+                250  => 1,
                 // FOR (empty control structure).
-                236  => 1,
+                254  => 1,
                 // SWITCH (empty control structure).
-                240  => 1,
+                258  => 1,
+                // TRY/CATCH (empty control structure).
+                262  => 1,
+                265  => 1,
 
                 // IF (empty line before/after within "case").
-                431  => 1,
-                442  => 1,
-                448  => 1,
-                456  => 1,
-                462  => 1,
-                470  => 1,
-                476  => 1,
-                481  => 1,
-                487  => 1,
-                489  => 1,
-                // WHILE (empty line before/after within "case").
-                495  => 1,
-                497  => 1,
-                // DO (empty line before/after within "case").
-                503  => 1,
+                474  => 1,
+                485  => 1,
+                491  => 1,
+                499  => 1,
                 505  => 1,
-                // FOREACH (empty line before/after within "case").
-                511  => 1,
                 513  => 1,
                 519  => 1,
-                521  => 1,
-                // FOR (empty line before/after within "case").
-                527  => 1,
-                529  => 1,
-                // SWITCH (empty line before/after within "case").
-                535  => 1,
-                537  => 1,
-
-                // IF (empty line before/after within "default").
-                545  => 1,
+                524  => 1,
+                530  => 1,
+                532  => 1,
+                // WHILE (empty line before/after within "case").
+                538  => 1,
+                540  => 1,
+                // DO (empty line before/after within "case").
+                546  => 1,
+                548  => 1,
+                // FOREACH (empty line before/after within "case").
+                554  => 1,
                 556  => 1,
                 562  => 1,
+                564  => 1,
+                // FOR (empty line before/after within "case").
                 570  => 1,
-                576  => 1,
-                584  => 1,
-                590  => 1,
-                595  => 1,
-                601  => 1,
-                603  => 1,
-                // WHILE (empty line before/after within "default").
-                609  => 1,
-                611  => 1,
-                // DO (empty line before/after within "default").
-                617  => 1,
-                619  => 1,
-                // FOREACH (empty line before/after within "default").
-                625  => 1,
-                627  => 1,
-                633  => 1,
-                635  => 1,
-                // FOR (empty line before/after within "default").
-                641  => 1,
-                643  => 1,
-                // SWITCH (empty line before/after within "default").
-                649  => 1,
-                651  => 1,
+                572  => 1,
+                // SWITCH (empty line before/after within "case").
+                578  => 1,
+                580  => 1,
+                // TRY/CATCH (empty line before/after within "case").
+                586  => 1,
+                591  => 1,
 
-                // IF (no blank line before/after).
+                // IF (empty line before/after within "default").
+                599  => 1,
+                610  => 1,
+                616  => 1,
+                624  => 1,
+                630  => 1,
+                638  => 1,
+                644  => 1,
+                649  => 1,
+                655  => 1,
                 657  => 1,
-                668  => 1,
-                670  => 1,
-                678  => 1,
-                680  => 1,
-                688  => 1,
-                690  => 1,
+                // WHILE (empty line before/after within "default").
+                663  => 1,
+                665  => 1,
+                // DO (empty line before/after within "default").
+                671  => 1,
+                673  => 1,
+                // FOREACH (empty line before/after within "default").
+                679  => 1,
+                681  => 1,
+                687  => 1,
+                689  => 1,
+                // FOR (empty line before/after within "default").
                 695  => 1,
                 697  => 1,
-                699  => 1,
-                // WHILE (no blank line before/after).
-                701  => 1,
+                // SWITCH (empty line before/after within "default").
                 703  => 1,
-                // DO (no blank line before/after).
                 705  => 1,
-                707  => 1,
-                // FOREACH (no blank line before/after).
-                709  => 1,
+                // TRY/CATCH (empty line before/after within "default").
                 711  => 1,
-                713  => 1,
-                715  => 1,
+                716  => 1,
+
+                // IF (no blank line before/after).
+                722  => 1,
+                733  => 1,
+                735  => 1,
+                743  => 1,
+                745  => 1,
+                753  => 1,
+                755  => 1,
+                760  => 1,
+                762  => 1,
+                764  => 1,
+                // WHILE (no blank line before/after).
+                766  => 1,
+                768  => 1,
+                // DO (no blank line before/after).
+                770  => 1,
+                772  => 1,
+                // FOREACH (no blank line before/after).
+                774  => 1,
+                776  => 1,
+                778  => 1,
+                780  => 1,
                 // FOR (no blank line before/after).
-                717  => 1,
-                719  => 1,
+                782  => 1,
+                784  => 1,
                 // SWITCH (no blank line before/after).
-                721  => 1,
-                723  => 1,
+                786  => 1,
+                788  => 1,
+                // TRY/CATCH (no blank line before/after).
+                790  => 1,
+                795  => 1,
 
                 // IF (no blank line before/after inline comment).
-                942  => 1,
-                953  => 1,
-                957  => 1,
-                965  => 1,
-                969  => 1,
-                977  => 1,
-                981  => 1,
-                986  => 1,
-                990  => 1,
-                992  => 1,
+                1035  => 1,
+                1046  => 1,
+                1050  => 1,
+                1058  => 1,
+                1062  => 1,
+                1070  => 1,
+                1074  => 1,
+                1079  => 1,
+                1083  => 1,
+                1085  => 1,
                 // WHILE (no blank line before/after inline comment).
-                996  => 1,
-                998  => 1,
+                1089  => 1,
+                1091  => 1,
                 // DO (no blank line before/after inline comment).
-                1002 => 1,
-                1004 => 1,
+                1095 => 1,
+                1097 => 1,
                 // FOREACH (no blank line before/after inline comment).
-                1008 => 1,
-                1010 => 1,
-                1014 => 1,
-                1016 => 1,
+                1101 => 1,
+                1103 => 1,
+                1107 => 1,
+                1109 => 1,
                 // FOR (no blank line before/after inline comment).
-                1020 => 1,
-                1022 => 1,
+                1113 => 1,
+                1115 => 1,
                 // SWITCH (no blank line before/after inline comment).
-                1026 => 1,
-                1028 => 1,
+                1119 => 1,
+                1121 => 1,
+                // TRY/CATCH (no blank line before/after inline comment).
+                1125 => 1,
+                1130 => 1,
+
+                // ELSE/ELSEIF not on own line
+                1265 => 1,
+                1267 => 1,
+
+                // CATCH not on own line
+                1273 => 1,
                );
 
     }//end getErrorList()

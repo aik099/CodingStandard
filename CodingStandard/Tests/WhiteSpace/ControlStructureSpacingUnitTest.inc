@@ -67,6 +67,13 @@ switch ( $a ) {
     default:
 }
 
+try {
+    $a = 'b';
+}
+catch ( Exception $e ) {
+    $c = 'd';
+}
+
 if ($a) {
 
     $a = 'b';
@@ -173,6 +180,17 @@ switch ($a) {
 
 }
 
+try {
+
+    $a = 'b';
+
+}
+catch (Exception $e) {
+
+    $c = 'd';
+
+}
+
 if ( $a ) {
 
 }
@@ -238,6 +256,13 @@ for ( $i = 0; $i < count($array); $i++ ) {
 }
 
 switch ( $a ) {
+
+}
+
+try {
+
+}
+catch ( Exception $e ) {
 
 }
 
@@ -331,6 +356,15 @@ switch ( $a ) {
             default:
         }
         break;
+
+    case 'try/catch':
+        try {
+            $a = 'b';
+        }
+        catch ( Exception $e ) {
+            $c = 'd';
+        }
+        break;
 }
 
 switch ( $a ) {
@@ -421,6 +455,15 @@ switch ( $a ) {
     default:
         switch ( $a ) {
             default:
+        }
+        break;
+
+    default:
+        try {
+            $a = 'b';
+        }
+        catch ( Exception $e ) {
+            $c = 'd';
         }
         break;
 }
@@ -537,6 +580,17 @@ switch ( $a ) {
         }
 
         break;
+
+    case 'try/catch':
+
+        try {
+            $a = 'b';
+        }
+        catch ( Exception $e ) {
+            $c = 'd';
+        }
+
+        break;
 }
 
 switch ( $a ) {
@@ -651,6 +705,17 @@ switch ( $a ) {
         }
 
         break;
+
+    default:
+
+        try {
+            $a = 'b';
+        }
+        catch ( Exception $e ) {
+            $c = 'd';
+        }
+
+        break;
 }
 
 $a = 5;
@@ -720,6 +785,13 @@ for ( $i = 0; $i < count($array); $i++ ) {
 $a = 5;
 switch ( $a ) {
     default:
+}
+$a = 5;
+try {
+    $a = 'b';
+}
+catch ( Exception $e ) {
+    $c = 'd';
 }
 $a = 5;
 
@@ -847,6 +919,18 @@ function test()
 
 }
 
+function test()
+{
+
+    try {
+        $a = 'b';
+    }
+    catch ( Exception $e ) {
+        $c = 'd';
+    }
+
+}
+
 // Before comment.
 if ( $a ) {
     $a = 'b';
@@ -937,6 +1021,15 @@ switch ( $a ) {
 }
 // After Comment.
 
+// Before comment.
+try {
+    $a = 'b';
+}
+catch ( Exception $e ) {
+    $c = 'd';
+}
+// After Comment.
+
 $a = 5;
 // Before comment.
 if ( $a ) {
@@ -1028,6 +1121,15 @@ switch ( $a ) {
 }
 // After Comment.
 $a = 5;
+// Before comment.
+try {
+    $a = 'b';
+}
+catch ( Exception $e ) {
+    $c = 'd';
+}
+// After Comment.
+$a = 5;
 
 $a = 5;
 // Before comment.
@@ -1142,8 +1244,34 @@ switch ( $a ) {
 
 // After Comment.
 $a = 5;
+// Before comment.
+
+try {
+    $a = 'b';
+}
+catch ( Exception $e ) {
+    $c = 'd';
+}
+
+// After Comment.
+$a = 5;
 
 if ( $a ) {
     $a = 'b';
 }
+
+if ( $a ) {
+    $a = 'b';
+} elseif ( $b ) {
+    $b = 'c';
+} else {
+    $d = 'e';
+}
+
+try {
+    $a = 'b';
+} catch ( Exception $e ) {
+    $c = 'd';
+}
+
 ?>

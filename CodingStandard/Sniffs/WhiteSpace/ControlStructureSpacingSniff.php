@@ -70,6 +70,8 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
                 T_DO,
                 T_ELSE,
                 T_ELSEIF,
+                T_TRY,
+                T_CATCH,
                );
 
     }//end register()
@@ -292,6 +294,7 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
         if ($tokens[$leadingContent]['code'] === T_OPEN_CURLY_BRACKET
             || $this->insideSwitchCase($phpcsFile, $leadingContent) === true
             || ($this->elseOrElseIf($phpcsFile, $stackPtr) === true && $this->ifOrElseIf($phpcsFile, $leadingContent) === true)
+            || ($this->isCatch($phpcsFile, $stackPtr) === true && $this->isTry($phpcsFile, $leadingContent) === true)
         ) {
             if ($this->isFunction($phpcsFile, $leadingContent) === true) {
                 // The previous content is the opening brace of a function
@@ -304,12 +307,16 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
             }
 
             if ($tokens[$leadingContent]['line'] !== ($leadingLineNumber - 1)) {
-                $data  = array(
-                          $tokens[$stackPtr]['content'],
-                          (($leadingLineNumber - 1) - $tokens[$leadingContent]['line']),
-                         );
-                $error = 'Expected 0 blank lines before "%s" control structure; %s found';
-                $fix   = $phpcsFile->addFixableError($error, $stackPtr, 'LineBeforeOpen', $data);
+                $data = array($tokens[$stackPtr]['content']);
+                $diff = ($leadingLineNumber - 1) - $tokens[$leadingContent]['line'];
+                if ($diff < 0) {
+                    $error = 'Beginning of the "%s" control structure must be first content on the line';
+                    $fix   = $phpcsFile->addFixableError($error, $stackPtr, 'ContentBeforeOpen', $data);
+                } else {
+                    $data[] = $diff;
+                    $error  = 'Expected 0 blank lines before "%s" control structure; %s found';
+                    $fix    = $phpcsFile->addFixableError($error, $stackPtr, 'LineBeforeOpen', $data);
+                }
 
                 if ($fix === true) {
                     $phpcsFile->fixer->beginChangeset();
@@ -424,11 +431,11 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
             }
 
             if ($tokens[$trailingContent]['line'] !== ($trailingLineNumber + 1)) {
-                $error = 'Expected 0 blank lines after "%s" control structure; %s found';
                 $data  = array(
                           $tokens[$stackPtr]['content'],
                           ($tokens[$trailingContent]['line'] - ($trailingLineNumber + 1)),
                          );
+                $error = 'Expected 0 blank lines after "%s" control structure; %s found';
                 $fix   = $phpcsFile->addFixableError($error, $scopeCloser, 'LineAfterClose', $data);
 
                 if ($fix === true) {
@@ -449,7 +456,9 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
             }//end if
         } else if ($tokens[$trailingContent]['line'] === ($trailingLineNumber + 1)) {
             // Code on the next line after control structure scope closer.
-            if ($this->elseOrElseIf($phpcsFile, $trailingContent) === true) {
+            if ($this->elseOrElseIf($phpcsFile, $trailingContent) === true
+                || $this->isCatch($phpcsFile, $trailingContent) === true
+            ) {
                 return;
             }
 
@@ -577,17 +586,7 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
      */
     protected function insideSwitchCase(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
-        $tokens = $phpcsFile->getTokens();
-
-        if (isset($tokens[$stackPtr]['scope_condition']) === true) {
-            $owner = $tokens[$stackPtr]['scope_condition'];
-
-            if ($tokens[$owner]['code'] === T_CASE || $tokens[$owner]['code'] === T_DEFAULT) {
-                return true;
-            }
-        }
-
-        return false;
+        return $this->isScopeCondition($phpcsFile, $stackPtr, array(T_CASE, T_DEFAULT));
 
     }//end insideSwitchCase()
 
@@ -603,17 +602,7 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
      */
     protected function ifOrElseIf(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
-        $tokens = $phpcsFile->getTokens();
-
-        if (isset($tokens[$stackPtr]['scope_condition']) === true) {
-            $owner = $tokens[$stackPtr]['scope_condition'];
-
-            if ($tokens[$owner]['code'] === T_IF || $tokens[$owner]['code'] === T_ELSEIF) {
-                return true;
-            }
-        }
-
-        return false;
+        return $this->isScopeCondition($phpcsFile, $stackPtr, array(T_IF, T_ELSEIF));
 
     }//end ifOrElseIf()
 
@@ -629,19 +618,41 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
      */
     protected function elseOrElseIf(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
-        $tokens = $phpcsFile->getTokens();
-
-        if (isset($tokens[$stackPtr]['scope_condition']) === true) {
-            $owner = $tokens[$stackPtr]['scope_condition'];
-
-            if ($tokens[$owner]['code'] === T_ELSE || $tokens[$owner]['code'] === T_ELSEIF) {
-                return true;
-            }
-        }
-
-        return false;
+        return $this->isScopeCondition($phpcsFile, $stackPtr, array(T_ELSE, T_ELSEIF));
 
     }//end elseOrElseIf()
+
+
+    /**
+     * Detects, that it is a closing brace of TRY.
+     *
+     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
+     * @param int                  $stackPtr  The position of the current token
+     *                                        in the stack passed in $tokens.
+     *
+     * @return bool
+     */
+    protected function isTry(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    {
+        return $this->isScopeCondition($phpcsFile, $stackPtr, T_TRY);
+
+    }//end isTry()
+
+
+    /**
+     * Detects, that it is a closing brace of CATCH.
+     *
+     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
+     * @param int                  $stackPtr  The position of the current token
+     *                                        in the stack passed in $tokens.
+     *
+     * @return bool
+     */
+    protected function isCatch(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    {
+        return $this->isScopeCondition($phpcsFile, $stackPtr, T_CATCH);
+
+    }//end isTry()
 
 
     /**
@@ -655,17 +666,7 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
      */
     protected function isFunction(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
-        $tokens = $phpcsFile->getTokens();
-
-        if (isset($tokens[$stackPtr]['scope_condition']) === true) {
-            $owner = $tokens[$stackPtr]['scope_condition'];
-
-            if ($tokens[$owner]['code'] === T_FUNCTION) {
-                return true;
-            }
-        }
-
-        return false;
+        return $this->isScopeCondition($phpcsFile, $stackPtr, T_FUNCTION);
 
     }//end isFunction()
 
@@ -683,9 +684,8 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
     protected function isClosure(PHP_CodeSniffer_File $phpcsFile, $stackPtr, $scopeConditionPtr)
     {
         $tokens = $phpcsFile->getTokens();
-        $owner  = $tokens[$scopeConditionPtr]['scope_condition'];
 
-        if ($tokens[$owner]['code'] === T_CLOSURE
+        if ($this->isScopeCondition($phpcsFile, $scopeConditionPtr, T_CLOSURE) === true
             && ($phpcsFile->hasCondition($stackPtr, T_FUNCTION) === true
             || $phpcsFile->hasCondition($stackPtr, T_CLOSURE) === true
             || isset($tokens[$stackPtr]['nested_parenthesis']) === true)
@@ -696,6 +696,33 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
         return false;
 
     }//end isClosure()
+
+
+    /**
+     * Detects, that it is a closing brace of ELSE/ELSEIF.
+     *
+     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
+     * @param int                  $stackPtr  The position of the current token
+     *                                        in the stack passed in $tokens.
+     * @param int|array            $types     The type(s) of tokens to search for.
+     *
+     * @return bool
+     */
+    protected function isScopeCondition(PHP_CodeSniffer_File $phpcsFile, $stackPtr, $types)
+    {
+        $tokens = $phpcsFile->getTokens();
+
+        if (isset($tokens[$stackPtr]['scope_condition']) === true) {
+            $owner = $tokens[$stackPtr]['scope_condition'];
+
+            if (in_array($tokens[$owner]['code'], (array)$types) === true) {
+                return true;
+            }
+        }
+
+        return false;
+
+    }//end isScopeCondition()
 
 
 }//end class
