@@ -311,7 +311,7 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
                 $diff = ($leadingLineNumber - 1) - $tokens[$leadingContent]['line'];
                 if ($diff < 0) {
                     $error = 'Beginning of the "%s" control structure must be first content on the line';
-                    $fix   = $phpcsFile->addFixableError($error, $stackPtr, 'ContentBeforeOpen', $data);
+                    $fix   = $phpcsFile->addFixableError($error, $stackPtr, 'ContentBeforeStart', $data);
                 } else {
                     $data[] = $diff;
                     $error  = 'Expected 0 blank lines before "%s" control structure; %s found';
