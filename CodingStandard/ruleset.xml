@@ -103,7 +103,8 @@
 	<rule ref="Squiz.Classes.LowercaseClassKeywords"/>
 	<rule ref="Squiz.Classes.SelfMemberReference"/>
 
-	<rule ref="CodingStandard.Functions.FunctionDeclaration" phpcs-only="true">
+	<!-- Indentation is fixed using "1 space" not "1 tab" -->
+	<rule ref="CodingStandard.Functions.FunctionDeclaration">
 		<properties>
 			<property name="indent" value="1"/>
 		</properties>
