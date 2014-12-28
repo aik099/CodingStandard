@@ -128,6 +128,11 @@ class CodingStandard_Sniffs_Classes_ClassDeclarationSniff extends PSR2_Sniffs_Cl
     {
         $tokens = $phpcsFile->getTokens();
 
+        // Just in case.
+        if (isset($tokens[$stackPtr]['scope_closer']) === false) {
+            return;
+        }
+
         $closeBrace = $tokens[$stackPtr]['scope_closer'];
         if ($tokens[($closeBrace - 1)]['code'] === T_WHITESPACE) {
             $prevContent = $tokens[($closeBrace - 1)]['content'];
