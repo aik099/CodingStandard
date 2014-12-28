@@ -1,5 +1,29 @@
 <?php
-$firstLongVariable = 'long string one' . 'long string two';
-$secondLongVariable = 'long string one'. 'long string two';
-$thirdLongVariable = 'long string one' .'long string two';
-$forthLongVariable = 'long string one'.'long string two';
+$noError = 'aa' . 'bb';
+$missingLeft = 'aa'. 'bb';
+$missingRight = 'aa' .'bb';
+$missingBoth = 'aa'.'bb';
+$extraLeft = 'aa'  . 'bb';
+$extraRight = 'aa' .  'bb';
+$extraBoth = 'aa'  .  'bb';
+
+// Spread across multiple lines (no error).
+$newLineRight = 'a' .
+    'b';
+
+$newLineLeft = 'a'
+    . 'b';
+
+// Spread across multiple lines (no space).
+$newLineRight = 'a'.
+    'b';
+
+$newLineLeft = 'a'
+    .'b';
+
+// Spread across multiple lines (extra space).
+$newLineRight = 'a'  .
+    'b';
+
+$newLineLeft = 'a'
+    .  'b';

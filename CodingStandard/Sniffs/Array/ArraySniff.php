@@ -146,7 +146,7 @@ class CodingStandard_Sniffs_Array_ArraySniff implements PHP_CodeSniffer_Sniff
 
             if ($lastItem !== ($arrayEnd - 1)) {
                 $error = 'Space found before closing parenthesis of Array';
-                $fix   = $phpcsFile->addFixableError($error, $stackPtr, 'SpaceAfterClose');
+                $fix   = $phpcsFile->addFixableError($error, $stackPtr, 'SpaceBeforeClose');
                 if ($fix === true) {
                     $phpcsFile->fixer->beginChangeset();
 

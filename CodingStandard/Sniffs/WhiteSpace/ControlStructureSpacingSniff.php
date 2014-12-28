@@ -202,12 +202,16 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
         );
 
         if ($tokens[$firstContent]['line'] !== ($tokens[$scopeOpener]['line'] + 1)) {
-            $error = 'Expected 0 blank lines at start of "%s" control structure; %s found';
-            $data  = array(
-                      $tokens[$stackPtr]['content'],
-                      ($tokens[$firstContent]['line'] - ($tokens[$scopeOpener]['line'] + 1)),
-                     );
-            $fix   = $phpcsFile->addFixableError($error, $scopeOpener, 'SpacingBeforeOpen', $data);
+            $data  = array($tokens[$stackPtr]['content']);
+            $diff  = $tokens[$firstContent]['line'] - ($tokens[$scopeOpener]['line'] + 1);
+            if ($diff < 0) {
+                $error  = 'Opening brace of the "%s" control structure must be last content on the line';
+                $fix    = $phpcsFile->addFixableError($error, $scopeOpener, 'ContentAfterOpen', $data);
+            } else {
+                $data[] = $diff;
+                $error  = 'Expected 0 blank lines at start of "%s" control structure; %s found';
+                $fix    = $phpcsFile->addFixableError($error, $scopeOpener, 'SpacingBeforeOpen', $data);
+            }
 
             if ($fix === true) {
                 $phpcsFile->fixer->beginChangeset();
@@ -311,7 +315,7 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
                 $diff = ($leadingLineNumber - 1) - $tokens[$leadingContent]['line'];
                 if ($diff < 0) {
                     $error = 'Beginning of the "%s" control structure must be first content on the line';
-                    $fix   = $phpcsFile->addFixableError($error, $stackPtr, 'ContentBeforeOpen', $data);
+                    $fix   = $phpcsFile->addFixableError($error, $stackPtr, 'ContentBeforeStart', $data);
                 } else {
                     $data[] = $diff;
                     $error  = 'Expected 0 blank lines before "%s" control structure; %s found';
@@ -586,7 +590,14 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
      */
     protected function insideSwitchCase(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
-        return $this->isScopeCondition($phpcsFile, $stackPtr, array(T_CASE, T_DEFAULT));
+        if ($this->isScopeCondition($phpcsFile, $stackPtr, array(T_CASE, T_DEFAULT)) === true) {
+            $tokens = $phpcsFile->getTokens();
+
+            // Consider "return" instead of "break" as function ending to enforce empty line before it.
+            return $tokens[$stackPtr]['code'] !== T_RETURN;
+        }
+
+        return false;
 
     }//end insideSwitchCase()
 

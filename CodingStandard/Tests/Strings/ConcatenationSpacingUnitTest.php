@@ -37,9 +37,16 @@ class CodingStandard_Tests_Strings_ConcatenationSpacingUnitTest extends Abstract
     public function getErrorList($testFile)
     {
         return array(
-                3 => 1,
-                4 => 1,
-                5 => 1,
+                3  => 1,
+                4  => 1,
+                5  => 2,
+                6  => 1,
+                7  => 1,
+                8  => 2,
+                18 => 1,
+                22 => 1,
+                25 => 1,
+                29 => 1,
                );
 
     }//end getErrorList()
