@@ -52,103 +52,85 @@ class CodingStandard_Sniffs_Strings_ConcatenationSpacingSniff implements PHP_Cod
      */
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
-        $tokens = $phpcsFile->getTokens();
-
-        $found       = '';
-        $expected    = '';
-        $errorBefore = false;
-        $errorAfter  = false;
-
-        $concatOperator = $tokens[$stackPtr]['content'];
-        if ($tokens[($stackPtr - 1)]['code'] === T_WHITESPACE) {
-            $whitespaceContent = $tokens[($stackPtr - 1)]['content'];
-            $beforeContent     = $this->getBeforeContent($phpcsFile, ($stackPtr - 2));
-            $found            .= $beforeContent.$whitespaceContent.$concatOperator;
-            $expected         .= $beforeContent.$whitespaceContent.$concatOperator;
-        } else {
-            // No whitespace before concat operator.
-            $errorBefore   = true;
-            $beforeContent = $this->getBeforeContent($phpcsFile, ($stackPtr - 1));
-            $expected     .= $beforeContent.' '.$concatOperator;
-            $found        .= $beforeContent.$concatOperator;
-        }
-
-        if ($tokens[($stackPtr + 1)]['code'] === T_WHITESPACE) {
-            $whitespaceContent = $tokens[($stackPtr + 1)]['content'];
-            $afterContent      = $this->getAfterContent($phpcsFile, ($stackPtr + 2));
-            $found            .= $whitespaceContent.$afterContent;
-            $expected         .= $whitespaceContent.$afterContent;
-        } else {
-            // No whitespace after concat operator.
-            $errorAfter   = true;
-            $afterContent = $this->getAfterContent($phpcsFile, ($stackPtr + 1));
-            $expected    .= ' '.$afterContent;
-            $found       .= $afterContent;
-        }
-
-        if ($errorBefore === true || $errorAfter === true) {
-            $found    = str_replace("\r\n", '\n', $found);
-            $found    = str_replace("\n", '\n', $found);
-            $found    = str_replace("\r", '\n', $found);
-            $expected = str_replace("\r\n", '\n', $expected);
-            $expected = str_replace("\n", '\n', $expected);
-            $expected = str_replace("\r", '\n', $expected);
-
-            $message = "Concat operator must be surrounded by spaces. Found \"$found\"; expected \"$expected\"";
-            $fix     = $phpcsFile->addFixableError($message, $stackPtr);
-
-            if ($fix === true) {
-                $phpcsFile->fixer->beginChangeset();
-
-                if ($errorBefore === true) {
-                    $phpcsFile->fixer->addContentBefore($stackPtr, ' ');
-                }
-
-                if ($errorAfter === true) {
-                    $phpcsFile->fixer->addContent($stackPtr, ' ');
-                }
-
-                $phpcsFile->fixer->endChangeset();
-            }
-        }//end if
+        $this->checkContent($phpcsFile, $stackPtr, true);
+        $this->checkContent($phpcsFile, $stackPtr, false);
 
     }//end process()
 
 
     /**
-     * Returns content (given stack pointer) shortened from the start.
+     * Checks content before concat operator.
      *
      * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
      * @param int                  $stackPtr  The position of the current token in the
      *                                        stack passed in $tokens.
+     * @param bool                 $before    Check content before concat operator.
      *
-     * @return string
+     * @return void
      */
-    protected function getBeforeContent(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    protected function checkContent(PHP_CodeSniffer_File $phpcsFile, $stackPtr, $before)
     {
-        $tokens = $phpcsFile->getTokens();
+        if ($before === true) {
+            $contentToken = ($phpcsFile->findPrevious(
+                T_WHITESPACE,
+                ($stackPtr - 1),
+                null,
+                true
+            ) + 1);
+            $errorWord    = 'before';
+        } else {
+            $contentToken = ($phpcsFile->findNext(
+                T_WHITESPACE,
+                ($stackPtr + 1),
+                null,
+                true
+            ) - 1);
+            $errorWord    = 'after';
+        }
 
-        return '...'.substr($tokens[$stackPtr]['content'], -5);
+        $tokens      = $phpcsFile->getTokens();
+        $contentData = $tokens[$contentToken];
 
-    }//end getBeforeContent()
+        if ($contentData['line'] !== $tokens[$stackPtr]['line']) {
+            // Ignore concat operator split across several lines.
+            return;
+        }
 
+        if ($contentData['code'] !== T_WHITESPACE) {
+            $fix = $phpcsFile->addFixableError(
+                'Expected 1 space '.$errorWord.' concat operator; 0 found',
+                $stackPtr,
+                'NoSpace'.ucfirst($errorWord)
+            );
 
-    /**
-     * Returns content (given stack pointer) shortened from the end.
-     *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
-     * @param int                  $stackPtr  The position of the current token in the
-     *                                        stack passed in $tokens.
-     *
-     * @return string
-     */
-    protected function getAfterContent(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
-    {
-        $tokens = $phpcsFile->getTokens();
+            if ($fix === true) {
+                $phpcsFile->fixer->beginChangeset();
 
-        return substr($tokens[$stackPtr]['content'], 0, 5).'...';
+                if ($before === true) {
+                    $phpcsFile->fixer->addContentBefore($stackPtr, ' ');
+                } else {
+                    $phpcsFile->fixer->addContent($stackPtr, ' ');
+                }
 
-    }//end getAfterContent()
+                $phpcsFile->fixer->endChangeset();
+            }
+        } else if ($contentData['length'] !== 1) {
+            $data = array($contentData['length']);
+            $fix = $phpcsFile->addFixableError(
+                'Expected 1 space '.$errorWord.' concat operator; %s found',
+                $stackPtr,
+                'SpaceBefore'.ucfirst($errorWord),
+                $data
+            );
+
+            if ($fix === true) {
+                $phpcsFile->fixer->beginChangeset();
+                $phpcsFile->fixer->replaceToken($contentToken, ' ');
+                $phpcsFile->fixer->endChangeset();
+            }
+        }
+
+    }//end checkContent()
 
 
 }//end class
