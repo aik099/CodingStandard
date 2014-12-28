@@ -245,6 +245,13 @@
 		</properties>
 	</rule>
 
+	<!-- Indentation is fixed using "1 space" not "1 tab" -->
+	<rule ref="PEAR.ControlStructures.MultiLineCondition">
+		<properties>
+			<property name="indent" value="1"/>
+		</properties>
+	</rule>
+
 	<rule ref="Squiz.WhiteSpace.MemberVarSpacing"/>
 
 	<!--
