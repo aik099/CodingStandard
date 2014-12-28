@@ -1,10 +1,8 @@
 <?xml version="1.0"?>
 <ruleset name="alex">
 	<description>Alexander Obuhovich's coding standard.</description>
-	<!--
-		Consider using this (from PHPCS 2.0+) instead setting indentation from 4 to 1 in all indentation checking sniffs
-		<arg name="tab-width" value="4" />
-	-->
+
+	<arg name="tab-width" value="4" />
 
 	<exclude-pattern>blog/*</exclude-pattern>
 	<exclude-pattern>build/*</exclude-pattern>
@@ -83,7 +81,7 @@
 
 	<rule ref="Generic.WhiteSpace.ScopeIndent" phpcs-only="true">
 		<properties>
-			<property name="indent" value="1"/>
+			<property name="tabIndent" value="true"/>
 		</properties>
 	</rule>
 
@@ -96,10 +94,9 @@
 		<rule ref="PEAR.Commenting.FunctionComment"/>
 	-->
 
-	<rule ref="PSR2.Methods.FunctionCallSignature">
+	<rule ref="CodingStandard.Functions.FunctionCallSignature">
 		<properties>
-			<property name="indent" value="1"/>
-			<property name="allowMultipleArguments" value="true"/>
+			<property name="tabIndent" value="true"/>
 		</properties>
 	</rule>
 
@@ -111,10 +108,9 @@
 	<rule ref="Squiz.Classes.LowercaseClassKeywords"/>
 	<rule ref="Squiz.Classes.SelfMemberReference"/>
 
-	<!-- Indentation is fixed using "1 space" not "1 tab" -->
 	<rule ref="CodingStandard.Functions.FunctionDeclaration">
 		<properties>
-			<property name="indent" value="1"/>
+			<property name="tabIndent" value="true"/>
 		</properties>
 	</rule>
 
@@ -250,16 +246,9 @@
 		<rule ref="Squiz.WhiteSpace.ObjectOperatorSpacing"/>
 	-->
 
-	<rule ref="PEAR.WhiteSpace.ObjectOperatorIndent">
+	<rule ref="CodingStandard.ControlStructures.MultiLineCondition">
 		<properties>
-			<property name="indent" value="1"/>
-		</properties>
-	</rule>
-
-	<!-- Indentation is fixed using "1 space" not "1 tab" -->
-	<rule ref="PEAR.ControlStructures.MultiLineCondition">
-		<properties>
-			<property name="indent" value="1"/>
+			<property name="tabIndent" value="true"/>
 		</properties>
 	</rule>
 

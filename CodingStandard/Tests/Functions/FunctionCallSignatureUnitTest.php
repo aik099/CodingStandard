@@ -1,6 +1,6 @@
 <?php
 /**
- * Unit test class for the FunctionDeclaration sniff.
+ * Unit test class for the FunctionCallSignature sniff.
  *
  * PHP version 5
  *
@@ -14,7 +14,7 @@
  */
 
 /**
- * Unit test class for the FunctionDeclaration sniff.
+ * Unit test class for the FunctionCallSignature sniff.
  *
  * A sniff unit test checks a .inc file for expected violations of a single
  * coding standard. Expected errors and warnings are stored in this class.
@@ -28,7 +28,7 @@
  * @version   Release: @package_version@
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
-class CodingStandard_Tests_Functions_FunctionDeclarationUnitTest extends AbstractSniffUnitTest
+class CodingStandard_Tests_Functions_FunctionCallSignatureUnitTest extends AbstractSniffUnitTest
 {
 
 
@@ -44,35 +44,11 @@ class CodingStandard_Tests_Functions_FunctionDeclarationUnitTest extends Abstrac
      */
     public function getErrorList($testFile)
     {
-        $ret = array(
-                3   => 1,
-                4   => 1,
-                5   => 1,
-                9   => 1,
-                10  => 1,
-                11  => 1,
-                14  => 1,
-                17  => 1,
-                27  => 1,
-                44  => 1,
-                51  => 1,
-                61  => 2,
-                98  => 1,
-                110 => 2,
-                120 => 3,
-                121 => 1,
-                161 => 1,
-                162 => 1,
-                164 => 1,
+        return array(
+                18 => 3,
+                21 => 1,
+                48 => 1,
                );
-
-        if (version_compare(PHP_CodeSniffer::VERSION, '2.1.0', '>=') === true) {
-            $ret[140]  = 1;
-            $ret[145]  = 1;
-            $ret[164] += 1;
-        }
-
-        return $ret;
 
     }//end getErrorList()
 
@@ -95,3 +71,5 @@ class CodingStandard_Tests_Functions_FunctionDeclarationUnitTest extends Abstrac
 
 
 }//end class
+
+?>

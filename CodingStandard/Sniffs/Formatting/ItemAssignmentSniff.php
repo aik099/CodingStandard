@@ -101,14 +101,20 @@ class CodingStandard_Sniffs_Formatting_ItemAssignmentSniff implements PHP_CodeSn
             return;
         }
 
-        if ($this->hasOnlySpaces($tokenData['content']) === false) {
+        if (isset($tokenData['orig_content']) === true) {
+            $content = $tokenData['orig_content'];
+        } else {
+            $content = $tokenData['content'];
+        }
+
+        if ($this->hasOnlySpaces($content) === false) {
             $error = 'Spaces must be used to '.$errorWord.' the item assignment operator =>';
             $fix   = $phpcsFile->addFixableError($error, $stackPtr, 'MixedWhitespace'.$errorCode);
             if ($fix === true) {
                 $phpcsFile->fixer->beginChangeset();
                 $phpcsFile->fixer->replaceToken(
                     ($stackPtr + $stackPtrDiff),
-                    str_repeat(' ', $tokenData['length'])
+                    str_repeat(' ', strlen($content))
                 );
                 $phpcsFile->fixer->endChangeset();
             }
