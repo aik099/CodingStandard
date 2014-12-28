@@ -235,12 +235,6 @@
 		<rule ref="Squiz.WhiteSpace.ObjectOperatorSpacing"/>
 	-->
 
-	<rule ref="PEAR.WhiteSpace.ObjectOperatorIndent">
-		<properties>
-			<property name="indent" value="1"/>
-		</properties>
-	</rule>
-
 	<rule ref="CodingStandard.ControlStructures.MultiLineCondition">
 		<properties>
 			<property name="tabIndent" value="true"/>
