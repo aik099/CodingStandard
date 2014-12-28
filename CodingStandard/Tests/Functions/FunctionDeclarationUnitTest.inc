@@ -28,7 +28,7 @@ class MyClass
 	}
 
 	public function someFunctionWithAVeryLongName2(
-	 $firstParameter='something', $secondParameter='booooo', $third=null
+		$firstParameter='something', $secondParameter='booooo', $third=null
 	) {
 	}
 
@@ -117,7 +117,7 @@ $longArgs_longVars = function (
 
 $longArgs_longVars = function (
 	$longArgument,
-	$muchLongerArgument) use (
+	$muchLongerArgument)use(
 	$muchLongerVar3) {
 	// body
 };
@@ -148,6 +148,11 @@ myFunction()
 }
 
 
+use function foo\bar;
+
+use
+	function bar\baz;
+
 namespace {
 	use function Name\Space\f;
 	f();
@@ -158,4 +163,3 @@ $var = function() {return true;
 };
 function blah(){return true;
 }
-?>
