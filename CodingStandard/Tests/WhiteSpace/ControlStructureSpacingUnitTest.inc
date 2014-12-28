@@ -1314,4 +1314,362 @@ catch ( Exception $e ) { // comment
     $c = 'd';
 }
 
+// Empty line before "return" in a "case" of "switch" doesn't trigger an error.
+switch ( $a ) {
+    case 'if':
+        if ( $a ) {
+            $a = 'b';
+        }
+
+        return 5;
+
+    case 'if_elseif':
+        if ( $a ) {
+            $a = 'b';
+        }
+        elseif ( $b ) {
+            $a = 'b';
+        }
+
+        return 5;
+
+    case 'if_elseif_else':
+        if ( $a ) {
+            $a = 'b';
+        }
+        elseif ( $b ) {
+            $a = 'b';
+        }
+        else {
+            $a = 'b';
+        }
+
+        return 5;
+
+    case 'if_else':
+        if ( $a ) {
+            $a = 'b';
+        }
+        else {
+            $a = 'b';
+        }
+
+        return 5;
+
+    case 'while':
+        while ( $a ) {
+            $a = 'b';
+        }
+
+        return 5;
+
+    case 'do':
+        do {
+            $a = 'b';
+        } while ( $a );
+
+        return 5;
+
+    case 'foreach_value':
+        foreach ( $a as $b ) {
+            $e = 'b';
+        }
+
+        return 5;
+
+    case 'foreach_key_value':
+        foreach ( $a as $b => $c ) {
+            $e = 'b';
+        }
+
+        return 5;
+
+    case 'for':
+        for ( $i = 0; $i < count($array); $i++ ) {
+            $e = 'b';
+        }
+
+        return 5;
+
+    case 'switch':
+        switch ( $a ) {
+            default:
+        }
+
+        return 5;
+
+    case 'try/catch':
+        try {
+            $a = 'b';
+        }
+        catch ( Exception $e ) {
+            $c = 'd';
+        }
+
+        return 5;
+}
+
+// Empty line before "return" in a "default" of "switch" doesn't trigger an error.
+switch ( $a ) {
+    default:
+        if ( $a ) {
+            $a = 'b';
+        }
+
+        return 5;
+
+    default:
+        if ( $a ) {
+            $a = 'b';
+        }
+        elseif ( $b ) {
+            $a = 'b';
+        }
+
+        return 5;
+
+    default:
+        if ( $a ) {
+            $a = 'b';
+        }
+        elseif ( $b ) {
+            $a = 'b';
+        }
+        else {
+            $a = 'b';
+        }
+
+        return 5;
+
+    default:
+        if ( $a ) {
+            $a = 'b';
+        }
+        else {
+            $a = 'b';
+        }
+
+        return 5;
+
+    default:
+        while ( $a ) {
+            $a = 'b';
+        }
+
+        return 5;
+
+    default:
+        do {
+            $a = 'b';
+        } while ( $a );
+
+        return 5;
+
+    default:
+        foreach ( $a as $b ) {
+            $e = 'b';
+        }
+
+        return 5;
+
+    default:
+        foreach ( $a as $b => $c ) {
+            $e = 'b';
+        }
+
+        return 5;
+
+    default:
+        for ( $i = 0; $i < count($array); $i++ ) {
+            $e = 'b';
+        }
+
+        return 5;
+
+    default:
+        switch ( $a ) {
+            default:
+        }
+
+        return 5;
+
+    default:
+        try {
+            $a = 'b';
+        }
+        catch ( Exception $e ) {
+            $c = 'd';
+        }
+
+        return 5;
+}
+
+// No empty line before "return" in a "case" of "switch" triggers an error.
+switch ( $a ) {
+    case 'if':
+        if ( $a ) {
+            $a = 'b';
+        }
+        return 5;
+
+    case 'if_elseif':
+        if ( $a ) {
+            $a = 'b';
+        }
+        elseif ( $b ) {
+            $a = 'b';
+        }
+        return 5;
+
+    case 'if_elseif_else':
+        if ( $a ) {
+            $a = 'b';
+        }
+        elseif ( $b ) {
+            $a = 'b';
+        }
+        else {
+            $a = 'b';
+        }
+        return 5;
+
+    case 'if_else':
+        if ( $a ) {
+            $a = 'b';
+        }
+        else {
+            $a = 'b';
+        }
+        return 5;
+
+    case 'while':
+        while ( $a ) {
+            $a = 'b';
+        }
+        return 5;
+
+    case 'do':
+        do {
+            $a = 'b';
+        } while ( $a );
+        return 5;
+
+    case 'foreach_value':
+        foreach ( $a as $b ) {
+            $e = 'b';
+        }
+        return 5;
+
+    case 'foreach_key_value':
+        foreach ( $a as $b => $c ) {
+            $e = 'b';
+        }
+        return 5;
+
+    case 'for':
+        for ( $i = 0; $i < count($array); $i++ ) {
+            $e = 'b';
+        }
+        return 5;
+
+    case 'switch':
+        switch ( $a ) {
+            default:
+        }
+        return 5;
+
+    case 'try/catch':
+        try {
+            $a = 'b';
+        }
+        catch ( Exception $e ) {
+            $c = 'd';
+        }
+        return 5;
+}
+
+// No empty line before "return" in a "default" of "switch" triggers an error.
+switch ( $a ) {
+    default:
+        if ( $a ) {
+            $a = 'b';
+        }
+        return 5;
+
+    default:
+        if ( $a ) {
+            $a = 'b';
+        }
+        elseif ( $b ) {
+            $a = 'b';
+        }
+        return 5;
+
+    default:
+        if ( $a ) {
+            $a = 'b';
+        }
+        elseif ( $b ) {
+            $a = 'b';
+        }
+        else {
+            $a = 'b';
+        }
+        return 5;
+
+    default:
+        if ( $a ) {
+            $a = 'b';
+        }
+        else {
+            $a = 'b';
+        }
+        return 5;
+
+    default:
+        while ( $a ) {
+            $a = 'b';
+        }
+        return 5;
+
+    default:
+        do {
+            $a = 'b';
+        } while ( $a );
+        return 5;
+
+    default:
+        foreach ( $a as $b ) {
+            $e = 'b';
+        }
+        return 5;
+
+    default:
+        foreach ( $a as $b => $c ) {
+            $e = 'b';
+        }
+        return 5;
+
+    default:
+        for ( $i = 0; $i < count($array); $i++ ) {
+            $e = 'b';
+        }
+        return 5;
+
+    default:
+        switch ( $a ) {
+            default:
+        }
+        return 5;
+
+    default:
+        try {
+            $a = 'b';
+        }
+        catch ( Exception $e ) {
+            $c = 'd';
+        }
+        return 5;
+}
+
 ?>

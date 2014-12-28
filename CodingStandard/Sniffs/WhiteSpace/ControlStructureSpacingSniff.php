@@ -590,7 +590,14 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
      */
     protected function insideSwitchCase(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
-        return $this->isScopeCondition($phpcsFile, $stackPtr, array(T_CASE, T_DEFAULT));
+        if ($this->isScopeCondition($phpcsFile, $stackPtr, array(T_CASE, T_DEFAULT)) === true) {
+            $tokens = $phpcsFile->getTokens();
+
+            // Consider "return" instead of "break" as function ending to enforce empty line before it.
+            return $tokens[$stackPtr]['code'] !== T_RETURN;
+        }
+
+        return false;
 
     }//end insideSwitchCase()
 

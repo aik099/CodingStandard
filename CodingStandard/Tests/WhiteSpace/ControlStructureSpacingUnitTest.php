@@ -244,14 +244,14 @@ class CodingStandard_Tests_WhiteSpace_ControlStructureSpacingUnitTest extends Ab
                 1125 => 1,
                 1130 => 1,
 
-                // ELSE/ELSEIF not on own line
+                // ELSE/ELSEIF not on own line.
                 1265 => 1,
                 1267 => 1,
 
-                // CATCH not on own line
+                // CATCH not on own line.
                 1273 => 1,
 
-                // content after opening brace
+                // Content after opening brace.
                 1277 => 1,
                 1280 => 1,
                 1283 => 1,
@@ -263,6 +263,32 @@ class CodingStandard_Tests_WhiteSpace_ControlStructureSpacingUnitTest extends Ab
                 1306 => 1,
                 1310 => 1,
                 1313 => 1,
+
+                // No empty line after control structure before "return" in "switch > case".
+                1512 => 1,
+                1521 => 1,
+                1533 => 1,
+                1542 => 1,
+                1548 => 1,
+                1554 => 1,
+                1560 => 1,
+                1566 => 1,
+                1572 => 1,
+                1578 => 1,
+                1587 => 1,
+
+                // No empty line after control structure before "return" in "switch > default".
+                1596 => 1,
+                1605 => 1,
+                1617 => 1,
+                1626 => 1,
+                1632 => 1,
+                1638 => 1,
+                1644 => 1,
+                1650 => 1,
+                1656 => 1,
+                1662 => 1,
+                1671 => 1,
                );
 
     }//end getErrorList()
