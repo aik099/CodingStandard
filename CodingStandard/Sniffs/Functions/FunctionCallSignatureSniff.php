@@ -113,8 +113,32 @@ class CodingStandard_Sniffs_Functions_FunctionCallSignatureSniff extends PSR2_Sn
      *                                          the file.
      *
      * @return void
+     *
+     * @codeCoverageIgnore
      */
     public function processMultiLineCall(PHP_CodeSniffer_File $phpcsFile, $stackPtr, $openBracket, $tokens)
+    {
+        $this->processMultiLineCallPSR2($phpcsFile, $stackPtr, $openBracket, $tokens);
+
+    }//end processMultiLineCall()
+
+
+    /**
+     * Processes multi-line calls.
+     *
+     * @param PHP_CodeSniffer_File $phpcsFile   The file being scanned.
+     * @param int                  $stackPtr    The position of the current token
+     *                                          in the stack passed in $tokens.
+     * @param int                  $openBracket The position of the openning bracket
+     *                                          in the stack passed in $tokens.
+     * @param array                $tokens      The stack of tokens that make up
+     *                                          the file.
+     *
+     * @return void
+     *
+     * @codeCoverageIgnore
+     */
+    public function processMultiLineCallPSR2(PHP_CodeSniffer_File $phpcsFile, $stackPtr, $openBracket, $tokens)
     {
         // We need to work out how far indented the function
         // call itself is, so we can work out how far to
@@ -310,7 +334,7 @@ class CodingStandard_Sniffs_Functions_FunctionCallSignatureSniff extends PSR2_Sn
             }//end if
         }//end for
 
-    }//end processMultiLineCall()
+    }//end processMultiLineCallPSR2()
 
 
 }//end class

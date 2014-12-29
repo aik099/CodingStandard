@@ -77,6 +77,44 @@ class CodingStandard_Sniffs_ControlStructures_MultiLineConditionSniff extends PE
 
         $this->tabIndent = (bool)$this->tabIndent;
 
+        $this->processPEAR($phpcsFile, $stackPtr);
+
+    }//end process()
+
+
+    /**
+     * Creates padding of needed length.
+     *
+     * @param int $padding Padding length.
+     *
+     * @return string
+     */
+    protected function createPadding($padding)
+    {
+        if ($this->tabIndent === true) {
+            $numTabs = floor($padding / $this->_tabWidth);
+            $numSpaces = ($padding - ($numTabs * $this->_tabWidth));
+
+            return str_repeat("\t", $numTabs).str_repeat(' ', $numSpaces);
+        }
+
+        return str_repeat(' ', $padding);
+    }//end createPadding()
+
+
+    /**
+     * Processes this test, when one of its tokens is encountered.
+     *
+     * @param PHP_CodeSniffer_File $phpcsFile All the tokens found in the document.
+     * @param int                  $stackPtr  The position of the current token
+     *                                        in the stack passed in $tokens.
+     *
+     * @return void
+     *
+     * @codeCoverageIgnore
+     */
+    public function processPEAR(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    {
         $tokens = $phpcsFile->getTokens();
 
         // We need to work out how far indented the if statement
@@ -230,30 +268,8 @@ class CodingStandard_Sniffs_ControlStructures_MultiLineConditionSniff extends PE
             $error = 'There must be a single space between the closing parenthesis and the opening brace of a multi-line IF statement';
             $phpcsFile->addError($error, $next, 'NoSpaceBeforeOpenBrace');
         }
-    }
 
-
-    /**
-     * Creates padding of needed length.
-     *
-     * @param int $padding Padding length.
-     *
-     * @return string
-     */
-    protected function createPadding($padding)
-    {
-        if ($this->tabIndent === true) {
-            $numTabs = floor($padding / $this->_tabWidth);
-            $numSpaces = ($padding - ($numTabs * $this->_tabWidth));
-
-            return str_repeat("\t", $numTabs).str_repeat(' ', $numSpaces);
-        }
-
-        return str_repeat(' ', $padding);
-    }//end createPadding()
-
-
-
+    }//end processPEAR()
 
 
 }//end class

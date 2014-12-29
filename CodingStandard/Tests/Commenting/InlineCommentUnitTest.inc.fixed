@@ -136,4 +136,13 @@ $code = 5;
 
 /** @type \stdClass $some_var */
 $some_var = 'Object';
+
+
+if ($b) {
+    $c = 'd';
+}
+// Comment.
+
+$next_code = 5;
+
 ?>

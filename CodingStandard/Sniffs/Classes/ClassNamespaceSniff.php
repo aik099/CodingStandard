@@ -33,9 +33,11 @@ class CodingStandard_Sniffs_Classes_ClassNamespaceSniff implements PHP_CodeSniff
      */
     public function register()
     {
+        // @codeCoverageIgnoreStart
         if (version_compare(PHP_VERSION, '5.3.0') < 0) {
             return array();
         }
+        // @codeCoverageIgnoreEnd
 
         return array(
                 T_CLASS,
