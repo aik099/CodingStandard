@@ -24,12 +24,13 @@ if (class_exists('PSR2_Sniffs_Methods_FunctionCallSignatureSniff', true) === fal
  *
  * Ensure single and multi-line function declarations are defined correctly.
  *
- * @category PHP
- * @package  PHP_CodeSniffer
- * @author   Greg Sherwood <gsherwood@squiz.net>
- * @author   Alexander Obuhovich <aik.bold@gmail.com>
- * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
- * @link     https://github.com/aik099/CodingStandard
+ * @category           PHP
+ * @package            PHP_CodeSniffer
+ * @author             Greg Sherwood <gsherwood@squiz.net>
+ * @author             Alexander Obuhovich <aik.bold@gmail.com>
+ * @license            https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
+ * @link               https://github.com/aik099/CodingStandard
+ * @codeCoverageIgnore
  */
 class CodingStandard_Sniffs_Functions_FunctionCallSignatureSniff extends PSR2_Sniffs_Methods_FunctionCallSignatureSniff
 {
