@@ -1,51 +1,51 @@
 <?php
 class ClassName extends ParentClass implements \ArrayAccess,  \Countable
 {
-    // constants, properties, methods
+	// constants, properties, methods
 }
 
 class ClassName extends ParentClass,AnotherParentClass implements \ArrayAccess,\Countable {
-    // constants, properties, methods
+	// constants, properties, methods
 }
 
 class ClassName
 extends ParentClass
 implements \ArrayAccess, \Countable
 {
-    // constants, properties, methods
-    
+	// constants, properties, methods
+	
 }
 
 class ClassName extends  ParentClass  implements
    \ArrayAccess,
-        \Foo\Bar\Countable,
-    \Serializable {
-    // constants, properties, methods
+		\Foo\Bar\Countable,
+	\Serializable {
+	// constants, properties, methods
 
 }
 
 class ClassName extends ParentClass  implements \ArrayAccess,
-    \Countable,
-    \Serializable
+	\Countable,
+	\Serializable
 {
-    // constants, properties, methods
+	// constants, properties, methods
 }
 
 class ClassName extends ParentClass  implements
-    \ArrayAccess, \Countable, \Foo\Serializable
+	\ArrayAccess, \Countable, \Foo\Serializable
 {
-    // constants, properties, methods
+	// constants, properties, methods
 }
 
 // Different indent
 if ($foo) {
-    class ClassName extends ParentClass implements
-        \ArrayAccess,
-    \Countable,
-            \Serializable
-    {
-        // constants, properties, methods
-    }
+	class ClassName extends ParentClass implements
+		\ArrayAccess,
+	\Countable,
+			\Serializable
+	{
+		// constants, properties, methods
+	}
 }
 
 class Foo extends \Foo\Bar\Object
@@ -53,25 +53,25 @@ class Foo extends \Foo\Bar\Object
 }
 
 class ClassName extends ParentClass implements
-    \Foo\Bar\Countable,
-    \Serializable
+	\Foo\Bar\Countable,
+	\Serializable
 {
-    // constants, properties, methods
+	// constants, properties, methods
 }
 
 class ClassName extends ParentClass implements
-    \Foo\Bar\Countable ,
-    \Serializable
+	\Foo\Bar\Countable ,
+	\Serializable
 {
-    // constants, properties, methods
+	// constants, properties, methods
 }
 
 class Test
 {
-    public function test() {
-        if (1) 1;
-        1 ? (1 ? 1 : 1) : 1;
-    }
+	public function test() {
+		if (1) 1;
+		1 ? (1 ? 1 : 1) : 1;
+	}
 }
 
 class MyClass
@@ -85,18 +85,18 @@ class MyClass
 
 class MyClass
 {
-    // Foo.
+	// Foo.
 }
 
 class MyClass
 {
-    // Foo.
+	// Foo.
 
 }
 
 abstract class Test implements
-    TestInterface1,
-    TestInterface2
+	TestInterface1,
+	TestInterface2
 {
 }
 
@@ -105,17 +105,17 @@ interface MyInterface extends LongInterfaceName1, LongInterfaceName2, LongInterf
 }
 
 interface MyInterface extends
-    LongInterfaceName1,
-    LongInterfaceName2,
-    LongInterfaceName3,
-    LoginInterfaceName4
+	LongInterfaceName1,
+	LongInterfaceName2,
+	LongInterfaceName3,
+	LoginInterfaceName4
 {
 }
 
 interface MyInterface extends
  LongInterfaceName1,
-    LongInterfaceName2,
-     LongInterfaceName3,
+	LongInterfaceName2,
+	 LongInterfaceName3,
 LongInterfaceName4
 {
 }
@@ -127,14 +127,14 @@ class Test
 
 class ClassName implements
 
-    \ArrayAccess,\Countable,
+	\ArrayAccess,\Countable,
 \Serializable
 {
-    // constants, properties, methods
+	// constants, properties, methods
 }
 
 
-    $something = 'else';
+	$something = 'else';
 
 class SomeClass
 {
