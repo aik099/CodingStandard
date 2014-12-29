@@ -148,10 +148,13 @@ class CodingStandard_Sniffs_Commenting_InlineCommentSniff implements PHP_CodeSni
             }
         }
 
-        // We don't want end of block comments. If the last comment is a closing
-        // curly brace.
+        // We don't want:
+        // - end of block comments, if the last comment is a closing curly brace
+        // - closing comment of previous control structure (see "WhiteSpace.ControlStructureSpacing")
         $previousContent = $phpcsFile->findPrevious(T_WHITESPACE, ($stackPtr - 1), null, true);
-        if ($tokens[$previousContent]['line'] === $tokens[$stackPtr]['line']) {
+        if ($tokens[$previousContent]['line'] === $tokens[$stackPtr]['line']
+            || $tokens[$previousContent]['line'] === ($tokens[$stackPtr]['line'] - 1)
+        ) {
             if ($tokens[$previousContent]['code'] === T_CLOSE_CURLY_BRACKET) {
                 return;
             }
