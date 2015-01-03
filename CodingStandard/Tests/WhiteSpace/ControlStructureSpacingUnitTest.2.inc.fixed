@@ -1,22 +1,18 @@
 <?php
 
     if ( $a ) {
-
         // line before
 
         $b = 1;
 
         // line after
-
     }
 
     if ( $a ) {
         /* block comment before */
-
         if ( $b ) {
             $content = 'new';
         }
-
         /* block comment after */
     }
 
@@ -27,7 +23,6 @@ if ( $address_id == -1 ) {
     if ( $oaddr->Create() ) {
         $address_id = $oaddr->GetID();
     }
-
     /*$this->Conn->doInsert($fields_hash, TABLE_PREFIX.'Addresses');
     $address_id = $this->Conn->getInsertID();*/
 }
@@ -41,7 +36,5 @@ elseif ( $address_id > 0 ) {
     else {
         $address_id = -1;
     }
-
     // $this->Conn->doUpdate($fields_hash, TABLE_PREFIX.'Addresses', 'AddressId = '.$address_id);
-
 }

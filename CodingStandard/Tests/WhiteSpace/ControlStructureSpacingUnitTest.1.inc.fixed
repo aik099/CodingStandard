@@ -74,18 +74,18 @@ catch ( Exception $e ) {
     $c = 'd';
 }
 
-if ( $a ) {
-    $a = 'b';
-}
-elseif ( $b ) {
-    $a = 'b';
-}
-elseif ( $b ) {
-    $a = 'b';
-}
-else {
-    $a = 'b';
-}
+    if ( $a ) {
+        $a = 'b';
+    }
+    elseif ( $b ) {
+        $a = 'b';
+    }
+    elseif ( $b ) {
+        $a = 'b';
+    }
+    else {
+        $a = 'b';
+    }
 
 if ( $a ) {
     $a = 'b';

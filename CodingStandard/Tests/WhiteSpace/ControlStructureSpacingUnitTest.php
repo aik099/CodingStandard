@@ -36,7 +36,8 @@ class CodingStandard_Tests_WhiteSpace_ControlStructureSpacingUnitTest extends Ab
      */
     public function getErrorList($testFile)
     {
-        return array(
+        if ($testFile === 'ControlStructureSpacingUnitTest.1.inc') {
+            return array(
                 // IF (condition spacing, blank line at the scope edges).
                 77   => 3,
                 81   => 1,
@@ -290,7 +291,26 @@ class CodingStandard_Tests_WhiteSpace_ControlStructureSpacingUnitTest extends Ab
                 1662 => 1,
                 1671 => 1,
                );
+        } elseif ($testFile === 'ControlStructureSpacingUnitTest.2.inc') {
+            return array(
+                // Blank line at start/end of control structure.
+                3  => 1,
+                11 => 1,
 
+                // Blank lines around nested control structure.
+                16 => 1,
+                18 => 1,
+
+                // Blank line after control structure.
+                29 => 1,
+                43 => 1,
+
+                // Blank line at end of control structure.
+                47 => 1,
+            );
+        }
+
+        return array();
     }//end getErrorList()
 
 
