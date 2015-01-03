@@ -86,11 +86,7 @@
 		<rule ref="PEAR.Commenting.FunctionComment"/>
 	-->
 
-	<rule ref="CodingStandard.Functions.FunctionCallSignature">
-		<properties>
-			<property name="tabIndent" value="true"/>
-		</properties>
-	</rule>
+	<rule ref="PSR2.Methods.FunctionCallSignature"/>
 
 	<rule ref="PEAR.Functions.ValidDefaultValue"/>
 	<rule ref="PEAR.NamingConventions.ValidVariableName"/>
@@ -100,17 +96,9 @@
 	<rule ref="Squiz.Classes.LowercaseClassKeywords"/>
 	<rule ref="Squiz.Classes.SelfMemberReference"/>
 
-	<rule ref="CodingStandard.Classes.ClassDeclaration">
-		<properties>
-			<property name="tabIndent" value="true"/>
-		</properties>
-	</rule>
+	<rule ref="CodingStandard.Classes.ClassDeclaration"/>
 
-	<rule ref="CodingStandard.Functions.FunctionDeclaration">
-		<properties>
-			<property name="tabIndent" value="true"/>
-		</properties>
-	</rule>
+	<rule ref="PEAR.Functions.FunctionDeclaration"/>
 
 	<rule ref="CodingStandard.Commenting.FunctionComment">
 		<exclude-pattern>*Test.php</exclude-pattern>
@@ -241,11 +229,7 @@
 		<rule ref="Squiz.WhiteSpace.ObjectOperatorSpacing"/>
 	-->
 
-	<rule ref="CodingStandard.ControlStructures.MultiLineCondition">
-		<properties>
-			<property name="tabIndent" value="true"/>
-		</properties>
-	</rule>
+	<rule ref="PEAR.ControlStructures.MultiLineCondition"/>
 
 	<rule ref="Squiz.WhiteSpace.MemberVarSpacing"/>
 
