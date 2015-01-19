@@ -79,7 +79,7 @@
 - [x] After semicolon - "Squiz.ControlStructures.ForLoopDeclaration.NoSpaceAfterFirst/NoSpaceAfterSecond"
 - [ ] After type cast - "Generic.Formatting.NoSpaceAfterCast.SpaceFound"
 - [ ] Before unary Not (!) - (TODO: Not covered; Priority: Normal; #55)
-- [ ] After unary Not (!) - (TODO: Not covered; Priority: Normal; #55)
+- [ ] After unary Not (!) - "CodingStandard.Formatting.NoSpaceAfterBooleanNot.SpaceFound"
 
 
 ## "Wrapping and Braces"
