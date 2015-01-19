@@ -3,6 +3,7 @@
 	<description>Alexander Obuhovich's coding standard.</description>
 
 	<arg name="tab-width" value="4" />
+	<arg name="encoding" value="UTF-8" />
 
 	<rule ref="Generic.CodeAnalysis.EmptyStatement"/>
 	<rule ref="Generic.CodeAnalysis.ForLoopShouldBeWhileLoop"/>
