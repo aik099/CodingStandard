@@ -232,6 +232,11 @@
 
 	<rule ref="PEAR.ControlStructures.MultiLineCondition"/>
 
+	<!-- Turn off because overlapping with "CodingStandard.WhiteSpace.ControlStructureSpacing" -->
+	<rule ref="PEAR.ControlStructures.MultiLineCondition.SpacingAfterOpenBrace">
+		<severity>0</severity>
+	</rule>
+
 	<rule ref="Squiz.WhiteSpace.MemberVarSpacing"/>
 
 	<!--
