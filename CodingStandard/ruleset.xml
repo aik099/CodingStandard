@@ -3,6 +3,8 @@
 	<description>Alexander Obuhovich's coding standard.</description>
 
 	<arg name="tab-width" value="4" />
+	<arg name="encoding" value="UTF-8" />
+	<arg name="colors" />
 
 	<exclude-pattern>blog/*</exclude-pattern>
 	<exclude-pattern>build/*</exclude-pattern>
@@ -242,6 +244,11 @@
 
 	<rule ref="PEAR.ControlStructures.MultiLineCondition"/>
 
+	<!-- Turn off because overlapping with "CodingStandard.WhiteSpace.ControlStructureSpacing" -->
+	<rule ref="PEAR.ControlStructures.MultiLineCondition.SpacingAfterOpenBrace">
+		<severity>0</severity>
+	</rule>
+
 	<rule ref="Squiz.WhiteSpace.MemberVarSpacing"/>
 
 	<!--
@@ -255,7 +262,11 @@
 		<rule ref="Squiz.Operators.ComparisonOperatorUsage"/>
 	-->
 
-	<rule ref="Squiz.WhiteSpace.OperatorSpacing"/>
+	<rule ref="Squiz.WhiteSpace.OperatorSpacing">
+		<properties>
+			<property name="ignoreNewlines" value="true"/>
+		</properties>
+	</rule>
 	<rule ref="Squiz.WhiteSpace.ScopeKeywordSpacing"/>
 
 	<rule ref="Squiz.WhiteSpace.SemicolonSpacing"/>
