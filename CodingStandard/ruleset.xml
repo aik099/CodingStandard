@@ -4,7 +4,6 @@
 
 	<arg name="tab-width" value="4" />
 	<arg name="encoding" value="UTF-8" />
-	<arg name="colors" />
 
 	<rule ref="Generic.CodeAnalysis.EmptyStatement"/>
 	<rule ref="Generic.CodeAnalysis.ForLoopShouldBeWhileLoop"/>
