@@ -227,7 +227,7 @@ public function missingReturnType()
  * @param float   $a6 Comment here.
  * @param Myclass $a7 Comment here.
  *
- * @return int|object|double|float|array(int=>MyClass)
+ * @return integer|object|float|array(integer => MyClass)
  */
 public function caseSensitive($a1, $a2, $a3, arRay $a4, $a5, $a6, myclas $a7)
 {
@@ -243,7 +243,7 @@ public function caseSensitive($a1, $a2, $a3, arRay $a4, $a5, $a6, myclas $a7)
  * @param MyClass $a3 Comment here.
  * @param MyClass $a4 Comment here.
  *
- * @return array(int => MyClass)
+ * @return array(integer => MyClass)
  */
 public function typeHint(MyClass $a1, $a2, myclass $a3, $a4)
 {
@@ -260,7 +260,7 @@ public function typeHint(MyClass $a1, $a2, myclass $a3, $a4)
  * @param string|array $a3 Comment here.
  * @param integer      $a4 Comment here.
  *
- * @return bool
+ * @return boolean
  */
 public function mixedType($a1, $a2, $a3, $a4)
 {
@@ -281,7 +281,7 @@ public function mixedType($a1, $a2, $a3, $a4)
  * @param array                     $a7 Use 'array' instead.
  * @param string                    $a8 String with unknown type hint.
  *
- * @return int
+ * @return integer
  */
 public function mixedArrayType($a1, $a2, array $a3, $a4, $a5, $a6, $a7, unknownTypeHint $a8)
 {
