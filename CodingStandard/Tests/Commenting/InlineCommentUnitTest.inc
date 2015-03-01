@@ -152,4 +152,14 @@ if ($b) {
 
 $next_code = 5;
 
+
+// comment starts with lowercase letter - bad.
+$a = 1;
+
+// [comment starts with non-letter - good.
+$a = 1;
+
+// 5comment starts with non-letter - good.
+$a = 1;
+
 ?>

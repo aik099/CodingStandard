@@ -99,58 +99,18 @@ class CodingStandard_Sniffs_NamingConventions_ValidVariableNameSniff extends
             return;
         }
 
-        $objOperator = $phpcsFile->findNext(array(T_WHITESPACE), ($stackPtr + 1), null, true);
-        if ($tokens[$objOperator]['code'] === T_OBJECT_OPERATOR) {
-            // Check to see if we are using a variable from an object.
-            $var = $phpcsFile->findNext(array(T_WHITESPACE), ($objOperator + 1), null, true);
-            if ($tokens[$var]['code'] === T_STRING) {
-                // Either a var name or a function call, so check for bracket.
-                $bracket = $phpcsFile->findNext(array(T_WHITESPACE), ($var + 1), null, true);
-                if ($tokens[$bracket]['code'] !== T_OPEN_PARENTHESIS) {
-                    $objVarName = $tokens[$var]['content'];
-
-                    // There is no way for us to know if the var is public or private,
-                    // so we have to ignore a leading underscore if there is one and just
-                    // check the main part of the variable name.
-                    $originalVarName = $objVarName;
-                    if (substr($objVarName, 0, 1) === '_') {
-                        $objVarName = substr($objVarName, 1);
-                    }
-
-                    if ($this->isCamelCaps($objVarName) === false) {
-                        $error = 'Member variable "%s" is not in valid camel caps format';
-                        $data  = array($originalVarName);
-                        $phpcsFile->addError($error, $var, 'MemberNotCamelCaps', $data);
-                    }
-                }//end if
-            }//end if
-        }//end if
-
-        // There is no way for us to know if the var is public or private,
-        // so we have to ignore a leading underscore if there is one and just
-        // check the main part of the variable name.
-        $originalVarName = $varName;
-        $objOperator     = $phpcsFile->findPrevious(array(T_WHITESPACE), ($stackPtr - 1), null, true);
-
-        if ($tokens[$objOperator]['code'] === T_DOUBLE_COLON) {
-            // The variable lives within a class, and is referenced like
-            // this: MyClass::$_variable, so we don't know its scope.
-            $inClass = true;
-        } else {
-            $inClass = false;
+        $objOperator = $phpcsFile->findPrevious(array(T_WHITESPACE), ($stackPtr - 1), null, true);
+        if ($tokens[$objOperator]['code'] === T_DOUBLE_COLON
+            || $tokens[$objOperator]['code'] === T_OBJECT_OPERATOR
+        ) {
+            // Don't validate class/object property usage,
+            // because their declaration is already validated.
+            return;
         }
 
-        if ($inClass === true && substr($varName, 0, 1) === '_') {
-            $varName = substr($varName, 1);
-        }
-
-        if ($inClass === true && $this->isCamelCaps($varName) === false) {
-            $error = 'Variable "%s" is not in valid camel caps format';
-            $data  = array($originalVarName);
-            $phpcsFile->addError($error, $stackPtr, 'NotCamelCaps', $data);
-        } else if ($inClass === false && $this->isSnakeCaps($varName) === false) {
+        if ($this->isSnakeCaps($varName) === false) {
             $error = 'Variable "%s" is not in valid snake caps format';
-            $data  = array($originalVarName);
+            $data  = array($varName);
             $phpcsFile->addError($error, $stackPtr, 'NotSnakeCaps', $data);
         }
 
@@ -227,36 +187,41 @@ class CodingStandard_Sniffs_NamingConventions_ValidVariableNameSniff extends
      */
     protected function processVariableInString(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
-        $tokens = $phpcsFile->getTokens();
+        $tokens         = $phpcsFile->getTokens();
+        $content        = $tokens[$stackPtr]['content'];
+        $variablesFound = preg_match_all(
+            '|[^\\\]\${?([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)|',
+            $content,
+            $matches,
+            PREG_SET_ORDER + PREG_OFFSET_CAPTURE
+        );
 
-        if (preg_match_all('|[^\\\]\${?([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)|', $tokens[$stackPtr]['content'], $matches) !== 0) {
-            foreach ($matches[1] as $varName) {
-                // If it's a php reserved var, then its ok.
-                if (in_array($varName, $this->phpReservedVars) === true) {
-                    continue;
-                }
+        if ($variablesFound === 0) {
+            return;
+        }
 
-                // There is no way for us to know if the var is public or private,
-                // so we have to ignore a leading underscore if there is one and just
-                // check the main part of the variable name.
-                $originalVarName = $varName;
-                $inClass         = $this->withinClass($phpcsFile, $stackPtr);
+        foreach ($matches as $match) {
+            $varName = $match[1][0];
+            $offset = $match[1][1];
 
-                if ($inClass === true && substr($varName, 0, 1) === '_') {
-                    $varName = substr($varName, 1);
-                }
+            // If it's a php reserved var, then its ok.
+            if (in_array($varName, $this->phpReservedVars) === true) {
+                continue;
+            }
 
-                if ($inClass === true && $this->isCamelCaps($varName) === false) {
-                    $error = 'Variable in string "%s" is not in valid camel caps format';
-                    $data  = array($originalVarName);
-                    $phpcsFile->addError($error, $stackPtr, 'StringNotCamelCaps', $data);
-                } else if ($inClass === false && $this->isSnakeCaps($varName) === false) {
-                    $error = 'Variable in string "%s" is not in valid snake caps format';
-                    $data  = array($originalVarName);
-                    $phpcsFile->addError($error, $stackPtr, 'StringNotSnakeCaps', $data);
-                }
-            }//end foreach
-        }//end if
+            // Don't validate class/object property usage in strings,
+            // because their declaration is already validated.
+            $variablePrefix = substr($content, $offset - 3, 2);
+            if ($variablePrefix === '::' || $variablePrefix === '->') {
+                continue;
+            }
+
+            if ($this->isSnakeCaps($varName) === false) {
+                $error = 'Variable in string "%s" is not in valid snake caps format';
+                $data  = array($varName);
+                $phpcsFile->addError($error, $stackPtr, 'StringNotSnakeCaps', $data);
+            }
+        }//end foreach
 
     }//end processVariableInString()
 
@@ -296,22 +261,6 @@ class CodingStandard_Sniffs_NamingConventions_ValidVariableNameSniff extends
         return strtolower($string) === $string;
 
     }//end isSnakeCaps()
-
-
-    /**
-     * Determines if variable (at pointer) is within a class/interface/trait.
-     *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
-     * @param int                  $stackPtr  The position of the current token in the
-     *                                        stack passed in $tokens.
-     *
-     * @return bool
-     */
-    protected function withinClass(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
-    {
-        return $phpcsFile->hasCondition($stackPtr, array(T_CLASS, T_INTERFACE, T_TRAIT));
-
-    }//end withinClass()
 
 
 }//end class

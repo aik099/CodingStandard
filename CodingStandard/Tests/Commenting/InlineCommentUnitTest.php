@@ -60,12 +60,14 @@ class CodingStandard_Tests_Commenting_InlineCommentUnitTest extends AbstractSnif
                            95  => 1,
                            96  => 1,
                            97  => 3,
-                           // Comments starting with digit are allowed.
-                           114 => 0,
                            // The @var inline comments are allowed.
                            118 => 0,
                            130 => 1,
                            133 => 1,
+                           156 => 1,
+                           // Comments starting with non-letter are allowed.
+                           159 => 0,
+                           162 => 0,
                           );
 
                 // The trait tests will only work in PHP version where traits exist and

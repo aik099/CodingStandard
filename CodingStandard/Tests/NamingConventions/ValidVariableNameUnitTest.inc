@@ -163,3 +163,11 @@ class ClassExceptions
     }
 
 }
+
+$a = $some_var->ThisDoesNotThrow->AnError;
+$a = $some_var->$ThisDoesNotThrow->AnError;
+
+echo "Hello {TheClass::CONST}";
+echo "Hello {TheClass::$staticProperty}";
+echo "Hello {$object->$dynamicProperty}";
+echo "Hello {$object->$dynamicProperty[5]}";
