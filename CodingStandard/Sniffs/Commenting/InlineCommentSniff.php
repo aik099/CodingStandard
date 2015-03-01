@@ -249,8 +249,8 @@ class CodingStandard_Sniffs_Commenting_InlineCommentSniff implements PHP_CodeSni
             return;
         }
 
-        if (preg_match('/(\p{Lu}|\d)/u', $commentText[0]) === 0) {
-            $error = 'Inline comments must start with a capital letter or digit';
+        if (preg_match('/\p{Lu}|\P{L}/u', $commentText[0]) === 0) {
+            $error = 'Inline comments must start with a capital letter';
             $phpcsFile->addError($error, $topComment, 'NotCapital');
         }
 
