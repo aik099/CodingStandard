@@ -6,6 +6,14 @@
 	<arg name="encoding" value="UTF-8" />
 
 	<rule ref="Generic.CodeAnalysis.EmptyStatement"/>
+
+	<!-- Turn off because overlapping with "Squiz.Commenting.EmptyCatchComment" -->
+	<rule ref="Generic.CodeAnalysis.EmptyStatement.DetectedCATCH">
+		<severity>0</severity>
+	</rule>
+
+	<rule ref="Squiz.Commenting.EmptyCatchComment"/>
+
 	<rule ref="Generic.CodeAnalysis.ForLoopShouldBeWhileLoop"/>
 	<rule ref="Generic.CodeAnalysis.ForLoopWithTestFunctionCall"/>
 	<rule ref="Generic.CodeAnalysis.JumbledIncrementer"/>
