@@ -249,30 +249,36 @@ class CodingStandard_Sniffs_Commenting_InlineCommentSniff implements PHP_CodeSni
             return;
         }
 
+        // If the first character is now uppercase and is not
+        // a non-letter character, throw an error.
+        // \p{Lu} : an uppercase letter that has a lowercase variant.
+        // \P{L}  : a non-letter character.
         if (preg_match('/\p{Lu}|\P{L}/u', $commentText[0]) === 0) {
             $error = 'Inline comments must start with a capital letter';
             $phpcsFile->addError($error, $topComment, 'NotCapital');
         }
 
-        $commentCloser   = $commentText[(strlen($commentText) - 1)];
-        $acceptedClosers = array(
-                            'full-stops'        => '.',
-                            'exclamation marks' => '!',
-                            'question marks'    => '?',
-                            'commas'            => ',',
-                            'or semicolons'     => ';',
-                           );
+        // Only check the end of comment character if the start of the comment
+        // is a letter, indicating that the comment is just standard text.
+        if (preg_match('/\P{L}/u', $commentText[0]) === 0) {
+            $commentCloser   = $commentText[(strlen($commentText) - 1)];
+            $acceptedClosers = array(
+                                'full-stops'        => '.',
+                                'exclamation marks' => '!',
+                                'or question marks' => '?',
+                               );
 
-        if (in_array($commentCloser, $acceptedClosers) === false) {
-            $error = 'Inline comments must end in %s';
-            $ender = '';
-            foreach ($acceptedClosers as $closerName => $symbol) {
-                $ender .= ' '.$closerName.',';
+            if (in_array($commentCloser, $acceptedClosers) === false) {
+                $error = 'Inline comments must end in %s';
+                $ender = '';
+                foreach ($acceptedClosers as $closerName => $symbol) {
+                    $ender .= ' '.$closerName.',';
+                }
+
+                $ender = trim($ender, ' ,');
+                $data  = array($ender);
+                $phpcsFile->addError($error, $stackPtr, 'InvalidEndChar', $data);
             }
-
-            $ender = trim($ender, ' ,');
-            $data  = array($ender);
-            $phpcsFile->addError($error, $stackPtr, 'InvalidEndChar', $data);
         }
 
         // Finally, the line below the last comment cannot be empty if this inline

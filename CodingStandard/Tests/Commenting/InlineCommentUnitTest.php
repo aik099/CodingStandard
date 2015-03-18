@@ -59,7 +59,7 @@ class CodingStandard_Tests_Commenting_InlineCommentUnitTest extends AbstractSnif
                            67  => 1,
                            95  => 1,
                            96  => 1,
-                           97  => 3,
+                           97  => 2,
                            // The @var inline comments are allowed.
                            118 => 0,
                            130 => 1,
