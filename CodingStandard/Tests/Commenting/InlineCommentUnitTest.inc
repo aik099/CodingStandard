@@ -135,10 +135,10 @@ class SomeClass
     }
 }
 
-// This is ok,
+// 'var' => 'ok',
 $code = 5;
 
-// This is also ok;
+// $This = OK;
 $code = 5;
 
 /** @type \stdClass $some_var */
