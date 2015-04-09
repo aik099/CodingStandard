@@ -233,11 +233,6 @@
 	<rule ref="Squiz.WhiteSpace.LanguageConstructSpacing"/>
 	<rule ref="Squiz.WhiteSpace.LogicalOperatorSpacing"/>
 
-	<!--
-		Reports multi-line chained method calls as error
-		<rule ref="Squiz.WhiteSpace.ObjectOperatorSpacing"/>
-	-->
-
 	<rule ref="PEAR.ControlStructures.MultiLineCondition"/>
 
 	<!-- Turn off because overlapping with "CodingStandard.WhiteSpace.ControlStructureSpacing" -->
