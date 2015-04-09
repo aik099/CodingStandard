@@ -98,11 +98,6 @@
 
 	<rule ref="MySource.PHP.EvalObjectFactory"/>
 
-	<!--
-		Checks for aligned parameters
-		<rule ref="PEAR.Commenting.FunctionComment"/>
-	-->
-
 	<rule ref="PSR2.Methods.FunctionCallSignature"/>
 
 	<rule ref="PEAR.Functions.ValidDefaultValue"/>
@@ -244,11 +239,6 @@
 	<rule ref="Squiz.WhiteSpace.LanguageConstructSpacing"/>
 	<rule ref="Squiz.WhiteSpace.LogicalOperatorSpacing"/>
 
-	<!--
-		Reports multi-line chained method calls as error
-		<rule ref="Squiz.WhiteSpace.ObjectOperatorSpacing"/>
-	-->
-
 	<rule ref="PEAR.ControlStructures.MultiLineCondition"/>
 
 	<!-- Turn off because overlapping with "CodingStandard.WhiteSpace.ControlStructureSpacing" -->
@@ -258,10 +248,6 @@
 
 	<rule ref="Squiz.WhiteSpace.MemberVarSpacing"/>
 
-	<!--
-		Maybe can be improved to locate empty lines
-		"right after scope opening" and "right before scope closing"
-	-->
 	<rule ref="Squiz.WhiteSpace.SuperfluousWhitespace"/>
 
 	<!--

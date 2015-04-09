@@ -1,6 +1,6 @@
 <?php
 /**
- * Unit test class for the NoSpaceAfterBooleanNot sniff.
+ * Unit test class for the CommaSpacing sniff.
  *
  * PHP version 5
  *
@@ -12,7 +12,7 @@
  */
 
 /**
- * Unit test class for the NoSpaceAfterBooleanNot sniff.
+ * Unit test class for the CommaSpacing sniff.
  *
  * A sniff unit test checks a .inc file for expected violations of a single
  * coding standard. Expected errors and warnings are stored in this class.
@@ -23,7 +23,7 @@
  * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
  * @link     https://github.com/aik099/CodingStandard
  */
-class CodingStandard_Tests_Formatting_NoSpaceAfterBooleanNotUnitTest extends AbstractSniffUnitTest
+class CodingStandard_Tests_WhiteSpace_CommaSpacingUnitTest extends AbstractSniffUnitTest
 {
 
 
@@ -35,14 +35,16 @@ class CodingStandard_Tests_Formatting_NoSpaceAfterBooleanNotUnitTest extends Abs
      *
      * @param string $testFile Name of the file with test data.
      *
-     * @return array <int, int>
+     * @return array(int => int)
      */
     public function getErrorList($testFile)
     {
         return array(
-                11 => 1,
-                12 => 1,
-                13 => 2,
+                12 => 2,
+                14 => 2,
+                16 => 2,
+                17 => 2,
+                18 => 4,
                );
 
     }//end getErrorList()
@@ -56,7 +58,7 @@ class CodingStandard_Tests_Formatting_NoSpaceAfterBooleanNotUnitTest extends Abs
      *
      * @param string $testFile Name of the file with test data.
      *
-     * @return array <int, int>
+     * @return array(int => int)
      */
     public function getWarningList($testFile)
     {
