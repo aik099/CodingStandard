@@ -66,5 +66,3 @@ class CodingStandard_Tests_Formatting_NoSpaceAfterBooleanNotUnitTest extends Abs
 
 
 }//end class
-
-?>
