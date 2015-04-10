@@ -6,7 +6,7 @@ $a = array(
 );
 func('a', 5);
 func($a[5], 'b');
-list(,,) = 5;
+list(, ,) = 5;
 
 // errors
 $a = array(5, 'a', 10,);
@@ -15,4 +15,4 @@ $a = array(
 );
 func('a', 5);
 func($a[5], 'b');
-list(,,) = 5;
+list(, ,) = 5;

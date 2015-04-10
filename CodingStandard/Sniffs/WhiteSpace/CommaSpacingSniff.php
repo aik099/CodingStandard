@@ -68,11 +68,11 @@ class CodingStandard_Sniffs_WhiteSpace_CommaSpacingSniff implements PHP_CodeSnif
         $tokens    = $phpcsFile->getTokens();
         $prevToken = $tokens[($stackPtr - 1)];
 
-        if ($prevToken['content'] === ',' || $prevToken['content'] === '(') {
+        if ($prevToken['content'] === '(') {
             return;
         }
 
-        if ($prevToken['code'] === T_WHITESPACE) {
+        if ($prevToken['code'] === T_WHITESPACE && $tokens[($stackPtr - 2)]['code'] !== T_COMMA) {
             $error = 'Space found before comma';
             $fix = $phpcsFile->addFixableError($error, $stackPtr, 'Before');
             if ($fix === true) {
@@ -96,7 +96,7 @@ class CodingStandard_Sniffs_WhiteSpace_CommaSpacingSniff implements PHP_CodeSnif
         $tokens    = $phpcsFile->getTokens();
         $nextToken = $tokens[($stackPtr + 1)];
 
-        if ($nextToken['content'] === ',' || $nextToken['content'] === ')') {
+        if ($nextToken['content'] === ')') {
             return;
         }
 
@@ -110,7 +110,7 @@ class CodingStandard_Sniffs_WhiteSpace_CommaSpacingSniff implements PHP_CodeSnif
             $spacingLength  = $nextToken['length'];
             if ($spacingLength === 1) {
                 $tokenAfterSpace = $tokens[($stackPtr + 2)];
-                if ($tokenAfterSpace['content'] === ',' || $tokenAfterSpace['content'] === ')') {
+                if ($tokenAfterSpace['content'] === ')') {
                     $error = 'Space found after comma';
                     $fix = $phpcsFile->addFixableError($error, $stackPtr, 'After');
                     if ($fix === true) {
