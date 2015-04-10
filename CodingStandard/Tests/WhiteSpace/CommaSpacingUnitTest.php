@@ -44,7 +44,7 @@ class CodingStandard_Tests_WhiteSpace_CommaSpacingUnitTest extends AbstractSniff
                 14 => 2,
                 16 => 2,
                 17 => 2,
-                18 => 4,
+                18 => 2,
                );
 
     }//end getErrorList()
