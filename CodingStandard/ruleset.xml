@@ -88,7 +88,7 @@
 
 	<rule ref="Generic.WhiteSpace.DisallowSpaceIndent"/>
 
-	<rule ref="Generic.WhiteSpace.ScopeIndent" phpcs-only="true">
+	<rule ref="Generic.WhiteSpace.ScopeIndent">
 		<properties>
 			<property name="tabIndent" value="true"/>
 		</properties>
