@@ -70,7 +70,15 @@
 	<rule ref="Generic.PHP.CharacterBeforePHPOpeningTag"/>
 	<rule ref="Generic.PHP.DeprecatedFunctions"/>
 	<rule ref="Generic.PHP.DisallowShortOpenTag"/>
-	<rule ref="Generic.PHP.ForbiddenFunctions"/>
+	<rule ref="Generic.PHP.ForbiddenFunctions">
+		<properties>
+			<property
+				name="forbiddenFunctions"
+			 	type="array"
+				value="sizeof=>count,delete=>unset,print=>echo,join=>implode"
+			/>
+		</properties>
+	</rule>
 	<rule ref="Generic.PHP.LowerCaseConstant"/>
 	<rule ref="Generic.PHP.LowerCaseKeyword"/>
 	<rule ref="Generic.PHP.NoSilencedErrors"/>
