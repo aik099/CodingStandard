@@ -218,10 +218,6 @@ class SomeEventHandler extends kDBEventHandler
     {
     }
 
-    protected function LoadItem()
-    {
-    }
-
     protected function ListPrepareQuery()
     {
     }
@@ -260,10 +256,6 @@ class SomeEventHandlerFeature extends kDBEventHandler
     }
 
     protected function CheckPermission()
-    {
-    }
-
-    protected function LoadItem()
     {
     }
 
