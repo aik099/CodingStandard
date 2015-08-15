@@ -38,18 +38,47 @@ class CodingStandard_Sniffs_NamingConventions_ValidFunctionNameSniff extends
  PEAR_Sniffs_NamingConventions_ValidFunctionNameSniff
 {
 
-    protected $eventHandlerExclusions = array(
-                                         'SetCustomQuery',
-                                         'CheckPermission',
-                                         'LoadItem',
-                                         'ListPrepareQuery',
-                                         'ItemPrepareQuery',
-                                         'SetPagination',
-                                         'SetSorting',
-                                        );
-
-    protected $tagProcessorExclusions = array('PrepareListElementParams');
-
+    protected $exclusions = array(
+        // Don't match to the end of class name to allow "SomeEventHandlerFeature" format.
+        '/EventHandler/' => array(
+            'SetCustomQuery',
+            'CheckPermission',
+            'BaseQuery',
+            'ListPrepareQuery',
+            'ItemPrepareQuery',
+            'SetPagination',
+            'SetSorting',
+        ),
+        // Don't match to the end of class name to allow "SomeTagProcessorFeature" format.
+        '/TagProcessor/' => array(
+            'PrepareListElementParams',
+        ),
+        '/Formatter$/' => array(
+            'Format',
+            'Parse',
+            'PrepareOptions',
+        ),
+        '/Validator$/' => array(
+            'GetErrorMsg',
+            'CustomValidation',
+            'SetError',
+        ),
+        '/ShippingQuoteEngine$/' => array(
+            'GetShippingQuotes',
+            'GetAvailableTypes',
+            'GetEngineFields',
+            'MakeOrder',
+        ),
+        '/Helper$/' => array(
+            'Init',
+            'InitHelper',
+        ),
+        '/Item$/' => array('*'),
+        '/List$/' => array('*'),
+        '/DBConnection/' => array('*'),
+        '/DBLoadBalancer$/' => array('*'),
+        '/Application$/' => array('*'),
+    );
 
     /**
      * Processes the tokens within the scope.
@@ -140,7 +169,8 @@ class CodingStandard_Sniffs_NamingConventions_ValidFunctionNameSniff extends
 
         $methodParams = $phpcsFile->getMethodParameters($stackPtr);
 
-        if ($this->isEventHandlerExclusion($className, $methodName, $methodParams) === true
+        if ($this->isExclusion($className, $methodName, $isPublic) === true
+            || $this->isEventHandlerExclusion($className, $methodName, $methodParams) === true
             || $this->isTagProcessorExclusion($className, $methodName, $methodParams) === true
         ) {
             return;
@@ -164,6 +194,26 @@ class CodingStandard_Sniffs_NamingConventions_ValidFunctionNameSniff extends
 
     }//end processTokenWithinScope()
 
+    /**
+     * Determines if a method name shouldn't be checked for camelCaps format.
+     *
+     * @param string $className  Class name.
+     * @param string $methodName Method name.
+     * @param bool   $isPublic   Public.
+     *
+     * @return bool
+     */
+    protected function isExclusion($className, $methodName, $isPublic)
+    {
+        foreach ($this->exclusions as $classRegExp => $excludedMethods) {
+            if (preg_match($classRegExp, $className)) {
+                return ($excludedMethods[0] == '*' && $isPublic) || in_array($methodName, $excludedMethods);
+            }
+        }
+
+        return false;
+
+    }//end isExclusion()
 
     /**
      * Determines if a method is an event in the event handler class.
@@ -181,9 +231,7 @@ class CodingStandard_Sniffs_NamingConventions_ValidFunctionNameSniff extends
             return false;
         }
 
-        $isEvent = substr($methodName, 0, 2) == 'On' && count($methodParams) === 1 && $methodParams[0]['name'] === '$event';
-
-        return in_array($methodName, $this->eventHandlerExclusions) || $isEvent === true;
+        return substr($methodName, 0, 2) == 'On' && count($methodParams) === 1 && $methodParams[0]['name'] === '$event';
 
     }//end isEventHandlerExclusion()
 
@@ -204,9 +252,7 @@ class CodingStandard_Sniffs_NamingConventions_ValidFunctionNameSniff extends
             return false;
         }
 
-        $isTag = count($methodParams) === 1 && $methodParams[0]['name'] === '$params';
-
-        return in_array($methodName, $this->tagProcessorExclusions) || $isTag === true;
+        return count($methodParams) === 1 && $methodParams[0]['name'] === '$params';
 
     }//end isTagProcessorExclusion()
 
