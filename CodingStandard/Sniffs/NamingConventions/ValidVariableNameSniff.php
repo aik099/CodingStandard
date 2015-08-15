@@ -143,8 +143,14 @@ class CodingStandard_Sniffs_NamingConventions_ValidVariableNameSniff extends
         }
         // @codeCoverageIgnoreEnd
 
+        $classToken = $phpcsFile->findPrevious(
+            array(T_CLASS, T_INTERFACE, T_TRAIT),
+            $stackPtr
+        );
+        $className = $phpcsFile->getDeclarationName($classToken);
+
         $public    = ($memberProps['scope'] !== 'private');
-        $errorData = array($varName);
+        $errorData = array($className.'::'.$varName);
 
         if ($public === true) {
             if (substr($varName, 0, 1) === '_') {
