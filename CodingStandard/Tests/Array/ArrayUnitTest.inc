@@ -18,3 +18,7 @@ $nested = array(
         'a'
     )
 );
+$d = array(
+	'elem1'
+    /*'elem2'*/
+);
