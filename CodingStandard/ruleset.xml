@@ -21,6 +21,7 @@
 	</rule>
 
 	<rule ref="Squiz.Commenting.EmptyCatchComment"/>
+	<rule ref="Squiz.Commenting.FunctionCommentThrowTag"/>
 
 	<rule ref="Generic.CodeAnalysis.ForLoopShouldBeWhileLoop"/>
 	<rule ref="Generic.CodeAnalysis.ForLoopWithTestFunctionCall"/>

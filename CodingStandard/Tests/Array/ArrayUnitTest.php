@@ -74,6 +74,8 @@ class CodingStandard_Tests_Array_ArrayUnitTest extends AbstractSniffUnitTest
                 18 => 1,
                 // Space after last element (nested multi-line array).
                 19 => 1,
+                // No comma after last element followed by comment on next line.
+                22 => 1,
                );
 
     }//end getWarningList()
