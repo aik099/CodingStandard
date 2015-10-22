@@ -102,7 +102,6 @@
 	<rule ref="PSR2.Methods.FunctionCallSignature"/>
 
 	<rule ref="PEAR.Functions.ValidDefaultValue"/>
-	<rule ref="PEAR.NamingConventions.ValidVariableName"/>
 
 	<rule ref="PSR2.Namespaces.UseDeclaration"/>
 
