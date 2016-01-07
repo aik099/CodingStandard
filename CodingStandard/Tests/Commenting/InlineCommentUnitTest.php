@@ -70,9 +70,8 @@ class CodingStandard_Tests_Commenting_InlineCommentUnitTest extends AbstractSnif
                            162 => 0,
                           );
 
-                // The trait tests will only work in PHP version where traits exist and
-                // will throw errors in earlier versions.
-                if (version_compare(PHP_VERSION, '5.4.0') < 0) {
+                // Before PHPCS 2.4.0 traits were not tokenized below PHP 5.4.
+                if (version_compare(PHP_CodeSniffer::VERSION, '2.4.0', '<') && version_compare(PHP_VERSION, '5.4.0', '<')) {
                     $errors[106] = 1;
                 }
                 return $errors;

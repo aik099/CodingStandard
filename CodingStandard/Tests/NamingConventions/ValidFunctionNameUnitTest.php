@@ -154,9 +154,8 @@ class CodingStandard_Tests_NamingConventions_ValidFunctionNameUnitTest extends A
                    175 => 1,
                   );
 
-        // The trait tests will only work in PHP version where traits exist and
-        // will throw errors in earlier versions.
-        if (version_compare(PHP_VERSION, '5.4.0') < 0) {
+        // Before PHPCS 2.4.0 traits were not tokenized below PHP 5.4.
+        if (version_compare(PHP_CodeSniffer::VERSION, '2.4.0', '<') && version_compare(PHP_VERSION, '5.4.0', '<')) {
             $errors[196] = 1;
         }
 
