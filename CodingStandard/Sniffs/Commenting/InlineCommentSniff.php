@@ -177,40 +177,54 @@ class CodingStandard_Sniffs_Commenting_InlineCommentSniff implements PHP_CodeSni
             return;
         }
 
-        $spaceCount    = 0;
-        $commentLength = strlen($comment);
-        for ($i = 2; $i < $commentLength; $i++) {
-            if ($comment[$i] !== ' ' && $comment[$i] !== "\t") {
-                break;
+        if (trim(substr($comment, 2)) !== '') {
+            $spaceCount = 0;
+            $tabFound   = false;
+
+            $commentLength = strlen($comment);
+            for ($i = 2; $i < $commentLength; $i++) {
+                if ($comment[$i] === "\t") {
+                    $tabFound = true;
+                    break;
+                }
+
+                if ($comment[$i] !== ' ') {
+                    break;
+                }
+
+                $spaceCount++;
             }
 
-            $spaceCount++;
-        }
+            $fix = false;
+            if ($tabFound === true) {
+                $error = 'Tab found before comment text; expected "// %s" but found "%s"';
+                $data  = array(
+                          ltrim(substr($comment, 2)),
+                          $comment,
+                         );
+                $fix   = $phpcsFile->addFixableError($error, $stackPtr, 'TabBefore', $data);
+            } else if ($spaceCount === 0) {
+                $error = 'No space found before comment text; expected "// %s" but found "%s"';
+                $data  = array(
+                          substr($comment, 2),
+                          $comment,
+                         );
+                $fix   = $phpcsFile->addFixableError($error, $stackPtr, 'NoSpaceBefore', $data);
+            } else if ($spaceCount > 1) {
+                $error = 'Expected 1 space before comment text but found %s; use block comment if you need indentation';
+                $data  = array(
+                          $spaceCount,
+                          substr($comment, (2 + $spaceCount)),
+                          $comment,
+                         );
+                $fix   = $phpcsFile->addFixableError($error, $stackPtr, 'SpacingBefore', $data);
+            }//end if
 
-        $fix = false;
-        if ($spaceCount === 0) {
-            $error = 'No space before comment text; expected "// %s" but found "%s"';
-            $data  = array(
-                      ltrim(substr($comment, 2)),
-                      $comment,
-                     );
-            $fix   = $phpcsFile->addFixableError($error, $stackPtr, 'NoSpaceBefore', $data);
-        } else if ($spaceCount > 1) {
-            $error = '%s spaces found before inline comment line; use block comment if you need indentation';
-            $data  = array(
-                      $spaceCount,
-                      substr($comment, (2 + $spaceCount)),
-                      $comment,
-                     );
-            $fix   = $phpcsFile->addFixableError($error, $stackPtr, 'SpacingBefore', $data);
+            if ($fix === true) {
+                $newComment = '// '.ltrim($tokens[$stackPtr]['content'], "/\t ");
+                $phpcsFile->fixer->replaceToken($stackPtr, $newComment);
+            }
         }//end if
-
-        if ($fix === true) {
-            $phpcsFile->fixer->beginChangeset();
-            $newComment = '// '.ltrim($tokens[$stackPtr]['content'], "/\t ");
-            $phpcsFile->fixer->replaceToken($stackPtr, $newComment);
-            $phpcsFile->fixer->endChangeset();
-        }
 
         // The below section determines if a comment block is correctly capitalised,
         // and ends in a full-stop. It will find the last comment in a block, and
