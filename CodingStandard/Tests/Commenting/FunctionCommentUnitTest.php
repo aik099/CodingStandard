@@ -160,8 +160,8 @@ class CodingStandard_Tests_Commenting_FunctionCommentUnitTest extends AbstractSn
                     27 => 1,
                    );
 
-            if (version_compare(PHP_VERSION, '5.4.0', '<') === true) {
-                // Because in PHP < 5.4.0 the "trait " is tokenized as T_STRING.
+            // Before PHPCS 2.4.0 traits were not tokenized below PHP 5.4.
+            if (version_compare(PHP_CodeSniffer::VERSION, '2.4.0', '<') && version_compare(PHP_VERSION, '5.4.0', '<')) {
                 $ret[17] = 1;
             }
 

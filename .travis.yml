@@ -21,7 +21,7 @@ matrix:
           env: PHPCS_VERSION='~2.0@dev'
 
 before_script:
-    - composer require satooshi/php-coveralls:dev-master squizlabs/php_codesniffer:$PHPCS_VERSION --prefer-source
+    - composer require satooshi/php-coveralls:^1.0 squizlabs/php_codesniffer:$PHPCS_VERSION --prefer-source
 
 script:
     - mkdir -p build/logs
