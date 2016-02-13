@@ -12,7 +12,6 @@ class PHP_CodeSniffer_File
      * @param integer $detph    How many scope levels down we are.
      * @param string  $index    The index
      * @return
-     * @throws
      */
     private function _functionCall($stackPtr, $depth=1, $index)
     {
@@ -196,7 +195,6 @@ public function noReturnOutsideClass()
  * @see
  * @return void
  * @extra  Invalid tag
- * @throws UnknownException unknown
  */
 public function missingTwoParamComment($one, $two, $three)
 {
@@ -212,7 +210,7 @@ public function missingTwoParamComment($one, $two, $three)
  */
 public function missingReturnType()
 {
-
+    throw new Exception();
 }//end missingReturnType()
 
 
@@ -626,7 +624,7 @@ public function usesCallable(callable $cb) {
  */
 public function foo(array &$tokens, $tokenizer, $eolChar)
 {
-
+    throw new Exception();
 }//end foo()
 
 /**

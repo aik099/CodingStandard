@@ -136,4 +136,67 @@ class CodingStandard_Sniffs_Commenting_FunctionCommentSniff extends Squiz_Sniffs
     }//end checkShort()
 
 
+    /**
+     * Process any throw tags that this function comment has.
+     *
+     * @param PHP_CodeSniffer_File $phpcsFile    The file being scanned.
+     * @param int                  $stackPtr     The position of the current token
+     *                                           in the stack passed in $tokens.
+     * @param int                  $commentStart The position in the stack where the comment started.
+     *
+     * @return void
+     */
+    protected function processThrows(PHP_CodeSniffer_File $phpcsFile, $stackPtr, $commentStart)
+    {
+        parent::processThrows($phpcsFile, $stackPtr, $commentStart);
+
+        $tokens = $phpcsFile->getTokens();
+
+        foreach ($tokens[$commentStart]['comment_tags'] as $tag) {
+            if ($tokens[$tag]['content'] !== '@throws') {
+                continue;
+            }
+
+            $throwPtr = $phpcsFile->findNext(
+                T_THROW,
+                $tokens[$stackPtr]['scope_opener'],
+                $tokens[$stackPtr]['scope_closer']
+            );
+
+            if ($throwPtr !== false) {
+                break;
+            }
+
+            $throwsWithString = null;
+            $error            = '@throws tag found, but no exceptions are thrown by the function';
+
+            if ($tokens[($tag + 2)]['code'] === T_DOC_COMMENT_STRING) {
+                $throwsWithString = true;
+            } elseif ($tokens[($tag + 1)]['code'] === T_DOC_COMMENT_WHITESPACE
+                && $tokens[($tag + 1)]['content'] === $phpcsFile->eolChar
+            ) {
+                $throwsWithString = false;
+            }
+
+            if ($tokens[($tag - 2)]['code'] === T_DOC_COMMENT_STAR && isset($throwsWithString) === true) {
+                $fix = $phpcsFile->addFixableError($error, $tag, 'ExcessiveThrows');
+
+                if ($fix === true) {
+                    $phpcsFile->fixer->beginChangeset();
+
+                    $removeEndPtr = $throwsWithString === true ? ($tag + 3) : ($tag + 1);
+
+                    for ($i = ($tag - 4); $i < $removeEndPtr; $i++) {
+                        $phpcsFile->fixer->replaceToken($i, '');
+                    }
+
+                    $phpcsFile->fixer->endChangeset();
+                }
+            } else {
+                $phpcsFile->addError($error, $tag, 'ExcessiveThrows');
+            }
+        }//end foreach
+
+    }//end processThrows()
+
 }//end class

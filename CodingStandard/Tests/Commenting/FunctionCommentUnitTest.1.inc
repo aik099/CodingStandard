@@ -212,7 +212,7 @@ public function missingTwoParamComment($one, $two, $three)
  */
 public function missingReturnType()
 {
-
+    throw new Exception();
 }//end missingReturnType()
 
 
@@ -626,7 +626,7 @@ public function usesCallable(callable $cb) {
  */
 public function foo(array &$tokens, $tokenizer, $eolChar)
 {
-
+    throw new Exception();
 }//end foo()
 
 /**
