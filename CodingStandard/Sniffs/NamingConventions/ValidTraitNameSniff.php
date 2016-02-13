@@ -57,9 +57,9 @@ class CodingStandard_Sniffs_NamingConventions_ValidTraitNameSniff implements PHP
      */
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
-        $interfaceName = $phpcsFile->getDeclarationName($stackPtr);
-        $firstLetter   = $interfaceName[0];
-        $secondLetter  = $interfaceName[1];
+        $traitName = $phpcsFile->getDeclarationName($stackPtr);
+        $firstLetter   = $traitName[0];
+        $secondLetter  = $traitName[1];
 
         if ($firstLetter !== 'T' || $secondLetter === strtolower($secondLetter)) {
             $phpcsFile->addError(
