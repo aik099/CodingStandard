@@ -47,7 +47,7 @@ class CodingStandard_Tests_Commenting_FunctionCommentUnitTest extends AbstractSn
                     12  => 2,
                     13  => 2,
                     14  => 1,
-                    15  => 1,
+                    15  => 2, // +1 for "excessive @throws" tag.
                     28  => 1,
                     43  => 1,
                     52  => 1,
@@ -74,7 +74,7 @@ class CodingStandard_Tests_Commenting_FunctionCommentUnitTest extends AbstractSn
                     190 => 2,
                     193 => 2,
                     196 => 1,
-                    199 => 2,
+                    199 => 3, // +1 for "excessive @throws" tag.
                     210 => 1,
                     211 => 1,
                     222 => 1,

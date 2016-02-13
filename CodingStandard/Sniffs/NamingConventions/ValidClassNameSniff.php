@@ -1,6 +1,6 @@
 <?php
 /**
- * CodingStandard_Sniffs_NamingConventions_ValidTraitNameSniff.
+ * CodingStandard_Sniffs_NamingConventions_ValidClassNameSniff.
  *
  * PHP version 5
  *
@@ -13,9 +13,9 @@
  */
 
 /**
- * CodingStandard_Sniffs_NamingConventions_ValidTraitNameSniff.
+ * CodingStandard_Sniffs_NamingConventions_ValidClassNameSniff.
  *
- * Throws errors if trait names are not prefixed with "T".
+ * Throws errors if abstract class names are not prefixed with "Abstract".
  *
  * @category PHP
  * @package  PHP_CodeSniffer
@@ -23,7 +23,7 @@
  * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
  * @link     https://github.com/aik099/CodingStandard
  */
-class CodingStandard_Sniffs_NamingConventions_ValidTraitNameSniff implements PHP_CodeSniffer_Sniff
+class CodingStandard_Sniffs_NamingConventions_ValidClassNameSniff implements PHP_CodeSniffer_Sniff
 {
 
     /**
@@ -41,7 +41,7 @@ class CodingStandard_Sniffs_NamingConventions_ValidTraitNameSniff implements PHP
      */
     public function register()
     {
-        return array(T_TRAIT);
+        return array(T_CLASS);
 
     }//end register()
 
@@ -57,14 +57,28 @@ class CodingStandard_Sniffs_NamingConventions_ValidTraitNameSniff implements PHP
      */
     public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
     {
-        $traitName = $phpcsFile->getDeclarationName($stackPtr);
-        $firstLetter   = $traitName[0];
-        $secondLetter  = $traitName[1];
+        $className = $phpcsFile->getDeclarationName($stackPtr);
 
-        if ($firstLetter !== 'T' || $secondLetter === strtolower($secondLetter)) {
+        if (!$className) {
+            return;
+        }
+
+        $classProperties = $phpcsFile->getClassProperties($stackPtr);
+        $hasAbstractName = substr($className, 0, 8) === 'Abstract';
+
+        if ($classProperties['is_abstract'] === true && $hasAbstractName === false) {
             $phpcsFile->addError(
-                'Trait name is not prefixed with "T"',
-                $stackPtr
+                'Abstract class name "%s" is not prefixed with "Abstract"',
+                $stackPtr,
+                'AbstractWrongName',
+                array($className)
+            );
+        } elseif ($classProperties['is_abstract'] === false && $hasAbstractName === true) {
+            $phpcsFile->addError(
+                'Non-abstract class name "%s" is prefixed with "Abstract"',
+                $stackPtr,
+                'AbstractMissingModifier',
+                array($className)
             );
         }
 
