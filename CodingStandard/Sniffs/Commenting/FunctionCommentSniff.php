@@ -153,7 +153,8 @@ class CodingStandard_Sniffs_Commenting_FunctionCommentSniff extends Squiz_Sniffs
         $tokens = $phpcsFile->getTokens();
 
         foreach ($tokens[$commentStart]['comment_tags'] as $tag) {
-            if ($tokens[$tag]['content'] !== '@throws') {
+            // Only process method with scope (e.g. non-abstract methods or methods on the interface).
+            if ($tokens[$tag]['content'] !== '@throws' || isset($tokens[$stackPtr]['scope_opener']) === false) {
                 continue;
             }
 
