@@ -73,8 +73,43 @@ class CodingStandard_Sniffs_Commenting_FunctionCommentSniff extends Squiz_Sniffs
 
     }//end process()
 
+    /**
+     * Process the function parameter comments.
+     *
+     * @param PHP_CodeSniffer_File $phpcsFile    The file being scanned.
+     * @param int                  $stackPtr     The position of the current token
+     *                                           in the stack passed in $tokens.
+     * @param int                  $commentStart The position in the stack where the comment started.
+     *
+     * @return void
+     */
+    protected function processParams(PHP_CodeSniffer_File $phpcsFile, $stackPtr, $commentStart)
+    {
+        if ($this->isInheritDoc($phpcsFile, $commentStart) === true) {
+            return;
+        }
+
+        parent::processParams($phpcsFile, $stackPtr, $commentStart);
+
+    }//end processParams()
+
+
+    /**
+     * Process the return comment of this function comment.
+     *
+     * @param PHP_CodeSniffer_File $phpcsFile    The file being scanned.
+     * @param int                  $stackPtr     The position of the current token
+     *                                           in the stack passed in $tokens.
+     * @param int                  $commentStart The position in the stack where the comment started.
+     *
+     * @return void
+     */
     protected function processReturn(PHP_CodeSniffer_File $phpcsFile, $stackPtr, $commentStart)
     {
+        if ($this->isInheritDoc($phpcsFile, $commentStart) === true) {
+            return;
+        }
+
         parent::processReturn($phpcsFile, $stackPtr, $commentStart);
 
         $return = null;
@@ -95,7 +130,8 @@ class CodingStandard_Sniffs_Commenting_FunctionCommentSniff extends Squiz_Sniffs
                 $phpcsFile->addError($error, $return, 'InvalidThisReturn', $data);
             }
         }
-    }
+
+    }//end processReturn()
 
     /**
      * Process the short description of a function comment.
@@ -205,5 +241,28 @@ class CodingStandard_Sniffs_Commenting_FunctionCommentSniff extends Squiz_Sniffs
         }//end foreach
 
     }//end processThrows()
+
+
+    /**
+     * Is the comment an inheritdoc?
+     *
+     * @param PHP_CodeSniffer_File $phpcsFile    The file being scanned.
+     * @param int                  $commentStart The position in the stack where the comment started.
+     *
+     * @return bool
+     */
+    protected function isInheritDoc(PHP_CodeSniffer_File $phpcsFile, $commentStart)
+    {
+        $tokens = $phpcsFile->getTokens();
+
+        foreach ($tokens[$commentStart]['comment_tags'] as $tag) {
+            if ($tokens[$tag]['content'] === '@inheritdoc') {
+                return true;
+            }
+        }
+
+        return false;
+
+    }// end isInheritDoc()
 
 }//end class
