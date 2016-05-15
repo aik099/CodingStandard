@@ -69,6 +69,10 @@ class CodingStandard_Sniffs_Commenting_FunctionCommentSniff extends Squiz_Sniffs
             return;
         }
 
+        if ($this->isInheritDoc($phpcsFile, $commentStart) === true) {
+            return;
+        }
+
         $this->checkShort($phpcsFile, $stackPtr, $tokens[$short]['content'], $short);
 
     }//end process()
@@ -255,13 +259,10 @@ class CodingStandard_Sniffs_Commenting_FunctionCommentSniff extends Squiz_Sniffs
     {
         $tokens = $phpcsFile->getTokens();
 
-        foreach ($tokens[$commentStart]['comment_tags'] as $tag) {
-            if ($tokens[$tag]['content'] === '@inheritdoc') {
-                return true;
-            }
-        }
+        $commentEnd = $tokens[$commentStart]['comment_closer'];
+        $commentText = $phpcsFile->getTokensAsString($commentStart, ($commentEnd - $commentStart + 1));
 
-        return false;
+        return stripos($commentText, '{@inheritdoc}') !== false;
 
     }// end isInheritDoc()
 

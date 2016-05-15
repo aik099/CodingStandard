@@ -691,7 +691,7 @@ abstract class AbstractClass
 }
 
 /**
- * @inheritdoc
+ * {@inheritdoc}
  */
 public function functionName($param1)
 {
