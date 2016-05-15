@@ -59,7 +59,27 @@ class CodingStandard_Sniffs_Commenting_FunctionCommentSniff extends Squiz_Sniffs
 
         $commentStart = $tokens[$commentEnd]['comment_opener'];
 
+        $empty = array(
+                  T_DOC_COMMENT_WHITESPACE,
+                  T_DOC_COMMENT_STAR,
+                 );
+
+        $short = $phpcsFile->findNext($empty, ($commentStart + 1), $commentEnd, true);
+        if ($short === false || $tokens[$short]['code'] !== T_DOC_COMMENT_STRING) {
+            return;
+        }
+
+        $this->checkShort($phpcsFile, $stackPtr, $tokens[$short]['content'], $short);
+
+    }//end process()
+
+    protected function processReturn(PHP_CodeSniffer_File $phpcsFile, $stackPtr, $commentStart)
+    {
+        parent::processReturn($phpcsFile, $stackPtr, $commentStart);
+
         $return = null;
+        $tokens = $phpcsFile->getTokens();
+
         foreach ($tokens[$commentStart]['comment_tags'] as $tag) {
             if ($tokens[$tag]['content'] === '@return') {
                 $return = $tag;
@@ -75,21 +95,7 @@ class CodingStandard_Sniffs_Commenting_FunctionCommentSniff extends Squiz_Sniffs
                 $phpcsFile->addError($error, $return, 'InvalidThisReturn', $data);
             }
         }
-
-        $empty = array(
-                  T_DOC_COMMENT_WHITESPACE,
-                  T_DOC_COMMENT_STAR,
-                 );
-
-        $short = $phpcsFile->findNext($empty, ($commentStart + 1), $commentEnd, true);
-        if ($short === false || $tokens[$short]['code'] !== T_DOC_COMMENT_STRING) {
-            return;
-        }
-
-        $this->checkShort($phpcsFile, $stackPtr, $tokens[$short]['content'], $short);
-
-    }//end process()
-
+    }
 
     /**
      * Process the short description of a function comment.
