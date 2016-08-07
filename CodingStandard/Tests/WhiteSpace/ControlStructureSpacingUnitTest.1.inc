@@ -1672,4 +1672,23 @@ switch ( $a ) {
         return 5;
 }
 
+try {
+    $a = 'b';
+}
+catch ( Exception1 $e ) {
+    $c = 'd';
+}
+catch ( Exception2 $e ) {
+    $c = 'd';
+}
+
+try {
+    $a = 'b';
+}
+catch ( Exception1 $e ) {
+    $c = 'd';
+} catch ( Exception2 $e ) {
+    $c = 'd';
+}
+
 ?>

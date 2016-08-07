@@ -59,7 +59,66 @@ class CodingStandard_Sniffs_Commenting_FunctionCommentSniff extends Squiz_Sniffs
 
         $commentStart = $tokens[$commentEnd]['comment_opener'];
 
+        $empty = array(
+                  T_DOC_COMMENT_WHITESPACE,
+                  T_DOC_COMMENT_STAR,
+                 );
+
+        $short = $phpcsFile->findNext($empty, ($commentStart + 1), $commentEnd, true);
+        if ($short === false || $tokens[$short]['code'] !== T_DOC_COMMENT_STRING) {
+            return;
+        }
+
+        if ($this->isInheritDoc($phpcsFile, $commentStart) === true) {
+            return;
+        }
+
+        $this->checkShort($phpcsFile, $stackPtr, $tokens[$short]['content'], $short);
+
+    }//end process()
+
+    /**
+     * Process the function parameter comments.
+     *
+     * @param PHP_CodeSniffer_File $phpcsFile    The file being scanned.
+     * @param int                  $stackPtr     The position of the current token
+     *                                           in the stack passed in $tokens.
+     * @param int                  $commentStart The position in the stack where the comment started.
+     *
+     * @return void
+     */
+    protected function processParams(PHP_CodeSniffer_File $phpcsFile, $stackPtr, $commentStart)
+    {
+        if ($this->isInheritDoc($phpcsFile, $commentStart) === true) {
+            return;
+        }
+
+        parent::processParams($phpcsFile, $stackPtr, $commentStart);
+
+    }//end processParams()
+
+
+    /**
+     * Process the return comment of this function comment.
+     *
+     * @param PHP_CodeSniffer_File $phpcsFile    The file being scanned.
+     * @param int                  $stackPtr     The position of the current token
+     *                                           in the stack passed in $tokens.
+     * @param int                  $commentStart The position in the stack where the comment started.
+     *
+     * @return void
+     */
+    protected function processReturn(PHP_CodeSniffer_File $phpcsFile, $stackPtr, $commentStart)
+    {
+        if ($this->isInheritDoc($phpcsFile, $commentStart) === true) {
+            return;
+        }
+
+        parent::processReturn($phpcsFile, $stackPtr, $commentStart);
+
         $return = null;
+        $tokens = $phpcsFile->getTokens();
+
         foreach ($tokens[$commentStart]['comment_tags'] as $tag) {
             if ($tokens[$tag]['content'] === '@return') {
                 $return = $tag;
@@ -76,20 +135,7 @@ class CodingStandard_Sniffs_Commenting_FunctionCommentSniff extends Squiz_Sniffs
             }
         }
 
-        $empty = array(
-                  T_DOC_COMMENT_WHITESPACE,
-                  T_DOC_COMMENT_STAR,
-                 );
-
-        $short = $phpcsFile->findNext($empty, ($commentStart + 1), $commentEnd, true);
-        if ($short === false || $tokens[$short]['code'] !== T_DOC_COMMENT_STRING) {
-            return;
-        }
-
-        $this->checkShort($phpcsFile, $stackPtr, $tokens[$short]['content'], $short);
-
-    }//end process()
-
+    }//end processReturn()
 
     /**
      * Process the short description of a function comment.
@@ -199,5 +245,25 @@ class CodingStandard_Sniffs_Commenting_FunctionCommentSniff extends Squiz_Sniffs
         }//end foreach
 
     }//end processThrows()
+
+
+    /**
+     * Is the comment an inheritdoc?
+     *
+     * @param PHP_CodeSniffer_File $phpcsFile    The file being scanned.
+     * @param int                  $commentStart The position in the stack where the comment started.
+     *
+     * @return bool
+     */
+    protected function isInheritDoc(PHP_CodeSniffer_File $phpcsFile, $commentStart)
+    {
+        $tokens = $phpcsFile->getTokens();
+
+        $commentEnd = $tokens[$commentStart]['comment_closer'];
+        $commentText = $phpcsFile->getTokensAsString($commentStart, ($commentEnd - $commentStart + 1));
+
+        return stripos($commentText, '{@inheritdoc}') !== false;
+
+    }// end isInheritDoc()
 
 }//end class

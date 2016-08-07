@@ -1,0 +1,79 @@
+<?php
+
+/** @var ClassName $global_variable_placed_correctly */
+$global_variable_placed_correctly = new ClassName();
+
+/** @var ClassName $global_variable_placed_correctly_with_description */
+$global_variable_placed_correctly_with_description = new ClassName();
+
+/** @var ClassName $global_variable_placed_incorrectly */
+$global_variable_placed_incorrectly = new ClassName();
+
+/** @var ClassName $global_variable_placed_incorrectly_with_description The description */
+$global_variable_placed_incorrectly_with_description = new ClassName();
+
+/** @var ClassName $global_multi_line_variable_placed_incorrectly */
+$global_multi_line_variable_placed_incorrectly =& $event->getObject(
+    array('skip_autoload' => true)
+);
+
+/** @var ClassName $global_multi_line_variable_placed_incorrectly_with_description */
+$global_multi_line_variable_placed_incorrectly_with_description =& $event->getObject(
+    array('skip_autoload' => true)
+);
+
+function test_func1()
+{
+    /** @var ClassName $func1_variable_placed_incorrectly */
+    $func1_variable_placed_incorrectly = new ClassName();
+}
+
+function test_func2()
+{
+    /** @var ClassName $func2_variable_placed_incorrectly_with_description The description */
+    $func2_variable_placed_incorrectly_with_description = new ClassName();
+}
+
+function test_func3()
+{
+    /** @var ClassName $func3_multi_line_variable_placed_incorrectly */
+    $func3_multi_line_variable_placed_incorrectly =& $event->getObject(
+        array('skip_autoload' => true)
+    );
+}
+
+function test_func4()
+{
+    /** @var ClassName $func4_multi_line_variable_placed_incorrectly_with_description */
+    $func4_multi_line_variable_placed_incorrectly_with_description =& $event->getObject(
+        array('skip_autoload' => true)
+    );
+}
+
+/** @var ClassName $global_variable_name_mismatch */
+$global_variable_name = new ClassName();
+
+/** @var ClassName $global_variable_name_mismatch_with_description */
+$global_variable_name_with_description = new ClassName();
+
+$a = 5 + 12;
+
+/** @var ClassName $global_variable_without_top_margin */
+$global_variable_without_top_margin = new ClassName();
+
+$a = 5 + 12;
+
+/** @var ClassName $global_variable_without_top_margin_with_description The description */
+$global_variable_without_top_margin_with_description = new ClassName();
+
+function test_func5()
+{
+    /** @var ClassName $global_variable_without_top_margin */
+    $global_variable_without_top_margin = new ClassName();
+}
+
+function test_func6()
+{
+    /** @var ClassName $global_variable_without_top_margin_with_description The description */
+    $global_variable_without_top_margin_with_description = new ClassName();
+}

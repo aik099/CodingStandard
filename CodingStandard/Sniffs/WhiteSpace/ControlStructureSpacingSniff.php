@@ -315,7 +315,7 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
         if ($tokens[$leadingContent]['code'] === T_OPEN_CURLY_BRACKET
             || $this->insideSwitchCase($phpcsFile, $leadingContent) === true
             || ($this->elseOrElseIf($phpcsFile, $stackPtr) === true && $this->ifOrElseIf($phpcsFile, $leadingContent) === true)
-            || ($this->isCatch($phpcsFile, $stackPtr) === true && $this->isTry($phpcsFile, $leadingContent) === true)
+            || ($this->isCatch($phpcsFile, $stackPtr) === true && $this->isTryOrCatch($phpcsFile, $leadingContent) === true)
         ) {
             if ($this->isFunction($phpcsFile, $leadingContent) === true) {
                 // The previous content is the opening brace of a function
@@ -704,6 +704,22 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
 
 
     /**
+     * Detects, that it is a closing brace of TRY/CATCH.
+     *
+     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
+     * @param int                  $stackPtr  The position of the current token
+     *                                        in the stack passed in $tokens.
+     *
+     * @return bool
+     */
+    protected function isTryOrCatch(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    {
+        return $this->isScopeCondition($phpcsFile, $stackPtr, array(T_TRY, T_CATCH));
+
+    }//end isTryOrCatch()
+
+
+    /**
      * Detects, that it is a closing brace of TRY.
      *
      * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
@@ -732,7 +748,7 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
     {
         return $this->isScopeCondition($phpcsFile, $stackPtr, T_CATCH);
 
-    }//end isTry()
+    }//end isCatch()
 
 
     /**

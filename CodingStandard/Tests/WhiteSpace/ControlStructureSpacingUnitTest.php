@@ -290,6 +290,9 @@ class CodingStandard_Tests_WhiteSpace_ControlStructureSpacingUnitTest extends Ab
                 1656 => 1,
                 1662 => 1,
                 1671 => 1,
+
+                // Sequential catch statements not indented right.
+                1690 => 1,
                );
         } elseif ($testFile === 'ControlStructureSpacingUnitTest.2.inc') {
             return array(

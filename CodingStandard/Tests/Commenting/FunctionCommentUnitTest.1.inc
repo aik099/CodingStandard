@@ -690,4 +690,12 @@ abstract class AbstractClass
 
 }
 
+/**
+ * {@inheritdoc}
+ */
+public function functionName($param1)
+{
+
+}
+
 ?>
