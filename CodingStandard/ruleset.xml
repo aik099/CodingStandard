@@ -102,6 +102,12 @@
 		</properties>
 	</rule>
 
+	<!-- Don't apply to "core" folder, because creates a lot of noise -->
+	<rule ref="Generic.WhiteSpace.ScopeIndent.IncorrectExact">
+		<exclude-pattern>/core/</exclude-pattern>
+		<exclude-pattern>\core\</exclude-pattern>
+	</rule>
+
 	<rule ref="Squiz.Arrays.ArrayBracketSpacing"/>
 
 	<rule ref="MySource.PHP.EvalObjectFactory"/>
