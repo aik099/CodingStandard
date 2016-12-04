@@ -36,7 +36,8 @@ class CodingStandard_Tests_Classes_ClassNamespaceUnitTest extends AbstractSniffU
      */
     public function getErrorList($testFile)
     {
-        return array();
+        // Compensate for https://github.com/squizlabs/PHP_CodeSniffer/issues/1169 fix.
+        return array(2 => 1);
 
     }//end getErrorList()
 
