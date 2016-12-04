@@ -33,6 +33,15 @@ abstract class AbstractSniffUnitTest extends PHPUnit_Framework_TestCase
 {
 
     /**
+     * Enable or disable the backup and restoration of the $GLOBALS array.
+     * Overwrite this attribute in a child class of TestCase.
+     * Setting this attribute in setUp() has no effect!
+     *
+     * @var boolean
+     */
+    protected $backupGlobals = false;
+
+    /**
      * The PHP_CodeSniffer object used for testing.
      *
      * @var PHP_CodeSniffer
@@ -49,6 +58,7 @@ abstract class AbstractSniffUnitTest extends PHPUnit_Framework_TestCase
     {
         if (self::$phpcs === null) {
             self::$phpcs = new PHP_CodeSniffer();
+            PHP_CodeSniffer::setConfigData('installed_paths', STANDARDS_PATH, true);
 
             // Conflicts with Composer AutoLoader.
             spl_autoload_unregister(array('PHP_CodeSniffer', 'autoload'));
@@ -62,7 +72,7 @@ abstract class AbstractSniffUnitTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public final function testStandard()
+    public final function testSniff()
     {
         // Skip this test if we can't run in this environment.
         if ($this->shouldSkipTest() === true) {
@@ -82,7 +92,11 @@ abstract class AbstractSniffUnitTest extends PHPUnit_Framework_TestCase
         $failureMessages = array();
         $fixingSupported = $this->isFixingSupported();
         foreach ($this->_getTestFiles() as $testFile) {
+            $filename = basename($testFile);
+
             try {
+                $cliValues = $this->getCliValues($filename);
+                self::$phpcs->cli->setCommandLineValues($cliValues);
                 $phpcsFile       = self::$phpcs->processFile($testFile);
                 $failureMessages = array_merge($failureMessages, $this->generateFailureMessages($phpcsFile));
 
@@ -91,18 +105,17 @@ abstract class AbstractSniffUnitTest extends PHPUnit_Framework_TestCase
                     $phpcsFile->fixer->fixFile();
                     $fixable = $phpcsFile->getFixableCount();
                     if ($fixable > 0) {
-                        $filename          = basename($testFile);
                         $failureMessages[] = "Failed to fix $fixable fixable violations in $filename.";
-                    } else {
-                        // Check for a .fixed file to check for accuracy of fixes.
-                        $fixedFile = $testFile.'.fixed';
-                        if (file_exists($fixedFile) === true) {
-                            $diff = $phpcsFile->fixer->generateDiff($fixedFile);
-                            if (trim($diff) !== '') {
-                                $filename          = basename($testFile);
-                                $fixedFilename     = basename($fixedFile);
-                                $failureMessages[] = "Fixed version of $filename does not match expected version in $fixedFilename; the diff is\n$diff";
-                            }
+                    }
+
+                    // Check for a .fixed file to check for accuracy of fixes.
+                    $fixedFile = $testFile.'.fixed';
+                    if (file_exists($fixedFile) === true) {
+                        $diff = $phpcsFile->fixer->generateDiff($fixedFile);
+                        if (trim($diff) !== '') {
+                            $filename          = basename($testFile);
+                            $fixedFilename     = basename($fixedFile);
+                            $failureMessages[] = "Fixed version of $filename does not match expected version in $fixedFilename; the diff is\n$diff";
                         }
                     }
                 }
@@ -407,6 +420,20 @@ abstract class AbstractSniffUnitTest extends PHPUnit_Framework_TestCase
         return $failureMessages;
 
     }//end generateFailureMessages()
+
+
+    /**
+     * Get a list of CLI values to set before the file is tested.
+     *
+     * @param string $filename The name of the file being tested.
+     *
+     * @return array
+     */
+    public function getCliValues($filename)
+    {
+        return array();
+
+    }//end getCliValues()
 
 
     /**

@@ -65,7 +65,13 @@ class CodingStandard_Tests_Commenting_DocCommentUnitTest extends AbstractSniffUn
 
         if ($testFile === 'DocCommentUnitTest.inc') {
             $ret[176] = 3;
+
+            // Compensate for https://github.com/squizlabs/PHP_CodeSniffer/issues/1169 fix.
+            $ret[176] += 1;
         }
+
+        // Compensate for https://github.com/squizlabs/PHP_CodeSniffer/issues/1169 fix.
+        $ret[14] = 1;
 
         return $ret;
 
