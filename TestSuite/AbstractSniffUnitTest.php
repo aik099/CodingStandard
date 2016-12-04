@@ -33,6 +33,15 @@ abstract class AbstractSniffUnitTest extends PHPUnit_Framework_TestCase
 {
 
     /**
+     * Enable or disable the backup and restoration of the $GLOBALS array.
+     * Overwrite this attribute in a child class of TestCase.
+     * Setting this attribute in setUp() has no effect!
+     *
+     * @var boolean
+     */
+    protected $backupGlobals = false;
+
+    /**
      * The PHP_CodeSniffer object used for testing.
      *
      * @var PHP_CodeSniffer
@@ -49,6 +58,7 @@ abstract class AbstractSniffUnitTest extends PHPUnit_Framework_TestCase
     {
         if (self::$phpcs === null) {
             self::$phpcs = new PHP_CodeSniffer();
+            PHP_CodeSniffer::setConfigData('installed_paths', STANDARDS_PATH, true);
 
             // Conflicts with Composer AutoLoader.
             spl_autoload_unregister(array('PHP_CodeSniffer', 'autoload'));
