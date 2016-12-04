@@ -62,7 +62,7 @@ abstract class AbstractSniffUnitTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public final function testStandard()
+    public final function testSniff()
     {
         // Skip this test if we can't run in this environment.
         if ($this->shouldSkipTest() === true) {
