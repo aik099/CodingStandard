@@ -78,6 +78,8 @@ class CodingStandard_Sniffs_Classes_ClassCreateInstanceSniff implements PHP_Code
                      T_WHITESPACE,
                      T_NS_SEPARATOR,
                      T_STRING,
+                     T_SELF,
+                     T_STATIC
                     ),
                     ($stackPtr + 1),
                     null,
