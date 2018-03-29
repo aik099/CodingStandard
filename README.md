@@ -14,6 +14,8 @@ The PHP_CodeSniffer coding standard I'm using on all of my projects.
 Standard itself and it's test suite complies [PHPCS standard](https://github.com/squizlabs/PHP_CodeSniffer/tree/master/CodeSniffer/Standards/PHPCS).
 
 # Usage
+Only PHP_CodeSniffer 1.x and 2.x versions are supported.
+
 1. clone this repository
 2. run following command in project directory:
 ```bash
