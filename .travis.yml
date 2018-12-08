@@ -24,6 +24,10 @@ matrix:
         - php: 7.1
           env: PHPCS_VERSION='~2.0@dev'
 
+cache:
+  directories:
+    - $HOME/.composer/cache/files
+
 before_script:
     - composer require satooshi/php-coveralls:^1.0 squizlabs/php_codesniffer:$PHPCS_VERSION --prefer-source
 
