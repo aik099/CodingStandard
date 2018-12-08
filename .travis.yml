@@ -2,10 +2,12 @@ sudo: false
 language: php
 
 php:
-    - 5.3
     - 5.4
     - 5.5
-    - hhvm
+    - 5.6
+    - 7.0
+    - 7.1
+    - 7.2
 
 env:
     - PHPCS_VERSION='~2.0'
@@ -13,11 +15,13 @@ env:
 
 matrix:
     exclude:
-        - php: 5.3
-          env: PHPCS_VERSION='~2.0@dev'
         - php: 5.5
           env: PHPCS_VERSION='~2.0@dev'
-        - php: hhvm
+        - php: 5.6
+          env: PHPCS_VERSION='~2.0@dev'
+        - php: 7.0
+          env: PHPCS_VERSION='~2.0@dev'
+        - php: 7.1
           env: PHPCS_VERSION='~2.0@dev'
 
 before_script:
