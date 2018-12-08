@@ -25,7 +25,7 @@
  * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
  * @link     https://github.com/aik099/CodingStandard
  */
-class CodingStandard_Sniffs_Array_ArraySniff implements PHP_CodeSniffer_Sniff
+class CodingStandard_Sniffs_Arrays_ArraySniff implements PHP_CodeSniffer_Sniff
 {
 
 

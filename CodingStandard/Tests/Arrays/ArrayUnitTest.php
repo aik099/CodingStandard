@@ -20,7 +20,7 @@
  * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
  * @link     https://github.com/aik099/CodingStandard
  */
-class CodingStandard_Tests_Array_ArrayUnitTest extends AbstractSniffUnitTest
+class CodingStandard_Tests_Arrays_ArrayUnitTest extends AbstractSniffUnitTest
 {
 
 
