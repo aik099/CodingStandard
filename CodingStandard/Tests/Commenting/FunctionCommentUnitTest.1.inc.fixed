@@ -8,7 +8,7 @@ class PHP_CodeSniffer_File
      * long desc here
      *
      * @param boolean $stackPtr The position in @ @unknown the stack of the token
-     *                         that opened the scope
+     *                            that opened the scope
      * @param integer $detph    How many scope levels down we are.
      * @param string  $index    The index
      * @return
@@ -253,10 +253,10 @@ public function typeHint(MyClass $a1, $a2, myclass $a3, $a4)
 /**
  * Mixed variable type separated by a '|'.
  *
- * @param array|string $a1 Comment here.
- * @param mixed        $a2 Comment here.
- * @param string|array $a3 Comment here.
- * @param integer      $a4 Comment here.
+ * @param array|string    $a1 Comment here.
+ * @param mixed           $a2 Comment here.
+ * @param string|array    $a3 Comment here.
+ * @param MyClass|integer $a4 Comment here.
  *
  * @return boolean
  */

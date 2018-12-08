@@ -59,6 +59,7 @@ abstract class AbstractSniffUnitTest extends PHPUnit_Framework_TestCase
         if (self::$phpcs === null) {
             self::$phpcs = new PHP_CodeSniffer();
             PHP_CodeSniffer::setConfigData('installed_paths', STANDARDS_PATH, true);
+            PHP_CodeSniffer::setConfigData('php_version', 50445, true);
 
             // Conflicts with Composer AutoLoader.
             spl_autoload_unregister(array('PHP_CodeSniffer', 'autoload'));

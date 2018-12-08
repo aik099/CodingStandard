@@ -2,10 +2,12 @@ sudo: false
 language: php
 
 php:
-    - 5.3
     - 5.4
     - 5.5
-    - hhvm
+    - 5.6
+    - 7.0
+    - 7.1
+    - 7.2
 
 env:
     - PHPCS_VERSION='~2.0'
@@ -13,21 +15,29 @@ env:
 
 matrix:
     exclude:
-        - php: 5.3
-          env: PHPCS_VERSION='~2.0@dev'
         - php: 5.5
           env: PHPCS_VERSION='~2.0@dev'
-        - php: hhvm
+        - php: 5.6
+          env: PHPCS_VERSION='~2.0@dev'
+        - php: 7.0
+          env: PHPCS_VERSION='~2.0@dev'
+        - php: 7.1
           env: PHPCS_VERSION='~2.0@dev'
 
+cache:
+  directories:
+    - $HOME/.composer/cache/files
+
 before_script:
-    - composer require satooshi/php-coveralls:^1.0 squizlabs/php_codesniffer:$PHPCS_VERSION --prefer-source
+    - composer require squizlabs/php_codesniffer:$PHPCS_VERSION --prefer-source
 
 script:
     - mkdir -p build/logs
-    - phpunit --coverage-clover build/logs/clover.xml
+    - vendor/bin/phpunit --coverage-clover build/logs/clover.xml
 
 after_script:
-    - php vendor/bin/coveralls -v
     - wget https://scrutinizer-ci.com/ocular.phar -t 3
     - php ocular.phar code-coverage:upload --format=php-clover build/logs/clover.xml
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
