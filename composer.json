@@ -6,18 +6,24 @@
 
 	"authors": [
 		{
-			"name":  "Alexander Obuhovich",
+			"name": "Alexander Obuhovich",
 			"email": "aik.bold@gmail.com"
 		}
 	],
 
 	"require-dev": {
-		"squizlabs/php_codesniffer": "~2.0"
+		"squizlabs/php_codesniffer": "~2.0",
+		"phpunit/phpunit": "^4.8"
 	},
 
 	"extra": {
 		"branch-alias": {
 			"dev-master": "1.0.x-dev"
+		}
+	},
+	"config": {
+		"platform": {
+			"php": "5.4"
 		}
 	}
 }
