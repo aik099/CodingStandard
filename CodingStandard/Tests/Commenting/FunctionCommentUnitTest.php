@@ -96,7 +96,7 @@ class CodingStandard_Tests_Commenting_FunctionCommentUnitTest extends AbstractSn
                     280 => 1,
                     281 => 1,
                     284 => 1,
-                    286 => 2,
+                    286 => 7,
                     294 => 1,
                     302 => 1,
                     312 => 1,
