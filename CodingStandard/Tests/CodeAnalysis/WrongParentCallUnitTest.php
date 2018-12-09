@@ -11,6 +11,9 @@
  * @link     https://github.com/aik099/CodingStandard
  */
 
+namespace CodingStandard\Tests\CodeAnalysis;
+
+use TestSuite\AbstractSniffUnitTest;
 
 /**
  * Unit test class for the WrongParentCall sniff.
@@ -21,7 +24,7 @@
  * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
  * @link     https://github.com/aik099/CodingStandard
  */
-class CodingStandard_Tests_CodeAnalysis_WrongParentCallUnitTest extends AbstractSniffUnitTest
+class WrongParentCallUnitTest extends AbstractSniffUnitTest
 {
 
 
@@ -38,9 +41,7 @@ class CodingStandard_Tests_CodeAnalysis_WrongParentCallUnitTest extends Abstract
     public function getErrorList($testFile)
     {
         return array(12 => 1);
-
     }//end getErrorList()
-
 
     /**
      * Returns the lines where warnings should occur.
@@ -55,8 +56,5 @@ class CodingStandard_Tests_CodeAnalysis_WrongParentCallUnitTest extends Abstract
     public function getWarningList($testFile)
     {
         return array();
-
     }//end getWarningList()
-
-
 }//end class

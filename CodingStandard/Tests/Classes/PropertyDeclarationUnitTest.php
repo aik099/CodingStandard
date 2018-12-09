@@ -11,6 +11,10 @@
  * @link     https://github.com/aik099/CodingStandard
  */
 
+namespace CodingStandard\Tests\Classes;
+
+use TestSuite\AbstractSniffUnitTest;
+
 /**
  * Unit test class for the PropertyDeclaration sniff.
  *
@@ -20,7 +24,7 @@
  * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
  * @link     https://github.com/aik099/CodingStandard
  */
-class CodingStandard_Tests_Classes_PropertyDeclarationUnitTest extends AbstractSniffUnitTest
+class PropertyDeclarationUnitTest extends AbstractSniffUnitTest
 {
 
 
@@ -42,7 +46,6 @@ class CodingStandard_Tests_Classes_PropertyDeclarationUnitTest extends AbstractS
                 // Multiple properties declared in single line.
                 6 => 1,
                );
-
     }//end getErrorList()
 
 
@@ -59,8 +62,5 @@ class CodingStandard_Tests_Classes_PropertyDeclarationUnitTest extends AbstractS
     public function getWarningList($testFile)
     {
         return array();
-
     }//end getWarningList()
-
-
 }//end class

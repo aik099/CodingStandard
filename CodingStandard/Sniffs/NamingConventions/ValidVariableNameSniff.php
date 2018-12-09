@@ -13,12 +13,11 @@
  * @link     https://github.com/aik099/CodingStandard
  */
 
-// @codeCoverageIgnoreStart
-if (class_exists('PHP_CodeSniffer_Standards_AbstractVariableSniff', true) === false) {
-    $error = 'Class PHP_CodeSniffer_Standards_AbstractVariableSniff not found';
-    throw new PHP_CodeSniffer_Exception($error);
-}
-// @codeCoverageIgnoreEnd
+namespace CodingStandard\Sniffs\NamingConventions;
+
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\AbstractVariableSniff;
+use PHP_CodeSniffer\Util\Common;
 
 /**
  * CodingStandard_Sniffs_NamingConventions_ValidVariableNameSniff.
@@ -33,8 +32,7 @@ if (class_exists('PHP_CodeSniffer_Standards_AbstractVariableSniff', true) === fa
  * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
  * @link     https://github.com/aik099/CodingStandard
  */
-class CodingStandard_Sniffs_NamingConventions_ValidVariableNameSniff extends
- PHP_CodeSniffer_Standards_AbstractVariableSniff
+class ValidVariableNameSniff extends AbstractVariableSniff
 {
 
     /**
@@ -83,13 +81,13 @@ class CodingStandard_Sniffs_NamingConventions_ValidVariableNameSniff extends
     /**
      * Processes this test, when one of its tokens is encountered.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
-     * @param int                  $stackPtr  The position of the current token in the
-     *                                        stack passed in $tokens.
+     * @param File $phpcsFile The file being scanned.
+     * @param int  $stackPtr  The position of the current token in the
+     *                        stack passed in $tokens.
      *
      * @return void
      */
-    protected function processVariable(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    protected function processVariable(File $phpcsFile, $stackPtr)
     {
         $tokens  = $phpcsFile->getTokens();
         $varName = ltrim($tokens[$stackPtr]['content'], '$');
@@ -113,20 +111,19 @@ class CodingStandard_Sniffs_NamingConventions_ValidVariableNameSniff extends
             $data  = array($varName);
             $phpcsFile->addError($error, $stackPtr, 'NotSnakeCaps', $data);
         }
-
     }//end processVariable()
 
 
     /**
      * Processes class member variables.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
-     * @param int                  $stackPtr  The position of the current token in the
-     *                                        stack passed in $tokens.
+     * @param File $phpcsFile The file being scanned.
+     * @param int  $stackPtr  The position of the current token in the
+     *                        stack passed in $tokens.
      *
      * @return void
      */
-    protected function processMemberVar(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    protected function processMemberVar(File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
 
@@ -147,7 +144,7 @@ class CodingStandard_Sniffs_NamingConventions_ValidVariableNameSniff extends
             array(T_CLASS, T_INTERFACE, T_TRAIT),
             $stackPtr
         );
-        $className = $phpcsFile->getDeclarationName($classToken);
+        $className  = $phpcsFile->getDeclarationName($classToken);
 
         $public    = ($memberProps['scope'] !== 'private');
         $errorData = array($className.'::'.$varName);
@@ -178,20 +175,19 @@ class CodingStandard_Sniffs_NamingConventions_ValidVariableNameSniff extends
                      );
             $phpcsFile->addError($error, $stackPtr, 'MemberNotCamelCaps', $data);
         }
-
     }//end processMemberVar()
 
 
     /**
      * Processes the variable found within a double quoted string.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
-     * @param int                  $stackPtr  The position of the double quoted
-     *                                        string.
+     * @param File $phpcsFile The file being scanned.
+     * @param int  $stackPtr  The position of the double quoted
+     *                        string.
      *
      * @return void
      */
-    protected function processVariableInString(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    protected function processVariableInString(File $phpcsFile, $stackPtr)
     {
         $tokens         = $phpcsFile->getTokens();
         $content        = $tokens[$stackPtr]['content'];
@@ -208,7 +204,7 @@ class CodingStandard_Sniffs_NamingConventions_ValidVariableNameSniff extends
 
         foreach ($matches as $match) {
             $varName = $match[1][0];
-            $offset = $match[1][1];
+            $offset  = $match[1][1];
 
             // If it's a php reserved var, then its ok.
             if (in_array($varName, $this->phpReservedVars) === true) {
@@ -228,7 +224,6 @@ class CodingStandard_Sniffs_NamingConventions_ValidVariableNameSniff extends
                 $phpcsFile->addError($error, $stackPtr, 'StringNotSnakeCaps', $data);
             }
         }//end foreach
-
     }//end processVariableInString()
 
 
@@ -244,14 +239,13 @@ class CodingStandard_Sniffs_NamingConventions_ValidVariableNameSniff extends
      *
      * @return bool
      */
-    protected function isCamelCaps($string, $public=true)
+    protected function isCamelCaps($string, $public = true)
     {
         if (in_array($string, $this->memberExceptions) === true) {
             return true;
         }
 
-        return PHP_CodeSniffer::isCamelCaps($string, false, $public, false);
-
+        return Common::isCamelCaps($string, false, $public, false);
     }//end isCamelCaps()
 
 
@@ -265,8 +259,5 @@ class CodingStandard_Sniffs_NamingConventions_ValidVariableNameSniff extends
     protected function isSnakeCaps($string)
     {
         return strtolower($string) === $string;
-
     }//end isSnakeCaps()
-
-
 }//end class

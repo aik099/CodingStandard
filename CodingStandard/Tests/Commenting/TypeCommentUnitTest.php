@@ -11,6 +11,10 @@
  * @link     https://github.com/aik099/CodingStandard
  */
 
+namespace CodingStandard\Tests\Commenting;
+
+use TestSuite\AbstractSniffUnitTest;
+
 /**
  * Unit test class for TypeCommentSniff.
  *
@@ -20,7 +24,7 @@
  * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
  * @link     https://github.com/aik099/CodingStandard
  */
-class CodingStandard_Tests_Commenting_TypeCommentUnitTest extends AbstractSniffUnitTest
+class TypeCommentUnitTest extends AbstractSniffUnitTest
 {
 
 
@@ -69,7 +73,6 @@ class CodingStandard_Tests_Commenting_TypeCommentUnitTest extends AbstractSniffU
         }
 
         return array();
-
     }//end getErrorList()
 
 
@@ -86,8 +89,5 @@ class CodingStandard_Tests_Commenting_TypeCommentUnitTest extends AbstractSniffU
     public function getWarningList($testFile)
     {
         return array();
-
     }//end getWarningList()
-
-
 }//end class

@@ -11,6 +11,10 @@
  * @link     https://github.com/aik099/CodingStandard
  */
 
+namespace CodingStandard\Tests\Classes;
+
+use TestSuite\AbstractSniffUnitTest;
+
 /**
  * Unit test class for the ClassCreateInstance sniff.
  *
@@ -20,7 +24,7 @@
  * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
  * @link     https://github.com/aik099/CodingStandard
  */
-class CodingStandard_Tests_Classes_ClassCreateInstanceUnitTest extends AbstractSniffUnitTest
+class ClassCreateInstanceUnitTest extends AbstractSniffUnitTest
 {
 
 
@@ -44,7 +48,6 @@ class CodingStandard_Tests_Classes_ClassCreateInstanceUnitTest extends AbstractS
                 4 => 1,
                 5 => 1,
                );
-
     }//end getErrorList()
 
 
@@ -61,8 +64,5 @@ class CodingStandard_Tests_Classes_ClassCreateInstanceUnitTest extends AbstractS
     public function getWarningList($testFile)
     {
         return array();
-
     }//end getWarningList()
-
-
 }//end class

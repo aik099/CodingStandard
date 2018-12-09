@@ -12,6 +12,11 @@
  * @link     https://github.com/aik099/CodingStandard
  */
 
+namespace CodingStandard\Sniffs\Formatting;
+
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
+
 /**
  * CodingStandard_Sniffs_Formatting_ItemAssignmentSniff.
  *
@@ -25,7 +30,7 @@
  * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
  * @link     https://github.com/aik099/CodingStandard
  */
-class CodingStandard_Sniffs_Formatting_ItemAssignmentSniff implements PHP_CodeSniffer_Sniff
+class ItemAssignmentSniff implements Sniff
 {
 
 
@@ -37,38 +42,36 @@ class CodingStandard_Sniffs_Formatting_ItemAssignmentSniff implements PHP_CodeSn
     public function register()
     {
         return array(T_DOUBLE_ARROW);
-
     }//end register()
 
 
     /**
      * Processes this test, when one of its tokens is encountered.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
-     * @param int                  $stackPtr  The position of the current token in the
-     *                                        stack passed in $tokens.
+     * @param File $phpcsFile The file being scanned.
+     * @param int  $stackPtr  The position of the current token in the
+     *                        stack passed in $tokens.
      *
      * @return void
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(File $phpcsFile, $stackPtr)
     {
         $this->checkSpacing($phpcsFile, $stackPtr, true);
         $this->checkSpacing($phpcsFile, $stackPtr, false);
-
     }//end process()
 
 
     /**
      * Checks spacing at given position.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
-     * @param int                  $stackPtr  The position of the current token in the
-     *                                        stack passed in $tokens.
-     * @param bool                 $before    Determines direction in which to check spacing.
+     * @param File $phpcsFile The file being scanned.
+     * @param int  $stackPtr  The position of the current token in the
+     *                        stack passed in $tokens.
+     * @param bool $before    Determines direction in which to check spacing.
      *
      * @return void
      */
-    protected function checkSpacing(PHP_CodeSniffer_File $phpcsFile, $stackPtr, $before)
+    protected function checkSpacing(File $phpcsFile, $stackPtr, $before)
     {
         if ($before === true) {
             $stackPtrDiff = -1;
@@ -119,7 +122,6 @@ class CodingStandard_Sniffs_Formatting_ItemAssignmentSniff implements PHP_CodeSn
                 $phpcsFile->fixer->endChangeset();
             }
         }
-
     }//end checkSpacing()
 
 
@@ -133,8 +135,5 @@ class CodingStandard_Sniffs_Formatting_ItemAssignmentSniff implements PHP_CodeSn
     protected function hasOnlySpaces($string)
     {
         return substr_count($string, ' ') === strlen($string);
-
     }//end hasOnlySpaces()
-
-
 }//end class

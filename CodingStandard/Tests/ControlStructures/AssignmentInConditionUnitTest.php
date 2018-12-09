@@ -11,6 +11,10 @@
  * @link     https://github.com/aik099/CodingStandard
  */
 
+namespace CodingStandard\Tests\ControlStructures;
+
+use TestSuite\AbstractSniffUnitTest;
+
 /**
  * Unit test class for the AssignmentInCondition sniff.
  *
@@ -23,7 +27,7 @@
  * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
  * @link     https://github.com/aik099/CodingStandard
  */
-class CodingStandard_Tests_ControlStructures_AssignmentInConditionUnitTest extends AbstractSniffUnitTest
+class AssignmentInConditionUnitTest extends AbstractSniffUnitTest
 {
 
 
@@ -47,7 +51,6 @@ class CodingStandard_Tests_ControlStructures_AssignmentInConditionUnitTest exten
                 29 => 1,
                 31 => 1,
                );
-
     }//end getErrorList()
 
 
@@ -64,8 +67,5 @@ class CodingStandard_Tests_ControlStructures_AssignmentInConditionUnitTest exten
     public function getWarningList($testFile)
     {
         return array();
-
     }//end getWarningList()
-
-
 }//end class

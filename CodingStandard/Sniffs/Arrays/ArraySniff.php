@@ -12,6 +12,12 @@
  * @link     https://github.com/aik099/CodingStandard
  */
 
+namespace CodingStandard\Sniffs\Arrays;
+
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
+use PHP_CodeSniffer\Util\Tokens;
+
 /**
  * CodingStandard_Sniffs_Array_ArraySniff.
  *
@@ -25,7 +31,7 @@
  * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
  * @link     https://github.com/aik099/CodingStandard
  */
-class CodingStandard_Sniffs_Array_ArraySniff implements PHP_CodeSniffer_Sniff
+class ArraySniff implements Sniff
 {
 
 
@@ -37,20 +43,19 @@ class CodingStandard_Sniffs_Array_ArraySniff implements PHP_CodeSniffer_Sniff
     public function register()
     {
         return array(T_ARRAY);
-
     }//end register()
 
 
     /**
      * Processes this test, when one of its tokens is encountered.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
-     * @param int                  $stackPtr  The position of the current token in the
-     *                                        stack passed in $tokens.
+     * @param File $phpcsFile The file being scanned.
+     * @param int  $stackPtr  The position of the current token in the
+     *                        stack passed in $tokens.
      *
      * @return void
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(File $phpcsFile, $stackPtr)
     {
         $tokens     = $phpcsFile->getTokens();
         $arrayStart = $tokens[$stackPtr]['parenthesis_opener'];
@@ -93,7 +98,7 @@ class CodingStandard_Sniffs_Array_ArraySniff implements PHP_CodeSniffer_Sniff
             }
         }
 
-        $lastItem = $phpcsFile->findPrevious(PHP_CodeSniffer_Tokens::$emptyTokens, ($arrayEnd - 1), $stackPtr, true);
+        $lastItem = $phpcsFile->findPrevious(Tokens::$emptyTokens, ($arrayEnd - 1), $stackPtr, true);
 
         // Empty array.
         if ($lastItem === $arrayStart) {
@@ -158,8 +163,5 @@ class CodingStandard_Sniffs_Array_ArraySniff implements PHP_CodeSniffer_Sniff
                 }
             }
         }//end if
-
     }//end process()
-
-
 }//end class

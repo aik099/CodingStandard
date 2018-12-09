@@ -13,6 +13,12 @@
  * @link     https://github.com/aik099/CodingStandard
  */
 
+namespace CodingStandard\Sniffs\WhiteSpace;
+
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
+use PHP_CodeSniffer\Util\Tokens;
+
 /**
  * CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff.
  *
@@ -26,7 +32,7 @@
  * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
  * @link     https://github.com/aik099/CodingStandard
  */
-class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements PHP_CodeSniffer_Sniff
+class ControlStructureSpacingSniff implements Sniff
 {
 
     /**
@@ -73,20 +79,19 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
                 T_TRY,
                 T_CATCH,
                );
-
     }//end register()
 
 
     /**
      * Processes this test, when one of its tokens is encountered.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
-     * @param int                  $stackPtr  The position of the current token
-     *                                        in the stack passed in $tokens.
+     * @param File $phpcsFile The file being scanned.
+     * @param int  $stackPtr  The position of the current token in the
+     *                        stack passed in $tokens.
      *
      * @return void
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(File $phpcsFile, $stackPtr)
     {
         $this->requiredSpacesAfterOpen   = (int) $this->requiredSpacesAfterOpen;
         $this->requiredSpacesBeforeClose = (int) $this->requiredSpacesBeforeClose;
@@ -101,20 +106,19 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
         $this->checkContentInside($phpcsFile, $stackPtr);
         $this->checkLeadingContent($phpcsFile, $stackPtr);
         $this->checkTrailingContent($phpcsFile, $stackPtr);
-
     }//end process()
 
 
     /**
      * Checks bracket spacing.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
-     * @param int                  $stackPtr  The position of the current token
-     *                                        in the stack passed in $tokens.
+     * @param File $phpcsFile The file being scanned.
+     * @param int  $stackPtr  The position of the current token
+     *                        in the stack passed in $tokens.
      *
      * @return void
      */
-    protected function checkBracketSpacing(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    protected function checkBracketSpacing(File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
 
@@ -175,20 +179,19 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
                 }
             }
         }//end if
-
     }//end checkBracketSpacing()
 
 
     /**
      * Checks content inside.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
-     * @param int                  $stackPtr  The position of the current token
-     *                                        in the stack passed in $tokens.
+     * @param File $phpcsFile The file being scanned.
+     * @param int  $stackPtr  The position of the current token
+     *                        in the stack passed in $tokens.
      *
      * @return void
      */
-    protected function checkContentInside(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    protected function checkContentInside(File $phpcsFile, $stackPtr)
     {
         $tokens      = $phpcsFile->getTokens();
         $scopeOpener = $tokens[$stackPtr]['scope_opener'];
@@ -202,11 +205,11 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
         );
 
         if ($tokens[$firstContent]['line'] !== ($tokens[$scopeOpener]['line'] + 1)) {
-            $data  = array($tokens[$stackPtr]['content']);
-            $diff  = $tokens[$firstContent]['line'] - ($tokens[$scopeOpener]['line'] + 1);
+            $data = array($tokens[$stackPtr]['content']);
+            $diff = $tokens[$firstContent]['line'] - ($tokens[$scopeOpener]['line'] + 1);
             if ($diff < 0) {
-                $error  = 'Opening brace of the "%s" control structure must be last content on the line';
-                $fix    = $phpcsFile->addFixableError($error, $scopeOpener, 'ContentAfterOpen', $data);
+                $error = 'Opening brace of the "%s" control structure must be last content on the line';
+                $fix   = $phpcsFile->addFixableError($error, $scopeOpener, 'ContentAfterOpen', $data);
             } else {
                 $data[] = $diff;
                 $error  = 'Expected 0 blank lines at start of "%s" control structure; %s found';
@@ -245,12 +248,12 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
             );
 
             if ($tokens[$lastContent]['line'] !== ($tokens[$scopeCloser]['line'] - 1)) {
-                $data  = array($tokens[$stackPtr]['content']);
+                $data = array($tokens[$stackPtr]['content']);
                 $diff = (($tokens[$scopeCloser]['line'] - 1) - $tokens[$lastContent]['line']);
 
                 if ($diff < 0) {
-                    $error  = 'Closing brace of the "%s" control structure must be first content on the line';
-                    $fix    = $phpcsFile->addFixableError($error, $scopeCloser, 'SpacingAfterClose', $data);
+                    $error = 'Closing brace of the "%s" control structure must be first content on the line';
+                    $fix   = $phpcsFile->addFixableError($error, $scopeCloser, 'SpacingAfterClose', $data);
                 } else {
                     $data[] = $diff;
                     $error  = 'Expected 0 blank lines at end of "%s" control structure; %s found';
@@ -279,20 +282,19 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
                 }
             }//end if
         }//end if
-
     }//end checkContentInside()
 
 
     /**
      * Checks leading content.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
-     * @param int                  $stackPtr  The position of the current token
-     *                                        in the stack passed in $tokens.
+     * @param File $phpcsFile The file being scanned.
+     * @param int  $stackPtr  The position of the current token
+     *                        in the stack passed in $tokens.
      *
      * @return void
      */
-    protected function checkLeadingContent(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    protected function checkLeadingContent(File $phpcsFile, $stackPtr)
     {
         $tokens                   = $phpcsFile->getTokens();
         $leadingContent           = $this->getLeadingContent($phpcsFile, $stackPtr);
@@ -355,7 +357,7 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
                     $phpcsFile->fixer->endChangeset();
                 }
             }//end if
-        } else if ($tokens[$controlStructureStartPtr]['line'] === ($leadingLineNumber + 1)) {
+        } elseif ($tokens[$controlStructureStartPtr]['line'] === ($leadingLineNumber + 1)) {
             // Code on the previous line before control structure start.
             $data  = array($tokens[$stackPtr]['content']);
             $error = 'No blank line found before "%s" control structure';
@@ -367,25 +369,24 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
                 $phpcsFile->fixer->endChangeset();
             }
         }//end if
-
     }//end checkLeadingContent()
 
 
     /**
      * Returns leading non-whitespace/comment token.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile All the tokens found in the document.
-     * @param int                  $stackPtr  The position of the current token
-     *                                        in the stack passed in $tokens.
+     * @param File $phpcsFile All the tokens found in the document.
+     * @param int  $stackPtr  The position of the current token
+     *                        in the stack passed in $tokens.
      *
      * @return int|bool
      */
-    protected function getLeadingContent(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    protected function getLeadingContent(File $phpcsFile, $stackPtr)
     {
         $prevNonWhitespace = $phpcsFile->findPrevious(
             array(
              T_WHITESPACE,
-             T_COMMENT
+             T_COMMENT,
             ),
             ($stackPtr - 1),
             null,
@@ -393,22 +394,21 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
         );
 
         return $prevNonWhitespace;
-
     }//end getLeadingContent()
 
     /**
      * Returns leading comment or self.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile All the tokens found in the document.
-     * @param int                  $stackPtr  The position of the current token
-     *                                        in the stack passed in $tokens.
+     * @param File $phpcsFile All the tokens found in the document.
+     * @param int  $stackPtr  The position of the current token
+     *                        in the stack passed in $tokens.
      *
      * @return bool|int
      */
-    protected function getLeadingCommentOrSelf(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    protected function getLeadingCommentOrSelf(File $phpcsFile, $stackPtr)
     {
         $prevTokens = array($stackPtr);
-        $tokens = $phpcsFile->getTokens();
+        $tokens     = $phpcsFile->getTokens();
 
         do {
             $prev    = end($prevTokens);
@@ -429,19 +429,18 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
         } while (true);
 
         return end($prevTokens);
-
     }//end getLeadingCommentOrSelf()
 
     /**
      * Checks trailing content.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
-     * @param int                  $stackPtr  The position of the current token
-     *                                        in the stack passed in $tokens.
+     * @param File $phpcsFile The file being scanned.
+     * @param int  $stackPtr  The position of the current token
+     *                        in the stack passed in $tokens.
      *
      * @return void
      */
-    protected function checkTrailingContent(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    protected function checkTrailingContent(File $phpcsFile, $stackPtr)
     {
         $tokens                 = $phpcsFile->getTokens();
         $scopeCloser            = $this->getScopeCloser($phpcsFile, $stackPtr);
@@ -500,7 +499,7 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
                     $phpcsFile->fixer->endChangeset();
                 }
             }//end if
-        } else if ($tokens[$controlStructureEndPtr]['line'] === ($trailingLineNumber - 1)) {
+        } elseif ($tokens[$controlStructureEndPtr]['line'] === ($trailingLineNumber - 1)) {
             // Code on the next line after control structure scope closer.
             if ($this->elseOrElseIf($phpcsFile, $trailingContent) === true
                 || $this->isCatch($phpcsFile, $trailingContent) === true
@@ -518,20 +517,19 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
                 $phpcsFile->fixer->endChangeset();
             }
         }//end if
-
     }//end checkTrailingContent()
 
 
     /**
      * Returns scope closer  with special check for "do...while" statements.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile All the tokens found in the document.
-     * @param int                  $stackPtr  The position of the current token
-     *                                        in the stack passed in $tokens.
+     * @param File $phpcsFile All the tokens found in the document.
+     * @param int  $stackPtr  The position of the current token
+     *                        in the stack passed in $tokens.
      *
      * @return int|bool
      */
-    protected function getScopeCloser(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    protected function getScopeCloser(File $phpcsFile, $stackPtr)
     {
         $tokens      = $phpcsFile->getTokens();
         $scopeCloser = $tokens[$stackPtr]['scope_closer'];
@@ -541,7 +539,7 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
         }
 
         $trailingContent = $phpcsFile->findNext(
-            PHP_CodeSniffer_Tokens::$emptyTokens,
+            Tokens::$emptyTokens,
             ($scopeCloser + 1),
             null,
             true
@@ -556,20 +554,19 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
 
         return $scopeCloser;
         // @codeCoverageIgnoreEnd
-
     }//end getScopeCloser()
 
 
     /**
      * Returns trailing content token.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile All the tokens found in the document.
-     * @param int                  $stackPtr  The position of the current token
-     *                                        in the stack passed in $tokens.
+     * @param File $phpcsFile All the tokens found in the document.
+     * @param int  $stackPtr  The position of the current token
+     *                        in the stack passed in $tokens.
      *
      * @return int|bool
      */
-    protected function getTrailingContent(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    protected function getTrailingContent(File $phpcsFile, $stackPtr)
     {
         $nextNonWhitespace = $phpcsFile->findNext(
             array(
@@ -582,20 +579,19 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
         );
 
         return $nextNonWhitespace;
-
     }//end getTrailingContent()
 
 
     /**
      * Returns trailing comment or self.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile All the tokens found in the document.
-     * @param int                  $stackPtr  The position of the current token
-     *                                        in the stack passed in $tokens.
+     * @param File $phpcsFile All the tokens found in the document.
+     * @param int  $stackPtr  The position of the current token
+     *                        in the stack passed in $tokens.
      *
      * @return bool|int
      */
-    protected function getTrailingCommentOrSelf(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    protected function getTrailingCommentOrSelf(File $phpcsFile, $stackPtr)
     {
         $nextTokens = array($stackPtr);
         $tokens = $phpcsFile->getTokens();
@@ -619,19 +615,18 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
         } while (true);
 
         return end($nextTokens);
-
     }//end getTrailingCommentOrSelf()
 
 
     /**
      * Finds first token on a line.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile All the tokens found in the document.
-     * @param int                  $start     Start from token.
+     * @param File $phpcsFile All the tokens found in the document.
+     * @param int  $start     Start from token.
      *
      * @return int | bool
      */
-    public function findFirstOnLine(PHP_CodeSniffer_File $phpcsFile, $start)
+    public function findFirstOnLine(File $phpcsFile, $start)
     {
         $tokens = $phpcsFile->getTokens();
 
@@ -644,20 +639,19 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
         }
 
         return false;
-
     }//end findFirstOnLine()
 
 
     /**
      * Detects, that we're at the edge (beginning or ending) of CASE/DEFAULT with SWITCH statement.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
-     * @param int                  $stackPtr  The position of the current token
-     *                                        in the stack passed in $tokens.
+     * @param File $phpcsFile The file being scanned.
+     * @param int  $stackPtr  The position of the current token
+     *                        in the stack passed in $tokens.
      *
      * @return bool
      */
-    protected function insideSwitchCase(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    protected function insideSwitchCase(File $phpcsFile, $stackPtr)
     {
         if ($this->isScopeCondition($phpcsFile, $stackPtr, array(T_CASE, T_DEFAULT)) === true) {
             $tokens = $phpcsFile->getTokens();
@@ -667,117 +661,110 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
         }
 
         return false;
-
     }//end insideSwitchCase()
 
 
     /**
      * Detects, that it is a closing brace of IF/ELSEIF.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
-     * @param int                  $stackPtr  The position of the current token
-     *                                        in the stack passed in $tokens.
+     * @param File $phpcsFile The file being scanned.
+     * @param int  $stackPtr  The position of the current token
+     *                        in the stack passed in $tokens.
      *
      * @return bool
      */
-    protected function ifOrElseIf(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    protected function ifOrElseIf(File $phpcsFile, $stackPtr)
     {
         return $this->isScopeCondition($phpcsFile, $stackPtr, array(T_IF, T_ELSEIF));
-
     }//end ifOrElseIf()
 
 
     /**
      * Detects, that it is a closing brace of ELSE/ELSEIF.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
-     * @param int                  $stackPtr  The position of the current token
-     *                                        in the stack passed in $tokens.
+     * @param File $phpcsFile The file being scanned.
+     * @param int  $stackPtr  The position of the current token
+     *                        in the stack passed in $tokens.
      *
      * @return bool
      */
-    protected function elseOrElseIf(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    protected function elseOrElseIf(File $phpcsFile, $stackPtr)
     {
         return $this->isScopeCondition($phpcsFile, $stackPtr, array(T_ELSE, T_ELSEIF));
-
     }//end elseOrElseIf()
 
 
     /**
      * Detects, that it is a closing brace of TRY/CATCH.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
-     * @param int                  $stackPtr  The position of the current token
-     *                                        in the stack passed in $tokens.
+     * @param File $phpcsFile The file being scanned.
+     * @param int  $stackPtr  The position of the current token
+     *                        in the stack passed in $tokens.
      *
      * @return bool
      */
-    protected function isTryOrCatch(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    protected function isTryOrCatch(File $phpcsFile, $stackPtr)
     {
         return $this->isScopeCondition($phpcsFile, $stackPtr, array(T_TRY, T_CATCH));
-
     }//end isTryOrCatch()
 
 
     /**
      * Detects, that it is a closing brace of TRY.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
-     * @param int                  $stackPtr  The position of the current token
-     *                                        in the stack passed in $tokens.
+     * @param File $phpcsFile The file being scanned.
+     * @param int  $stackPtr  The position of the current token
+     *                        in the stack passed in $tokens.
      *
      * @return bool
      */
-    protected function isTry(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    protected function isTry(File $phpcsFile, $stackPtr)
     {
         return $this->isScopeCondition($phpcsFile, $stackPtr, T_TRY);
-
     }//end isTry()
 
 
     /**
      * Detects, that it is a closing brace of CATCH.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
-     * @param int                  $stackPtr  The position of the current token
-     *                                        in the stack passed in $tokens.
+     * @param File $phpcsFile The file being scanned.
+     * @param int  $stackPtr  The position of the current token
+     *                        in the stack passed in $tokens.
      *
      * @return bool
      */
-    protected function isCatch(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    protected function isCatch(File $phpcsFile, $stackPtr)
     {
         return $this->isScopeCondition($phpcsFile, $stackPtr, T_CATCH);
-
     }//end isCatch()
 
 
     /**
      * Determines that a function is located at given position.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
-     * @param int                  $stackPtr  The position of the current token
-     *                                        in the stack passed in $tokens.
+     * @param File $phpcsFile The file being scanned.
+     * @param int  $stackPtr  The position of the current token
+     *                        in the stack passed in $tokens.
      *
      * @return bool
      */
-    protected function isFunction(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    protected function isFunction(File $phpcsFile, $stackPtr)
     {
         return $this->isScopeCondition($phpcsFile, $stackPtr, T_FUNCTION);
-
     }//end isFunction()
 
 
     /**
      * Determines that a closure is located at given position.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile         The file being scanned.
-     * @param int                  $stackPtr          The position of the current token.
-     *                                                in the stack passed in $tokens.
-     * @param int                  $scopeConditionPtr Position of scope condition.
+     * @param File $phpcsFile         The file being scanned.
+     * @param int  $stackPtr          The position of the current token.
+     *                                in the stack passed in $tokens.
+     * @param int  $scopeConditionPtr Position of scope condition.
      *
      * @return bool
      */
-    protected function isClosure(PHP_CodeSniffer_File $phpcsFile, $stackPtr, $scopeConditionPtr)
+    protected function isClosure(File $phpcsFile, $stackPtr, $scopeConditionPtr)
     {
         $tokens = $phpcsFile->getTokens();
 
@@ -790,21 +777,20 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
         }
 
         return false;
-
     }//end isClosure()
 
 
     /**
      * Detects, that it is a closing brace of ELSE/ELSEIF.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
-     * @param int                  $stackPtr  The position of the current token
-     *                                        in the stack passed in $tokens.
-     * @param int|array            $types     The type(s) of tokens to search for.
+     * @param File      $phpcsFile The file being scanned.
+     * @param int       $stackPtr  The position of the current token
+     *                             in the stack passed in $tokens.
+     * @param int|array $types     The type(s) of tokens to search for.
      *
      * @return bool
      */
-    protected function isScopeCondition(PHP_CodeSniffer_File $phpcsFile, $stackPtr, $types)
+    protected function isScopeCondition(File $phpcsFile, $stackPtr, $types)
     {
         $tokens = $phpcsFile->getTokens();
 
@@ -817,8 +803,5 @@ class CodingStandard_Sniffs_WhiteSpace_ControlStructureSpacingSniff implements P
         }
 
         return false;
-
     }//end isScopeCondition()
-
-
 }//end class

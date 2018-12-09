@@ -13,6 +13,11 @@
  * @link     https://github.com/aik099/CodingStandard
  */
 
+namespace CodingStandard\Sniffs\WhiteSpace;
+
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
+
 /**
  * CodingStandard_Sniffs_WhiteSpace_ObjectOperatorSpacingSniff.
  *
@@ -26,7 +31,7 @@
  * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
  * @link     https://github.com/aik099/CodingStandard
  */
-class CodingStandard_Sniffs_WhiteSpace_ObjectOperatorSpacingSniff implements PHP_CodeSniffer_Sniff
+class ObjectOperatorSpacingSniff implements Sniff
 {
 
 
@@ -38,20 +43,19 @@ class CodingStandard_Sniffs_WhiteSpace_ObjectOperatorSpacingSniff implements PHP
     public function register()
     {
         return array(T_OBJECT_OPERATOR);
-
     }//end register()
 
 
     /**
      * Processes this test, when one of its tokens is encountered.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
-     * @param int                  $stackPtr  The position of the current token
-     *                                        in the stack passed in $tokens.
+     * @param File $phpcsFile The file being scanned.
+     * @param int  $stackPtr  The position of the current token in the
+     *                        stack passed in $tokens.
      *
      * @return void
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
 
@@ -59,7 +63,7 @@ class CodingStandard_Sniffs_WhiteSpace_ObjectOperatorSpacingSniff implements PHP
             && $tokens[($stackPtr - 2)]['line'] === $tokens[$stackPtr]['line']
         ) {
             $error = 'Space found before object operator';
-            $fix = $phpcsFile->addFixableError($error, $stackPtr, 'Before');
+            $fix   = $phpcsFile->addFixableError($error, $stackPtr, 'Before');
             if ($fix === true) {
                 $phpcsFile->fixer->replaceToken(($stackPtr - 1), '');
             }
@@ -69,13 +73,10 @@ class CodingStandard_Sniffs_WhiteSpace_ObjectOperatorSpacingSniff implements PHP
             && $tokens[($stackPtr + 2)]['line'] === $tokens[$stackPtr]['line']
         ) {
             $error = 'Space found after object operator';
-            $fix = $phpcsFile->addFixableError($error, $stackPtr, 'After');
+            $fix   = $phpcsFile->addFixableError($error, $stackPtr, 'After');
             if ($fix === true) {
                 $phpcsFile->fixer->replaceToken(($stackPtr + 1), '');
             }
         }
-
     }//end process()
-
-
 }//end class

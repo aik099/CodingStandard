@@ -11,6 +11,10 @@
  * @link     https://github.com/aik099/CodingStandard
  */
 
+namespace CodingStandard\Tests\Files;
+
+use TestSuite\AbstractSniffUnitTest;
+
 /**
  * Unit test class for the OneTraitPerFile sniff.
  *
@@ -20,7 +24,7 @@
  * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
  * @link     https://github.com/aik099/CodingStandard
  */
-class CodingStandard_Tests_Files_OneTraitPerFileUnitTest extends AbstractSniffUnitTest
+class OneTraitPerFileUnitTest extends AbstractSniffUnitTest
 {
 
 
@@ -31,8 +35,7 @@ class CodingStandard_Tests_Files_OneTraitPerFileUnitTest extends AbstractSniffUn
      */
     protected function shouldSkipTest()
     {
-        return version_compare(PHP_VERSION, '5.4.0', '<');
-
+        return PHP_VERSION_ID < 50400;
     }//end shouldSkipTest()
 
 
@@ -52,7 +55,6 @@ class CodingStandard_Tests_Files_OneTraitPerFileUnitTest extends AbstractSniffUn
                 6  => 1,
                 10 => 1,
                );
-
     }//end getErrorList()
 
 
@@ -69,8 +71,5 @@ class CodingStandard_Tests_Files_OneTraitPerFileUnitTest extends AbstractSniffUn
     public function getWarningList($testFile)
     {
         return array();
-
     }//end getWarningList()
-
-
 }//end class

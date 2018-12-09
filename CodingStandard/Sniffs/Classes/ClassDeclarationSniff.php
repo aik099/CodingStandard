@@ -13,12 +13,10 @@
  * @link     https://github.com/aik099/CodingStandard
  */
 
-// @codeCoverageIgnoreStart
-if (class_exists('PSR2_Sniffs_Classes_ClassDeclarationSniff', true) === false) {
-    $error = 'Class PSR2_Sniffs_Classes_ClassDeclarationSniff not found';
-    throw new PHP_CodeSniffer_Exception($error);
-}
-// @codeCoverageIgnoreEnd
+namespace CodingStandard\Sniffs\Classes;
+
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Standards\PSR2\Sniffs\Classes\ClassDeclarationSniff as PSR2_ClassDeclarationSniff;
 
 /**
  * Class Declaration Test.
@@ -33,37 +31,36 @@ if (class_exists('PSR2_Sniffs_Classes_ClassDeclarationSniff', true) === false) {
  * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
  * @link     https://github.com/aik099/CodingStandard
  */
-class CodingStandard_Sniffs_Classes_ClassDeclarationSniff extends PSR2_Sniffs_Classes_ClassDeclarationSniff
+class ClassDeclarationSniff extends PSR2_ClassDeclarationSniff
 {
 
 
     /**
      * Processes this test, when one of its tokens is encountered.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
-     * @param int                  $stackPtr  The position of the current token
-     *                                         in the stack passed in $tokens.
+     * @param File $phpcsFile The file being scanned.
+     * @param int  $stackPtr  The position of the current token in the
+     *                        stack passed in $tokens.
      *
      * @return void
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(File $phpcsFile, $stackPtr)
     {
         // We want all the errors from the PEAR standard, plus some of our own.
         parent::process($phpcsFile, $stackPtr);
-
     }//end process()
 
 
     /**
      * Processes the opening section of a class declaration.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
-     * @param int                  $stackPtr  The position of the current token
-     *                                        in the stack passed in $tokens.
+     * @param File $phpcsFile The file being scanned.
+     * @param int  $stackPtr  The position of the current token
+     *                        in the stack passed in $tokens.
      *
      * @return void
      */
-    public function processOpen(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function processOpen(File $phpcsFile, $stackPtr)
     {
         parent::processOpen($phpcsFile, $stackPtr);
 
@@ -94,20 +91,19 @@ class CodingStandard_Sniffs_Classes_ClassDeclarationSniff extends PSR2_Sniffs_Cl
                 }
             }//end if
         }//end if
-
     }//end processOpen()
 
 
     /**
      * Processes the closing section of a class declaration.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
-     * @param int                  $stackPtr  The position of the current token
-     *                                        in the stack passed in $tokens.
+     * @param File $phpcsFile The file being scanned.
+     * @param int  $stackPtr  The position of the current token
+     *                        in the stack passed in $tokens.
      *
      * @return void
      */
-    public function processClose(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function processClose(File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
 
@@ -175,8 +171,5 @@ class CodingStandard_Sniffs_Classes_ClassDeclarationSniff extends PSR2_Sniffs_Cl
                 }
             }//end if
         }//end if
-
     }//end processClose()
-
-
 }//end class

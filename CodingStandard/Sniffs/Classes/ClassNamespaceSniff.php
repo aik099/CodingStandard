@@ -11,6 +11,11 @@
  * @link     https://github.com/aik099/CodingStandard
  */
 
+namespace CodingStandard\Sniffs\Classes;
+
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
+
 /**
  * Class Namespace Test.
  *
@@ -22,7 +27,7 @@
  * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
  * @link     https://github.com/aik099/CodingStandard
  */
-class CodingStandard_Sniffs_Classes_ClassNamespaceSniff implements PHP_CodeSniffer_Sniff
+class ClassNamespaceSniff implements Sniff
 {
 
 
@@ -44,20 +49,19 @@ class CodingStandard_Sniffs_Classes_ClassNamespaceSniff implements PHP_CodeSniff
                 T_INTERFACE,
                 T_TRAIT,
                );
-
     }//end register()
 
 
     /**
      * Processes this test, when one of its tokens is encountered.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
-     * @param integer              $stackPtr  The position of the current token in the
-     *                                        stack passed in $tokens.
+     * @param File $phpcsFile The file being scanned.
+     * @param int  $stackPtr  The position of the current token in the
+     *                        stack passed in $tokens.
      *
      * @return void
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(File $phpcsFile, $stackPtr)
     {
         $tokens    = $phpcsFile->getTokens();
         $namespace = $phpcsFile->findPrevious(T_NAMESPACE, ($stackPtr - 1));
@@ -67,8 +71,5 @@ class CodingStandard_Sniffs_Classes_ClassNamespaceSniff implements PHP_CodeSniff
             $data  = array($tokens[$stackPtr]['content']);
             $phpcsFile->addError($error, $stackPtr, 'MissingNamespace', $data);
         }
-
     }//end process()
-
-
 }//end class

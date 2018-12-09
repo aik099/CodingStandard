@@ -13,6 +13,10 @@
  * @link     https://github.com/aik099/CodingStandard
  */
 
+namespace CodingStandard\Tests\NamingConventions;
+
+use TestSuite\AbstractSniffUnitTest;
+
 /**
  * Unit test class for the ValidVariableName sniff.
  *
@@ -27,7 +31,7 @@
  * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
  * @link     https://github.com/aik099/CodingStandard
  */
-class CodingStandard_Tests_NamingConventions_ValidVariableNameUnitTest extends AbstractSniffUnitTest
+class ValidVariableNameUnitTest extends AbstractSniffUnitTest
 {
 
 
@@ -81,7 +85,6 @@ class CodingStandard_Tests_NamingConventions_ValidVariableNameUnitTest extends A
                 138 => 1,
                 141 => 1,
                );
-
     }//end getErrorList()
 
 
@@ -98,8 +101,5 @@ class CodingStandard_Tests_NamingConventions_ValidVariableNameUnitTest extends A
     public function getWarningList($testFile)
     {
         return array();
-
     }//end getWarningList()
-
-
 }//end class

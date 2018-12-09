@@ -12,12 +12,11 @@
  * @link     https://github.com/aik099/CodingStandard
  */
 
-// @codeCoverageIgnoreStart
-if (class_exists('Squiz_Sniffs_Commenting_FunctionCommentSniff', true) === false) {
-    $error = 'Class Squiz_Sniffs_Commenting_FunctionCommentSniff not found';
-    throw new PHP_CodeSniffer_Exception($error);
-}
-// @codeCoverageIgnoreEnd
+namespace CodingStandard\Sniffs\Commenting;
+
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Standards\Squiz\Sniffs\Commenting\FunctionCommentSniff as Squiz_FunctionCommentSniff;
+use PHP_CodeSniffer\Util\Tokens;
 
 /**
  * Parses and verifies the doc comments for functions.
@@ -31,25 +30,25 @@ if (class_exists('Squiz_Sniffs_Commenting_FunctionCommentSniff', true) === false
  * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
  * @link     https://github.com/aik099/CodingStandard
  */
-class CodingStandard_Sniffs_Commenting_FunctionCommentSniff extends Squiz_Sniffs_Commenting_FunctionCommentSniff
+class FunctionCommentSniff extends Squiz_FunctionCommentSniff
 {
 
 
     /**
      * Processes this test, when one of its tokens is encountered.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
-     * @param int                  $stackPtr  The position of the current token
-     *                                        in the stack passed in $tokens.
+     * @param File $phpcsFile The file being scanned.
+     * @param int  $stackPtr  The position of the current token in the
+     *                        stack passed in $tokens.
      *
      * @return void
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(File $phpcsFile, $stackPtr)
     {
         parent::process($phpcsFile, $stackPtr);
 
         $tokens = $phpcsFile->getTokens();
-        $find   = PHP_CodeSniffer_Tokens::$methodPrefixes;
+        $find   = Tokens::$methodPrefixes;
         $find[] = T_WHITESPACE;
 
         $commentEnd = $phpcsFile->findPrevious($find, ($stackPtr - 1), null, true);
@@ -74,41 +73,39 @@ class CodingStandard_Sniffs_Commenting_FunctionCommentSniff extends Squiz_Sniffs
         }
 
         $this->checkShort($phpcsFile, $stackPtr, $tokens[$short]['content'], $short);
-
     }//end process()
 
     /**
      * Process the function parameter comments.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile    The file being scanned.
-     * @param int                  $stackPtr     The position of the current token
-     *                                           in the stack passed in $tokens.
-     * @param int                  $commentStart The position in the stack where the comment started.
+     * @param File $phpcsFile    The file being scanned.
+     * @param int  $stackPtr     The position of the current token
+     *                           in the stack passed in $tokens.
+     * @param int  $commentStart The position in the stack where the comment started.
      *
      * @return void
      */
-    protected function processParams(PHP_CodeSniffer_File $phpcsFile, $stackPtr, $commentStart)
+    protected function processParams(File $phpcsFile, $stackPtr, $commentStart)
     {
         if ($this->isInheritDoc($phpcsFile, $commentStart) === true) {
             return;
         }
 
         parent::processParams($phpcsFile, $stackPtr, $commentStart);
-
     }//end processParams()
 
 
     /**
      * Process the return comment of this function comment.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile    The file being scanned.
-     * @param int                  $stackPtr     The position of the current token
-     *                                           in the stack passed in $tokens.
-     * @param int                  $commentStart The position in the stack where the comment started.
+     * @param File $phpcsFile    The file being scanned.
+     * @param int  $stackPtr     The position of the current token
+     *                           in the stack passed in $tokens.
+     * @param int  $commentStart The position in the stack where the comment started.
      *
      * @return void
      */
-    protected function processReturn(PHP_CodeSniffer_File $phpcsFile, $stackPtr, $commentStart)
+    protected function processReturn(File $phpcsFile, $stackPtr, $commentStart)
     {
         if ($this->isInheritDoc($phpcsFile, $commentStart) === true) {
             return;
@@ -134,21 +131,20 @@ class CodingStandard_Sniffs_Commenting_FunctionCommentSniff extends Squiz_Sniffs
                 $phpcsFile->addError($error, $return, 'InvalidThisReturn', $data);
             }
         }
-
     }//end processReturn()
 
     /**
      * Process the short description of a function comment.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
-     * @param int                  $stackPtr  The position of the function token
-     *                                        in the stack passed in $tokens.
-     * @param string               $short     The content of the short description.
-     * @param int                  $errorPos  The position where an error should be thrown.
+     * @param File   $phpcsFile The file being scanned.
+     * @param int    $stackPtr  The position of the function token
+     *                          in the stack passed in $tokens.
+     * @param string $short     The content of the short description.
+     * @param int    $errorPos  The position where an error should be thrown.
      *
      * @return void
      */
-    public function checkShort(PHP_CodeSniffer_File $phpcsFile, $stackPtr, $short, $errorPos)
+    public function checkShort(File $phpcsFile, $stackPtr, $short, $errorPos)
     {
         $tokens = $phpcsFile->getTokens();
 
@@ -174,25 +170,24 @@ class CodingStandard_Sniffs_Commenting_FunctionCommentSniff extends Squiz_Sniffs
         if ($isEvent === true && preg_match('/(\p{Lu}|\[)/u', $short[0]) === 0) {
             $error = 'Event comment short description must start with a capital letter or an [';
             $phpcsFile->addError($error, $errorPos, 'EventShortNotCapital');
-        } else if ($isEvent === false && preg_match('/\p{Lu}/u', $short[0]) === 0) {
+        } elseif ($isEvent === false && preg_match('/\p{Lu}/u', $short[0]) === 0) {
             $error = 'Doc comment short description must start with a capital letter';
             $phpcsFile->addError($error, $errorPos, 'NonEventShortNotCapital');
         }
-
     }//end checkShort()
 
 
     /**
      * Process any throw tags that this function comment has.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile    The file being scanned.
-     * @param int                  $stackPtr     The position of the current token
-     *                                           in the stack passed in $tokens.
-     * @param int                  $commentStart The position in the stack where the comment started.
+     * @param File $phpcsFile    The file being scanned.
+     * @param int  $stackPtr     The position of the current token
+     *                           in the stack passed in $tokens.
+     * @param int  $commentStart The position in the stack where the comment started.
      *
      * @return void
      */
-    protected function processThrows(PHP_CodeSniffer_File $phpcsFile, $stackPtr, $commentStart)
+    protected function processThrows(File $phpcsFile, $stackPtr, $commentStart)
     {
         parent::processThrows($phpcsFile, $stackPtr, $commentStart);
 
@@ -243,27 +238,24 @@ class CodingStandard_Sniffs_Commenting_FunctionCommentSniff extends Squiz_Sniffs
                 $phpcsFile->addError($error, $tag, 'ExcessiveThrows');
             }
         }//end foreach
-
     }//end processThrows()
 
 
     /**
      * Is the comment an inheritdoc?
      *
-     * @param PHP_CodeSniffer_File $phpcsFile    The file being scanned.
-     * @param int                  $commentStart The position in the stack where the comment started.
+     * @param File $phpcsFile    The file being scanned.
+     * @param int  $commentStart The position in the stack where the comment started.
      *
      * @return bool
      */
-    protected function isInheritDoc(PHP_CodeSniffer_File $phpcsFile, $commentStart)
+    protected function isInheritDoc(File $phpcsFile, $commentStart)
     {
         $tokens = $phpcsFile->getTokens();
 
-        $commentEnd = $tokens[$commentStart]['comment_closer'];
+        $commentEnd  = $tokens[$commentStart]['comment_closer'];
         $commentText = $phpcsFile->getTokensAsString($commentStart, ($commentEnd - $commentStart + 1));
 
         return stripos($commentText, '{@inheritdoc}') !== false;
-
     }// end isInheritDoc()
-
 }//end class

@@ -11,6 +11,10 @@
  * @link     https://github.com/aik099/CodingStandard
  */
 
+namespace CodingStandard\Tests\PHP;
+
+use TestSuite\AbstractSniffUnitTest;
+
 /**
  * Unit test class for the NoSilencedErrors sniff.
  *
@@ -23,7 +27,7 @@
  * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
  * @link     https://github.com/aik099/CodingStandard
  */
-class CodingStandard_Tests_PHP_NoSilencedErrorsUnitTest extends AbstractSniffUnitTest
+class NoSilencedErrorsUnitTest extends AbstractSniffUnitTest
 {
 
 
@@ -40,7 +44,6 @@ class CodingStandard_Tests_PHP_NoSilencedErrorsUnitTest extends AbstractSniffUni
     public function getErrorList($testFile)
     {
         return array();
-
     }//end getErrorList()
 
 
@@ -60,10 +63,5 @@ class CodingStandard_Tests_PHP_NoSilencedErrorsUnitTest extends AbstractSniffUni
                 5  => 1,
                 11 => 1,
                );
-
     }//end getWarningList()
-
-
 }//end class
-
-?>

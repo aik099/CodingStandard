@@ -11,6 +11,10 @@
  * @link     https://github.com/aik099/CodingStandard
  */
 
+namespace CodingStandard\Tests\Classes;
+
+use TestSuite\AbstractSniffUnitTest;
+
 /**
  * Unit test class for the ClassNamespace sniff.
  *
@@ -20,7 +24,7 @@
  * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
  * @link     https://github.com/aik099/CodingStandard
  */
-class CodingStandard_Tests_Classes_ClassNamespaceUnitTest extends AbstractSniffUnitTest
+class ClassNamespaceUnitTest extends AbstractSniffUnitTest
 {
 
 
@@ -38,7 +42,6 @@ class CodingStandard_Tests_Classes_ClassNamespaceUnitTest extends AbstractSniffU
     {
         // Compensate for https://github.com/squizlabs/PHP_CodeSniffer/issues/1169 fix.
         return array(2 => 1);
-
     }//end getErrorList()
 
 
@@ -55,8 +58,5 @@ class CodingStandard_Tests_Classes_ClassNamespaceUnitTest extends AbstractSniffU
     public function getWarningList($testFile)
     {
         return array();
-
     }//end getWarningList()
-
-
 }//end class

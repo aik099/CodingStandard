@@ -12,6 +12,12 @@
  * @link     https://github.com/aik099/CodingStandard
  */
 
+namespace CodingStandard\Sniffs\Formatting;
+
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
+use PHP_CodeSniffer\Util\Tokens;
+
 /**
  * CodingStandard_Sniffs_Formatting_BlankLineBeforeReturnSniff.
  *
@@ -25,7 +31,7 @@
  * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
  * @link     https://github.com/aik099/CodingStandard
  */
-class CodingStandard_Sniffs_Formatting_BlankLineBeforeReturnSniff implements PHP_CodeSniffer_Sniff
+class BlankLineBeforeReturnSniff implements Sniff
 {
 
     /**
@@ -47,24 +53,23 @@ class CodingStandard_Sniffs_Formatting_BlankLineBeforeReturnSniff implements PHP
     public function register()
     {
         return array(T_RETURN);
-
     }//end register()
 
 
     /**
      * Processes this test, when one of its tokens is encountered.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile All the tokens found in the document.
-     * @param int                  $stackPtr  The position of the current token in
-     *                                        the stack passed in $tokens.
+     * @param File $phpcsFile The file being scanned.
+     * @param int  $stackPtr  The position of the current token in the
+     *                        stack passed in $tokens.
      *
      * @return void
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(File $phpcsFile, $stackPtr)
     {
         $tokens    = $phpcsFile->getTokens();
         $prevToken = $phpcsFile->findPrevious(
-            PHP_CodeSniffer_Tokens::$emptyTokens,
+            Tokens::$emptyTokens,
             ($stackPtr - 1),
             null,
             true
@@ -86,20 +91,19 @@ class CodingStandard_Sniffs_Formatting_BlankLineBeforeReturnSniff implements PHP
                      );
             $phpcsFile->addError($error, $stackPtr, 'BlankLineBeforeReturn', $data);
         }
-
     }//end process()
 
 
     /**
      * Returns leading comment stack pointer or own stack pointer, when no comment found.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile    All the tokens found in the document.
-     * @param int                  $fromStackPtr Start from token.
-     * @param int                  $toStackPtr   Stop at token.
+     * @param File $phpcsFile    All the tokens found in the document.
+     * @param int  $fromStackPtr Start from token.
+     * @param int  $toStackPtr   Stop at token.
      *
      * @return int|bool
      */
-    protected function getLeadingLinePointer(PHP_CodeSniffer_File $phpcsFile, $fromStackPtr, $toStackPtr)
+    protected function getLeadingLinePointer(File $phpcsFile, $fromStackPtr, $toStackPtr)
     {
         $tokens         = $phpcsFile->getTokens();
         $fromToken      = $tokens[$fromStackPtr];
@@ -122,8 +126,5 @@ class CodingStandard_Sniffs_Formatting_BlankLineBeforeReturnSniff implements PHP
         }
 
         return $fromStackPtr;
-
     }//end getLeadingLinePointer()
-
-
 }//end class

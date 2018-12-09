@@ -11,6 +11,10 @@
  * @link     https://github.com/aik099/CodingStandard
  */
 
+namespace CodingStandard\Tests\Classes;
+
+use TestSuite\AbstractSniffUnitTest;
+
 /**
  * Unit test class for the ClassDeclaration sniff.
  *
@@ -23,7 +27,7 @@
  * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
  * @link     https://github.com/aik099/CodingStandard
  */
-class CodingStandard_Tests_Classes_ClassDeclarationUnitTest extends AbstractSniffUnitTest
+class ClassDeclarationUnitTest extends AbstractSniffUnitTest
 {
 
 
@@ -60,12 +64,9 @@ class CodingStandard_Tests_Classes_ClassDeclarationUnitTest extends AbstractSnif
                 // Class opening brace not on a new line right after definition.
                 22  => 1,
                 // Expected 1 space before "implements" keyword.
-                27  => 1,
+                // The first item in a multi-line implements list must be on the line following the implements keyword.
+                27  => 2,
                 // Incorrect 2nd implemented interface name indentation (when on separate line).
-                28  => 1,
-                // Incorrect 3rd implemented interface name indentation (when on separate line).
-                29  => 1,
-                // Expected 1 space before "implements" keyword.
                 34  => 1,
                 // Several interfaces implemented on a line in multi-line class declaration.
                 35  => 2,
@@ -84,6 +85,8 @@ class CodingStandard_Tests_Classes_ClassDeclarationUnitTest extends AbstractSnif
                 // Incorrect extended interface indentation in multi-line interface declaration.
                 118 => 1,
                 119 => 1,
+                // Expected 1 space between abstract and class keywords; newline found.
+                124 => 1,
                 130 => 2,
                 131 => 1,
                 // Too much empty lines after interface declaration.
@@ -92,17 +95,7 @@ class CodingStandard_Tests_Classes_ClassDeclarationUnitTest extends AbstractSnif
                 142 => 1,
                );
 
-        if (version_compare(PHP_CodeSniffer::VERSION, '2.0.0RC3', '>') === true) {
-            // In https://github.com/squizlabs/PHP_CodeSniffer/commit/13877e17a9a3cc2b1acd74c614eb98bd05acc89b commit
-            // a change in interface usage validation was introduced.
-            $ret[27] += 1;
-            $ret[28] -= 1;
-            $ret[29] -= 1;
-            $ret[124] = 1;
-        }
-
         return $ret;
-
     }//end getErrorList()
 
 
@@ -119,8 +112,5 @@ class CodingStandard_Tests_Classes_ClassDeclarationUnitTest extends AbstractSnif
     public function getWarningList($testFile)
     {
         return array();
-
     }//end getWarningList()
-
-
 }//end class

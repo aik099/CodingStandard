@@ -11,6 +11,10 @@
  * @link     https://github.com/aik099/CodingStandard
  */
 
+namespace CodingStandard\Tests\Formatting;
+
+use TestSuite\AbstractSniffUnitTest;
+
 /**
  * Unit test class for the ItemAssignment sniff.
  *
@@ -20,7 +24,7 @@
  * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
  * @link     https://github.com/aik099/CodingStandard
  */
-class CodingStandard_Tests_Formatting_ItemAssignmentUnitTest extends AbstractSniffUnitTest
+class ItemAssignmentUnitTest extends AbstractSniffUnitTest
 {
 
 
@@ -52,7 +56,6 @@ class CodingStandard_Tests_Formatting_ItemAssignmentUnitTest extends AbstractSni
                 14 => 1,
                 15 => 1,
                );
-
     }//end getErrorList()
 
 
@@ -69,8 +72,5 @@ class CodingStandard_Tests_Formatting_ItemAssignmentUnitTest extends AbstractSni
     public function getWarningList($testFile)
     {
         return array();
-
     }//end getWarningList()
-
-
 }//end class
