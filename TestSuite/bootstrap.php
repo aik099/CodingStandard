@@ -38,9 +38,6 @@ if (is_dir($vendorPath) === false) {
 
 require_once $vendorPath.'/squizlabs/php_codesniffer/autoload.php';
 
-// Manually load test case class, because it's not covered by autoloader.
-require_once __DIR__.'/AbstractSniffUnitTest.php';
-
 // Defines constants, used in sniffs.
 $tokens = new \PHP_CodeSniffer\Util\Tokens();
 
@@ -60,3 +57,6 @@ if (class_exists('PHPUnit_TextUI_TestRunner') === true && class_exists('PHPUnit\
 if (class_exists('PHPUnit_Framework_TestResult') === true && class_exists('PHPUnit\Framework\TestResult') === false) {
     class_alias('PHPUnit_Framework_TestResult', 'PHPUnit'.'\Framework\TestResult');
 }
+
+// Manually load test case class, because it's not covered by autoloader.
+require_once __DIR__.'/AbstractSniffUnitTest.php';
