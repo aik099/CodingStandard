@@ -20,7 +20,7 @@ use PHP_CodeSniffer\Exceptions\RuntimeException;
 use PHP_CodeSniffer\Files\LocalFile;
 use PHP_CodeSniffer\Ruleset;
 use PHP_CodeSniffer\Util\Common;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
  * An abstract class that all sniff unit tests must extend.
@@ -38,7 +38,7 @@ use PHPUnit_Framework_TestCase;
  * @version   Release: @package_version@
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
-abstract class AbstractSniffUnitTest extends PHPUnit_Framework_TestCase
+abstract class AbstractSniffUnitTest extends TestCase
 {
 
     /**
