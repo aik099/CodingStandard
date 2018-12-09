@@ -13,6 +13,10 @@
  * @link     https://github.com/aik099/CodingStandard
  */
 
+namespace CodingStandard\Tests\Commenting;
+
+use TestSuite\AbstractSniffUnitTest;
+
 /**
  * Unit test class for FunctionCommentSniff.
  *
@@ -24,7 +28,7 @@
  * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
  * @link     https://github.com/aik099/CodingStandard
  */
-class CodingStandard_Tests_Commenting_FunctionCommentUnitTest extends AbstractSniffUnitTest
+class FunctionCommentUnitTest extends AbstractSniffUnitTest
 {
 
     /**
@@ -51,6 +55,8 @@ class CodingStandard_Tests_Commenting_FunctionCommentUnitTest extends AbstractSn
                     28  => 1,
                     43  => 1,
                     52  => 1,
+                    76  => 1,
+                    87  => 1,
                     103 => 1,
                     109 => 1,
                     110 => 1,
@@ -100,8 +106,6 @@ class CodingStandard_Tests_Commenting_FunctionCommentUnitTest extends AbstractSn
                     294 => 1,
                     302 => 1,
                     312 => 1,
-                    334 => 1,
-                    344 => 1,
                     358 => 1,
                     359 => 2,
                     372 => 1,
@@ -115,26 +119,6 @@ class CodingStandard_Tests_Commenting_FunctionCommentUnitTest extends AbstractSn
                     641 => 1,
                     657 => 1,
                    );
-
-            if (version_compare(PHP_CodeSniffer::VERSION, '1.5.5', '<') === true) {
-                // Fixture file has code that doesn't trigger errors on 1.5.5+ version,
-                // but does trigger errors on lower versions. To compensate for that
-                // allow extra errors.
-                $ret[155] -= 1;
-                $ret[156]  = 1;
-                $ret[618]  = 1;
-                $ret[648]  = 1;
-            }//end if
-
-            if (version_compare(PHP_CodeSniffer::VERSION, '2.1.0', '>=') === true) {
-                // Don't threat PHP4 constructor as such and require @return presence.
-                $ret[76] = 1;
-                $ret[87] = 1;
-
-                // Don't report @return tag in constructor/destructor as error.
-                $ret[334] = 0;
-                $ret[344] = 0;
-            }
 
             return $ret;
         } else if ($testFile === 'FunctionCommentUnitTest.2.inc') {
@@ -159,11 +143,6 @@ class CodingStandard_Tests_Commenting_FunctionCommentUnitTest extends AbstractSn
                     // Incorrect event short description start.
                     27 => 1,
                    );
-
-            // Before PHPCS 2.4.0 traits were not tokenized below PHP 5.4.
-            if (version_compare(PHP_CodeSniffer::VERSION, '2.4.0', '<') && version_compare(PHP_VERSION, '5.4.0', '<')) {
-                $ret[17] = 1;
-            }
 
             return $ret;
         }//end if

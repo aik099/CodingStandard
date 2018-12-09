@@ -11,12 +11,10 @@
  * @link     https://github.com/aik099/CodingStandard
  */
 
-// @codeCoverageIgnoreStart
-if (class_exists('Generic_Sniffs_Commenting_DocCommentSniff', true) === false) {
-    $error = 'Class Generic_Sniffs_Commenting_DocCommentSniff not found';
-    throw new PHP_CodeSniffer_Exception($error);
-}
-// @codeCoverageIgnoreEnd
+namespace CodingStandard\Sniffs\Commenting;
+
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Standards\Generic\Sniffs\Commenting\DocCommentSniff as Generic_DocCommentSniff;
 
 /**
  * Ensures doc blocks follow basic formatting.
@@ -28,19 +26,19 @@ if (class_exists('Generic_Sniffs_Commenting_DocCommentSniff', true) === false) {
  * @link     https://github.com/aik099/CodingStandard
  */
 
-class CodingStandard_Sniffs_Commenting_DocCommentSniff extends Generic_Sniffs_Commenting_DocCommentSniff
+class DocCommentSniff extends Generic_DocCommentSniff
 {
 
     /**
      * Processes this test, when one of its tokens is encountered.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
-     * @param int                  $stackPtr  The position of the current token
-     *                                        in the stack passed in $tokens.
+     * @param File $phpcsFile The file being scanned.
+     * @param int  $stackPtr  The position of the current token in the
+     *                        stack passed in $tokens.
      *
      * @return void
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(File $phpcsFile, $stackPtr)
     {
         $tokens       = $phpcsFile->getTokens();
         $commentEnd   = $phpcsFile->findNext(T_DOC_COMMENT_CLOSE_TAG, ($stackPtr + 1));

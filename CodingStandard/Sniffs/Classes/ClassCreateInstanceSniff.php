@@ -12,6 +12,11 @@
  * @link     https://github.com/aik099/CodingStandard
  */
 
+namespace CodingStandard\Sniffs\Classes;
+
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
+
 /**
  * Class create instance Test.
  *
@@ -24,7 +29,7 @@
  * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
  * @link     https://github.com/aik099/CodingStandard
  */
-class CodingStandard_Sniffs_Classes_ClassCreateInstanceSniff implements PHP_CodeSniffer_Sniff
+class ClassCreateInstanceSniff implements Sniff
 {
 
 
@@ -43,13 +48,13 @@ class CodingStandard_Sniffs_Classes_ClassCreateInstanceSniff implements PHP_Code
     /**
      * Processes this test, when one of its tokens is encountered.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
-     * @param int                  $stackPtr  The position of the current token in the
-     *                                        stack passed in $tokens.
+     * @param File $phpcsFile The file being scanned.
+     * @param int  $stackPtr  The position of the current token in the
+     *                        stack passed in $tokens.
      *
      * @return void
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(File $phpcsFile, $stackPtr)
     {
         $scopeEnd = null;
         $tokens   = $phpcsFile->getTokens();
@@ -70,7 +75,7 @@ class CodingStandard_Sniffs_Classes_ClassCreateInstanceSniff implements PHP_Code
 
         if ($nextParenthesis === false || $tokens[$nextParenthesis]['line'] !== $tokens[$stackPtr]['line']) {
             $error = 'Calling class constructors must always include parentheses';
-            $fix   = $phpcsFile->addFixableError($error, $stackPtr);
+            $fix   = $phpcsFile->addFixableError($error, $stackPtr, 'MissingParenthesis');
             if ($fix === true) {
                 $phpcsFile->fixer->beginChangeset();
                 $classNameEnd = $phpcsFile->findNext(
@@ -91,7 +96,7 @@ class CodingStandard_Sniffs_Classes_ClassCreateInstanceSniff implements PHP_Code
             }//end if
         } else if ($tokens[($nextParenthesis - 1)]['code'] === T_WHITESPACE) {
             $error = 'Between the class name and the opening parenthesis spaces are not welcome';
-            $fix   = $phpcsFile->addFixableError($error, ($nextParenthesis - 1));
+            $fix   = $phpcsFile->addFixableError($error, ($nextParenthesis - 1), 'ExtraSpaces');
             if ($fix === true) {
                 $phpcsFile->fixer->beginChangeset();
                 $phpcsFile->fixer->replaceToken(($nextParenthesis - 1), '');

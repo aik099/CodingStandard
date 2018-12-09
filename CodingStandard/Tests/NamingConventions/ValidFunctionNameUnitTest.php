@@ -13,6 +13,10 @@
  * @link     https://github.com/aik099/CodingStandard
  */
 
+namespace CodingStandard\Tests\NamingConventions;
+
+use TestSuite\AbstractSniffUnitTest;
+
 /**
  * Unit test class for the ValidFunctionName sniff.
  *
@@ -27,7 +31,7 @@
  * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
  * @link     https://github.com/aik099/CodingStandard
  */
-class CodingStandard_Tests_NamingConventions_ValidFunctionNameUnitTest extends AbstractSniffUnitTest
+class ValidFunctionNameUnitTest extends AbstractSniffUnitTest
 {
 
 
@@ -153,11 +157,6 @@ class CodingStandard_Tests_NamingConventions_ValidFunctionNameUnitTest extends A
                    174 => 1,
                    175 => 1,
                   );
-
-        // Before PHPCS 2.4.0 traits were not tokenized below PHP 5.4.
-        if (version_compare(PHP_CodeSniffer::VERSION, '2.4.0', '<') && version_compare(PHP_VERSION, '5.4.0', '<')) {
-            $errors[196] = 1;
-        }
 
         return $errors;
 

@@ -76,7 +76,7 @@
 			<property
 				name="forbiddenFunctions"
 			 	type="array"
-				value="sizeof=>count,delete=>unset,print=>echo,join=>implode"
+				value="sizeof=>count,delete=>unset,print=>echo,join=>implode,ob_end_flush=>null"
 			/>
 		</properties>
 	</rule>
@@ -212,7 +212,6 @@
 		<rule ref="Squiz.PHP.CommentedOutCode"/>
 	-->
 
-	<rule ref="Squiz.PHP.DisallowObEndFlush"/>
 	<rule ref="Squiz.PHP.DisallowSizeFunctionsInLoops"/>
 	<rule ref="Squiz.PHP.GlobalKeyword"/>
 	<rule ref="Squiz.PHP.LowercasePHPFunctions"/>

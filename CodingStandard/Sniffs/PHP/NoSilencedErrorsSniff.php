@@ -11,12 +11,11 @@
  * @link     https://github.com/aik099/CodingStandard
  */
 
-// @codeCoverageIgnoreStart
-if (class_exists('Generic_Sniffs_PHP_NoSilencedErrorsSniff', true) === false) {
-    $error = 'Class Generic_Sniffs_PHP_NoSilencedErrorsSniff not found';
-    throw new PHP_CodeSniffer_Exception($error);
-}
-// @codeCoverageIgnoreEnd
+namespace CodingStandard\Sniffs\PHP;
+
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Standards\Generic\Sniffs\PHP\NoSilencedErrorsSniff as Generic_NoSilencedErrorsSniff;
+use PHP_CodeSniffer\Util\Tokens;
 
 /**
  * CodingStandard_Sniffs_PHP_NoSilencedErrorsSniffSniff.
@@ -36,23 +35,23 @@ if (class_exists('Generic_Sniffs_PHP_NoSilencedErrorsSniff', true) === false) {
  * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
  * @link     https://github.com/aik099/CodingStandard
  */
-class CodingStandard_Sniffs_PHP_NoSilencedErrorsSniff extends Generic_Sniffs_PHP_NoSilencedErrorsSniff
+class NoSilencedErrorsSniff extends Generic_NoSilencedErrorsSniff
 {
 
     /**
      * Processes this test, when one of its tokens is encountered.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
-     * @param int                  $stackPtr  The position of the current token
-     *                                        in the stack passed in $tokens.
+     * @param File $phpcsFile The file being scanned.
+     * @param int  $stackPtr  The position of the current token in the
+     *                        stack passed in $tokens.
      *
      * @return void
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(File $phpcsFile, $stackPtr)
     {
-        $tokens = $phpcsFile->getTokens();
+        $tokens          = $phpcsFile->getTokens();
         $secondTokenData = $tokens[($stackPtr + 1)];
-        $thirdTokenData = $tokens[($stackPtr + 2)];
+        $thirdTokenData  = $tokens[($stackPtr + 2)];
 
         // This is a silenced "trigger_error" function call.
         if ($secondTokenData['code'] === T_STRING
@@ -61,7 +60,7 @@ class CodingStandard_Sniffs_PHP_NoSilencedErrorsSniff extends Generic_Sniffs_PHP
             && isset($thirdTokenData['parenthesis_closer']) === true
         ) {
             $lastArgumentToken = $phpcsFile->findPrevious(
-                PHP_CodeSniffer_Tokens::$emptyTokens,
+                Tokens::$emptyTokens,
                 ($thirdTokenData['parenthesis_closer'] - 1),
                 ($thirdTokenData['parenthesis_opener'] + 1),
                 true

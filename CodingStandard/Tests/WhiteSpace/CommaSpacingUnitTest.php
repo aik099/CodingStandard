@@ -11,6 +11,10 @@
  * @link     https://github.com/aik099/CodingStandard
  */
 
+namespace CodingStandard\Tests\WhiteSpace;
+
+use TestSuite\AbstractSniffUnitTest;
+
 /**
  * Unit test class for the CommaSpacing sniff.
  *
@@ -23,7 +27,7 @@
  * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
  * @link     https://github.com/aik099/CodingStandard
  */
-class CodingStandard_Tests_WhiteSpace_CommaSpacingUnitTest extends AbstractSniffUnitTest
+class CommaSpacingUnitTest extends AbstractSniffUnitTest
 {
 
 

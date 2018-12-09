@@ -12,6 +12,11 @@
  * @link     https://github.com/aik099/CodingStandard
  */
 
+namespace CodingStandard\Sniffs\NamingConventions;
+
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
+
 /**
  * CodingStandard_Sniffs_NamingConventions_ValidTraitNameSniff.
  *
@@ -23,7 +28,7 @@
  * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
  * @link     https://github.com/aik099/CodingStandard
  */
-class CodingStandard_Sniffs_NamingConventions_ValidTraitNameSniff implements PHP_CodeSniffer_Sniff
+class ValidTraitNameSniff implements Sniff
 {
 
     /**
@@ -49,22 +54,23 @@ class CodingStandard_Sniffs_NamingConventions_ValidTraitNameSniff implements PHP
     /**
      * Processes this test, when one of its tokens is encountered.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile All the tokens found in the document.
-     * @param int                  $stackPtr  The position of the current token in
-     *                                        the stack passed in $tokens.
+     * @param File $phpcsFile The file being scanned.
+     * @param int  $stackPtr  The position of the current token in the
+     *                        stack passed in $tokens.
      *
      * @return void
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(File $phpcsFile, $stackPtr)
     {
-        $traitName = $phpcsFile->getDeclarationName($stackPtr);
-        $firstLetter   = $traitName[0];
-        $secondLetter  = $traitName[1];
+        $traitName    = $phpcsFile->getDeclarationName($stackPtr);
+        $firstLetter  = $traitName[0];
+        $secondLetter = $traitName[1];
 
         if ($firstLetter !== 'T' || $secondLetter === strtolower($secondLetter)) {
             $phpcsFile->addError(
                 'Trait name is not prefixed with "T"',
-                $stackPtr
+                $stackPtr,
+                'WrongPrefix'
             );
         }
 

@@ -11,6 +11,10 @@
  * @link     https://github.com/aik099/CodingStandard
  */
 
+namespace CodingStandard\Tests\Strings;
+
+use TestSuite\AbstractSniffUnitTest;
+
 /**
  * Unit test class for the ConcatenationSpacing sniff.
  *
@@ -20,7 +24,7 @@
  * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
  * @link     https://github.com/aik099/CodingStandard
  */
-class CodingStandard_Tests_Strings_ConcatenationSpacingUnitTest extends AbstractSniffUnitTest
+class ConcatenationSpacingUnitTest extends AbstractSniffUnitTest
 {
 
 

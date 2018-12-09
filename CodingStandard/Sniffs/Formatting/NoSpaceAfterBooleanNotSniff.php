@@ -11,6 +11,11 @@
  * @link     https://github.com/aik099/CodingStandard
  */
 
+namespace CodingStandard\Sniffs\Formatting;
+
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
+
 /**
  * CodingStandard_Sniffs_Formatting_NoSpaceAfterBooleanNotSniff.
  *
@@ -22,7 +27,7 @@
  * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
  * @link     https://github.com/aik099/CodingStandard
  */
-class CodingStandard_Sniffs_Formatting_NoSpaceAfterBooleanNotSniff implements PHP_CodeSniffer_Sniff
+class NoSpaceAfterBooleanNotSniff implements Sniff
 {
 
 
@@ -41,13 +46,13 @@ class CodingStandard_Sniffs_Formatting_NoSpaceAfterBooleanNotSniff implements PH
     /**
      * Processes this test, when one of its tokens is encountered.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
-     * @param int                  $stackPtr  The position of the current token in
-     *                                        the stack passed in $tokens.
+     * @param File $phpcsFile The file being scanned.
+     * @param int  $stackPtr  The position of the current token in the
+     *                        stack passed in $tokens.
      *
      * @return void
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
 

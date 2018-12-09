@@ -13,12 +13,9 @@
  * @link     https://github.com/aik099/CodingStandard
  */
 
-// @codeCoverageIgnoreStart
-if (class_exists('PHP_CodeSniffer_Standards_AbstractPatternSniff', true) === false) {
-    $error = 'Class PHP_CodeSniffer_Standards_AbstractPatternSniff not found';
-    throw new PHP_CodeSniffer_Exception($error);
-}
-// @codeCoverageIgnoreEnd
+namespace CodingStandard\Sniffs\ControlStructures;
+
+use PHP_CodeSniffer\Sniffs\AbstractPatternSniff;
 
 /**
  * Verifies that control statements conform to their coding standards.
@@ -31,8 +28,7 @@ if (class_exists('PHP_CodeSniffer_Standards_AbstractPatternSniff', true) === fal
  * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
  * @link     https://github.com/aik099/CodingStandard
  */
-class CodingStandard_Sniffs_ControlStructures_ControlSignatureSniff extends
- PHP_CodeSniffer_Standards_AbstractPatternSniff
+class ControlSignatureSniff extends AbstractPatternSniff
 {
 
     /**
@@ -74,7 +70,7 @@ class CodingStandard_Sniffs_ControlStructures_ControlSignatureSniff extends
                 '}EOLelse {EOL',
                 'do {EOL',
                 'try {EOL',
-                '}EOLcatch (...) {EOL'
+                '}EOLcatch (...) {EOL',
                );
 
     }//end getPatterns()

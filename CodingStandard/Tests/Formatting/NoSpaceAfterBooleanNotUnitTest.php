@@ -11,6 +11,10 @@
  * @link     https://github.com/aik099/CodingStandard
  */
 
+namespace CodingStandard\Tests\Formatting;
+
+use TestSuite\AbstractSniffUnitTest;
+
 /**
  * Unit test class for the NoSpaceAfterBooleanNot sniff.
  *
@@ -23,7 +27,7 @@
  * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
  * @link     https://github.com/aik099/CodingStandard
  */
-class CodingStandard_Tests_Formatting_NoSpaceAfterBooleanNotUnitTest extends AbstractSniffUnitTest
+class NoSpaceAfterBooleanNotUnitTest extends AbstractSniffUnitTest
 {
 
 

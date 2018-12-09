@@ -13,12 +13,11 @@
  * @link     https://github.com/aik099/CodingStandard
  */
 
-// @codeCoverageIgnoreStart
-if (class_exists('PEAR_Sniffs_NamingConventions_ValidFunctionNameSniff', true) === false) {
-    $error = 'Class PEAR_Sniffs_NamingConventions_ValidFunctionNameSniff not found';
-    throw new PHP_CodeSniffer_Exception($error);
-}
-// @codeCoverageIgnoreEnd
+namespace CodingStandard\Sniffs\NamingConventions;
+
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Standards\PEAR\Sniffs\NamingConventions\ValidFunctionNameSniff as PEAR_ValidFunctionNameSniff;
+use PHP_CodeSniffer\Util\Common;
 
 /**
  * CodingStandard_Sniffs_NamingConventions_ValidFunctionNameSniff.
@@ -34,8 +33,7 @@ if (class_exists('PEAR_Sniffs_NamingConventions_ValidFunctionNameSniff', true) =
  * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
  * @link     https://github.com/aik099/CodingStandard
  */
-class CodingStandard_Sniffs_NamingConventions_ValidFunctionNameSniff extends
- PEAR_Sniffs_NamingConventions_ValidFunctionNameSniff
+class ValidFunctionNameSniff extends PEAR_ValidFunctionNameSniff
 {
 
     protected $exclusions = array(
@@ -83,14 +81,14 @@ class CodingStandard_Sniffs_NamingConventions_ValidFunctionNameSniff extends
     /**
      * Processes the tokens within the scope.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being processed.
-     * @param int                  $stackPtr  The position where this token was
-     *                                        found.
-     * @param int                  $currScope The position of the current scope.
+     * @param File $phpcsFile The file being processed.
+     * @param int  $stackPtr  The position where this token was
+     *                        found.
+     * @param int  $currScope The position of the current scope.
      *
      * @return void
      */
-    protected function processTokenWithinScope(PHP_CodeSniffer_File $phpcsFile, $stackPtr, $currScope)
+    protected function processTokenWithinScope(File $phpcsFile, $stackPtr, $currScope)
     {
         $methodName = $phpcsFile->getDeclarationName($stackPtr);
         if ($methodName === null) {
@@ -176,7 +174,7 @@ class CodingStandard_Sniffs_NamingConventions_ValidFunctionNameSniff extends
             return;
         }
 
-        if (PHP_CodeSniffer::isCamelCaps($testMethodName, false, $isPublic, false) === false) {
+        if (Common::isCamelCaps($testMethodName, false, $isPublic, false) === false) {
             if ($scopeSpecified === true) {
                 $error = '%s method name "%s" is not in camel caps format';
                 $data  = array(

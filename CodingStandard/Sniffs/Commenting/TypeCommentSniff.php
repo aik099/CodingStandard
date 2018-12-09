@@ -11,6 +11,11 @@
  * @link     https://github.com/aik099/CodingStandard
  */
 
+namespace CodingStandard\Sniffs\Commenting;
+
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
+
 /**
  * Ensures type comments follow basic formatting.
  *
@@ -21,7 +26,7 @@
  * @link     https://github.com/aik099/CodingStandard
  */
 
-class CodingStandard_Sniffs_Commenting_TypeCommentSniff implements PHP_CodeSniffer_Sniff
+class TypeCommentSniff implements Sniff
 {
 
     const TYPE_TAG = '@var';
@@ -52,13 +57,13 @@ class CodingStandard_Sniffs_Commenting_TypeCommentSniff implements PHP_CodeSniff
     /**
      * Processes this test, when one of its tokens is encountered.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
-     * @param int                  $stackPtr  The position of the current token
-     *                                        in the stack passed in $tokens.
+     * @param File $phpcsFile The file being scanned.
+     * @param int  $stackPtr  The position of the current token in the
+     *                        stack passed in $tokens.
      *
      * @return void
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
 
@@ -74,13 +79,13 @@ class CodingStandard_Sniffs_Commenting_TypeCommentSniff implements PHP_CodeSniff
     /**
      * Processes comment.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
-     * @param int                  $stackPtr  The position of the current token
-     *                                        in the stack passed in $tokens.
+     * @param File $phpcsFile The file being scanned.
+     * @param int  $stackPtr  The position of the current token
+     *                        in the stack passed in $tokens.
      *
      * @return void
      */
-    public function processComment(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function processComment(File $phpcsFile, $stackPtr)
     {
         $tokens      = $phpcsFile->getTokens();
         $commentText = $tokens[$stackPtr]['content'];
@@ -108,13 +113,13 @@ class CodingStandard_Sniffs_Commenting_TypeCommentSniff implements PHP_CodeSniff
     /**
      * Processes DocBlock.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
-     * @param int                  $stackPtr  The position of the current token
-     *                                        in the stack passed in $tokens.
+     * @param File $phpcsFile The file being scanned.
+     * @param int  $stackPtr  The position of the current token
+     *                        in the stack passed in $tokens.
      *
      * @return void
      */
-    public function processDocBlock(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function processDocBlock(File $phpcsFile, $stackPtr)
     {
         $tokens       = $phpcsFile->getTokens();
         $commentStart = $stackPtr;
@@ -158,7 +163,7 @@ class CodingStandard_Sniffs_Commenting_TypeCommentSniff implements PHP_CodeSniff
     /**
      * Processes DocBlock content.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
+     * @param File                 $phpcsFile The file being scanned.
      * @param int                  $stackPtr  The position of the current token
      *                                        in the stack passed in $tokens.
      * @param TypeCommentStructure $structure Type comment structure.
@@ -166,7 +171,7 @@ class CodingStandard_Sniffs_Commenting_TypeCommentSniff implements PHP_CodeSniff
      * @return void
      */
     public function processDocBlockContent(
-        PHP_CodeSniffer_File $phpcsFile,
+        File $phpcsFile,
         $stackPtr,
         TypeCommentStructure $structure
     ) {
@@ -287,7 +292,7 @@ class CodingStandard_Sniffs_Commenting_TypeCommentSniff implements PHP_CodeSniff
     /**
      * Processes variable around DocBlock.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
+     * @param File                 $phpcsFile The file being scanned.
      * @param int                  $stackPtr  The position of the current token
      *                                        in the stack passed in $tokens.
      * @param TypeCommentStructure $structure Type comment structure.
@@ -295,7 +300,7 @@ class CodingStandard_Sniffs_Commenting_TypeCommentSniff implements PHP_CodeSniff
      * @return void
      */
     public function processVariableAssociation(
-        PHP_CodeSniffer_File $phpcsFile,
+        File $phpcsFile,
         $stackPtr,
         TypeCommentStructure $structure
     ) {
@@ -313,7 +318,7 @@ class CodingStandard_Sniffs_Commenting_TypeCommentSniff implements PHP_CodeSniff
     /**
      * Processes variable before DocBlock.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
+     * @param File                 $phpcsFile The file being scanned.
      * @param int                  $stackPtr  The position of the current token
      *                                        in the stack passed in $tokens.
      * @param TypeCommentStructure $structure Type comment structure.
@@ -321,7 +326,7 @@ class CodingStandard_Sniffs_Commenting_TypeCommentSniff implements PHP_CodeSniff
      * @return void
      */
     public function processVariableBeforeDocBlock(
-        PHP_CodeSniffer_File $phpcsFile,
+        File $phpcsFile,
         $stackPtr,
         TypeCommentStructure $structure
     ) {
@@ -399,7 +404,7 @@ class CodingStandard_Sniffs_Commenting_TypeCommentSniff implements PHP_CodeSniff
     /**
      * Processes variable before DocBlock.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
+     * @param File                 $phpcsFile The file being scanned.
      * @param int                  $stackPtr  The position of the current token
      *                                        in the stack passed in $tokens.
      * @param TypeCommentStructure $structure Type comment structure.
@@ -407,7 +412,7 @@ class CodingStandard_Sniffs_Commenting_TypeCommentSniff implements PHP_CodeSniff
      * @return void
      */
     public function processVariableAfterDocBlock(
-        PHP_CodeSniffer_File $phpcsFile,
+        File $phpcsFile,
         $stackPtr,
         TypeCommentStructure $structure
     ) {
@@ -486,12 +491,12 @@ class CodingStandard_Sniffs_Commenting_TypeCommentSniff implements PHP_CodeSniff
     /**
      * Finds first token on a line.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile All the tokens found in the document.
-     * @param int                  $start     Start from token.
+     * @param File $phpcsFile All the tokens found in the document.
+     * @param int  $start     Start from token.
      *
      * @return int | bool
      */
-    public function findFirstOnLine(PHP_CodeSniffer_File $phpcsFile, $start)
+    public function findFirstOnLine(File $phpcsFile, $start)
     {
         $tokens = $phpcsFile->getTokens();
 
@@ -511,12 +516,12 @@ class CodingStandard_Sniffs_Commenting_TypeCommentSniff implements PHP_CodeSniff
     /**
      * Finds last token on a line.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile All the tokens found in the document.
-     * @param int                  $start     Start from token.
+     * @param File $phpcsFile All the tokens found in the document.
+     * @param int  $start     Start from token.
      *
      * @return int | bool
      */
-    public function findLastOnLine(PHP_CodeSniffer_File $phpcsFile, $start)
+    public function findLastOnLine(File $phpcsFile, $start)
     {
         $tokens = $phpcsFile->getTokens();
 
@@ -589,14 +594,15 @@ class TypeCommentStructure
                                 4 => T_DOC_COMMENT_STRING,
                                );
 
+
     /**
      * Creates from tokens.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
-     * @param int                  $stackPtr  The position of the current token
-     *                                        in the stack passed in $tokens.
+     * @param File $phpcsFile The file being scanned.
+     * @param int  $stackPtr  The position of the current token
+     *                        in the stack passed in $tokens.
      */
-    public function __construct(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function __construct(File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
 

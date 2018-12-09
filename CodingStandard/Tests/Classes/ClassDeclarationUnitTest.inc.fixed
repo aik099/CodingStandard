@@ -45,7 +45,7 @@ class ClassName extends ParentClass implements
     \ArrayAccess,
     \Countable,
     \Serializable
-    {
+{
         // constants, properties, methods
 }
 

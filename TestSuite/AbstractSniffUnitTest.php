@@ -13,6 +13,15 @@
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
 
+namespace TestSuite;
+
+use PHP_CodeSniffer\Config;
+use PHP_CodeSniffer\Exceptions\RuntimeException;
+use PHP_CodeSniffer\Files\LocalFile;
+use PHP_CodeSniffer\Ruleset;
+use PHP_CodeSniffer\Util\Common;
+use PHPUnit_Framework_TestCase;
+
 /**
  * An abstract class that all sniff unit tests must extend.
  *
@@ -42,11 +51,18 @@ abstract class AbstractSniffUnitTest extends PHPUnit_Framework_TestCase
     protected $backupGlobals = false;
 
     /**
-     * The PHP_CodeSniffer object used for testing.
+     * The path to the standard's main directory.
      *
-     * @var PHP_CodeSniffer
+     * @var string
      */
-    protected static $phpcs = null;
+    public $standardsDir = null;
+
+    /**
+     * The path to the standard's test directory.
+     *
+     * @var string
+     */
+    public $testsDir = null;
 
 
     /**
@@ -56,16 +72,56 @@ abstract class AbstractSniffUnitTest extends PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        if (self::$phpcs === null) {
-            self::$phpcs = new PHP_CodeSniffer();
-            PHP_CodeSniffer::setConfigData('installed_paths', STANDARDS_PATH, true);
-            PHP_CodeSniffer::setConfigData('php_version', 50445, true);
-
-            // Conflicts with Composer AutoLoader.
-            spl_autoload_unregister(array('PHP_CodeSniffer', 'autoload'));
-        }
+        $this->standardsDir = STANDARDS_PATH.DIRECTORY_SEPARATOR.STANDARD_NAME;
+        $this->testsDir     = STANDARDS_PATH.DIRECTORY_SEPARATOR.STANDARD_NAME.DIRECTORY_SEPARATOR.'Tests'.DIRECTORY_SEPARATOR;
 
     }//end setUp()
+
+
+    /**
+     * Get a list of all test files to check.
+     *
+     * These will have the same base as the sniff name but different extensions.
+     * We ignore the .php file as it is the class.
+     *
+     * @param string $testFileBase The base path that the unit tests files will have.
+     *
+     * @return string[]
+     */
+    protected function getTestFiles($testFileBase)
+    {
+        $testFiles = array();
+
+        $dir = substr($testFileBase, 0, strrpos($testFileBase, DIRECTORY_SEPARATOR));
+        $di  = new \DirectoryIterator($dir);
+
+        foreach ($di as $file) {
+            $path = $file->getPathname();
+            if (substr($path, 0, strlen($testFileBase)) === $testFileBase) {
+                if ($path !== $testFileBase.'php' && substr($path, -5) !== 'fixed' && substr($path, -4) !== '.bak') {
+                    $testFiles[] = $path;
+                }
+            }
+        }
+
+        // Put them in order.
+        sort($testFiles);
+
+        return $testFiles;
+
+    }//end getTestFiles()
+
+
+    /**
+     * Should this test be skipped for some reason.
+     *
+     * @return bool
+     */
+    protected function shouldSkipTest()
+    {
+        return false;
+
+    }//end shouldSkipTest()
 
 
     /**
@@ -73,56 +129,92 @@ abstract class AbstractSniffUnitTest extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public final function testSniff()
+    final public function testSniff()
     {
         // Skip this test if we can't run in this environment.
         if ($this->shouldSkipTest() === true) {
             $this->markTestSkipped();
         }
 
-        if (method_exists(self::$phpcs, 'initStandard') === true) {
-            // Only init standard without processing it's files, when possible.
-            self::$phpcs->initStandard($this->getStandardName(), array($this->getSniffCode()));
+        $sniffCode = Common::getSniffCode(get_class($this));
+        list($standardName, $categoryName, $sniffName) = explode('.', $sniffCode);
+
+        $testFileBase = $this->testsDir.$categoryName.DIRECTORY_SEPARATOR.$sniffName.'UnitTest.';
+
+        // Get a list of all test files to check.
+        $testFiles = $this->getTestFiles($testFileBase);
+
+        if (isset($GLOBALS['PHP_CODESNIFFER_CONFIG']) === true) {
+            $config = $GLOBALS['PHP_CODESNIFFER_CONFIG'];
         } else {
-            // Init standard and process all it's files.
-            self::$phpcs->process(array(), $this->getStandardName(), array($this->getSniffCode()));
+            $config        = new Config();
+            $config->cache = false;
+            $GLOBALS['PHP_CODESNIFFER_CONFIG'] = $config;
         }
 
-        self::$phpcs->setIgnorePatterns(array());
+        $config->standards = array($standardName);
+        $config->sniffs    = array($sniffCode);
+        $config->ignored   = array();
+
+        if (isset($GLOBALS['PHP_CODESNIFFER_RULESETS']) === false) {
+            $GLOBALS['PHP_CODESNIFFER_RULESETS'] = array();
+        }
+
+        if (isset($GLOBALS['PHP_CODESNIFFER_RULESETS'][$standardName]) === false) {
+            $ruleset = new Ruleset($config);
+            $GLOBALS['PHP_CODESNIFFER_RULESETS'][$standardName] = $ruleset;
+        }
+
+        $ruleset = $GLOBALS['PHP_CODESNIFFER_RULESETS'][$standardName];
+
+        $sniffFile = $this->standardsDir.DIRECTORY_SEPARATOR.'Sniffs'.DIRECTORY_SEPARATOR.$categoryName.DIRECTORY_SEPARATOR.$sniffName.'Sniff.php';
+
+        $sniffClassName = substr(get_class($this), 0, -8).'Sniff';
+        $sniffClassName = str_replace('\Tests\\', '\Sniffs\\', $sniffClassName);
+        $sniffClassName = Common::cleanSniffClass($sniffClassName);
+
+        $restrictions = [strtolower($sniffClassName) => true];
+        $ruleset->registerSniffs([$sniffFile], $restrictions, array());
+        $ruleset->populateTokenListeners();
 
         $failureMessages = array();
-        $fixingSupported = $this->isFixingSupported();
-        foreach ($this->_getTestFiles() as $testFile) {
-            $filename = basename($testFile);
+        foreach ($testFiles as $testFile) {
+            $filename  = basename($testFile);
+            $oldConfig = $config->getSettings();
 
             try {
-                $cliValues = $this->getCliValues($filename);
-                self::$phpcs->cli->setCommandLineValues($cliValues);
-                $phpcsFile       = self::$phpcs->processFile($testFile);
-                $failureMessages = array_merge($failureMessages, $this->generateFailureMessages($phpcsFile));
+                $this->setCliValues($filename, $config);
+                $phpcsFile = new LocalFile($testFile, $ruleset, $config);
+                $phpcsFile->process();
+            } catch (RuntimeException $e) {
+                $this->fail('An unexpected exception has been caught: '.$e->getMessage());
+            }
 
-                if ($fixingSupported === true && $phpcsFile->getFixableCount() > 0) {
-                    // Attempt to fix the errors.
-                    $phpcsFile->fixer->fixFile();
-                    $fixable = $phpcsFile->getFixableCount();
-                    if ($fixable > 0) {
-                        $failureMessages[] = "Failed to fix $fixable fixable violations in $filename.";
-                    }
+            $failures        = $this->generateFailureMessages($phpcsFile);
+            $failureMessages = array_merge($failureMessages, $failures);
 
-                    // Check for a .fixed file to check for accuracy of fixes.
-                    $fixedFile = $testFile.'.fixed';
-                    if (file_exists($fixedFile) === true) {
-                        $diff = $phpcsFile->fixer->generateDiff($fixedFile);
-                        if (trim($diff) !== '') {
-                            $filename          = basename($testFile);
-                            $fixedFilename     = basename($fixedFile);
-                            $failureMessages[] = "Fixed version of $filename does not match expected version in $fixedFilename; the diff is\n$diff";
-                        }
+            if ($phpcsFile->getFixableCount() > 0) {
+                // Attempt to fix the errors.
+                $phpcsFile->fixer->fixFile();
+                $fixable = $phpcsFile->getFixableCount();
+                if ($fixable > 0) {
+                    $failureMessages[] = "Failed to fix $fixable fixable violations in $filename";
+                }
+
+                // Check for a .fixed file to check for accuracy of fixes.
+                $fixedFile = $testFile.'.fixed';
+                if (file_exists($fixedFile) === true) {
+                    $diff = $phpcsFile->fixer->generateDiff($fixedFile);
+                    if (trim($diff) !== '') {
+                        $filename          = basename($testFile);
+                        $fixedFilename     = basename($fixedFile);
+                        $failureMessages[] = "Fixed version of $filename does not match expected version in $fixedFilename; the diff is\n$diff";
                     }
                 }
-            } catch (Exception $e) {
-                $this->fail('An unexpected exception has been caught: '.$e->getMessage());
-            }//end try
+            }
+
+            // Restore the config.
+            $config->setSettings($oldConfig);
         }//end foreach
 
         if (empty($failureMessages) === false) {
@@ -144,18 +236,6 @@ abstract class AbstractSniffUnitTest extends PHPUnit_Framework_TestCase
         return $classReflection->hasProperty('fixer');
 
     }//end isFixingSupported()
-
-
-    /**
-     * Should this test be skipped for some reason.
-     *
-     * @return bool
-     */
-    protected function shouldSkipTest()
-    {
-        return false;
-
-    }//end shouldSkipTest()
 
 
     /**
@@ -187,41 +267,6 @@ abstract class AbstractSniffUnitTest extends PHPUnit_Framework_TestCase
 
 
     /**
-     * Get a list of all test files to check. These will have the same base name
-     * but different extensions. We ignore the .php file as it is the class.
-     *
-     * @return array
-     */
-    private function _getTestFiles()
-    {
-        // The basis for determining file locations.
-        $basename = $this->getBaseName();
-
-        // The name of the dummy file we are testing.
-        $testFileBase = STANDARDS_PATH.DIRECTORY_SEPARATOR.str_replace('_', DIRECTORY_SEPARATOR, $basename).'UnitTest.';
-
-        $testFiles = array();
-
-        /** @var SplFileInfo $file */
-        $directoryIterator = new DirectoryIterator(dirname($testFileBase));
-
-        foreach ($directoryIterator as $file) {
-            $path = $file->getPathname();
-
-            if (substr($path, 0, strlen($testFileBase)) === $testFileBase && $path !== $testFileBase.'php' && $file->getExtension() !== 'fixed') {
-                $testFiles[] = $path;
-            }
-        }
-
-        // Get them in order.
-        sort($testFiles);
-
-        return $testFiles;
-
-    }//end _getTestFiles()
-
-
-    /**
      * The basis for determining file locations.
      *
      * @return string
@@ -236,12 +281,12 @@ abstract class AbstractSniffUnitTest extends PHPUnit_Framework_TestCase
     /**
      * Generate a list of test failures for a given sniffed file.
      *
-     * @param PHP_CodeSniffer_File $file The file being tested.
+     * @param LocalFile $file The file being tested.
      *
      * @return array
-     * @throws PHP_CodeSniffer_Exception
+     * @throws RuntimeException
      */
-    public function generateFailureMessages(PHP_CodeSniffer_File $file)
+    public function generateFailureMessages(LocalFile $file)
     {
         $testFile = $file->getFilename();
 
@@ -251,11 +296,11 @@ abstract class AbstractSniffUnitTest extends PHPUnit_Framework_TestCase
         $expectedWarnings = $this->getWarningList(basename($testFile));
 
         if (is_array($expectedErrors) === false) {
-            throw new PHP_CodeSniffer_Exception('getErrorList() must return an array');
+            throw new RuntimeException('getErrorList() must return an array');
         }
 
         if (is_array($expectedWarnings) === false) {
-            throw new PHP_CodeSniffer_Exception('getWarningList() must return an array');
+            throw new RuntimeException('getWarningList() must return an array');
         }
 
         /*
@@ -426,15 +471,18 @@ abstract class AbstractSniffUnitTest extends PHPUnit_Framework_TestCase
     /**
      * Get a list of CLI values to set before the file is tested.
      *
-     * @param string $filename The name of the file being tested.
+     * @param string                  $filename The name of the file being tested.
+     * @param Config $config   The config data for the run.
      *
-     * @return array
+     * @return void
      */
-    public function getCliValues($filename)
+    public function setCliValues($filename, Config $config)
     {
-        return array();
+        $config->setConfigData('php_version', 50445, true);
 
-    }//end getCliValues()
+        return;
+
+    }//end setCliValues()
 
 
     /**
@@ -447,7 +495,7 @@ abstract class AbstractSniffUnitTest extends PHPUnit_Framework_TestCase
      *
      * @return array(int => int)
      */
-    protected abstract function getErrorList($testFile);
+    abstract protected function getErrorList($testFile);
 
 
     /**
@@ -460,7 +508,7 @@ abstract class AbstractSniffUnitTest extends PHPUnit_Framework_TestCase
      *
      * @return array(int => int)
      */
-    protected abstract function getWarningList($testFile);
+    abstract protected function getWarningList($testFile);
 
 
 }//end class

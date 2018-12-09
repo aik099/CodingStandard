@@ -13,6 +13,12 @@
  * @link     https://github.com/aik099/CodingStandard
  */
 
+namespace CodingStandard\Sniffs\Commenting;
+
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
+use PHP_CodeSniffer\Util\Tokens;
+
 /**
  * CodingStandard_Sniffs_Commenting_InlineCommentSniff.
  *
@@ -26,7 +32,7 @@
  * @license  https://github.com/aik099/CodingStandard/blob/master/LICENSE BSD 3-Clause
  * @link     https://github.com/aik099/CodingStandard
  */
-class CodingStandard_Sniffs_Commenting_InlineCommentSniff implements PHP_CodeSniffer_Sniff
+class InlineCommentSniff implements Sniff
 {
 
     /**
@@ -58,13 +64,13 @@ class CodingStandard_Sniffs_Commenting_InlineCommentSniff implements PHP_CodeSni
     /**
      * Processes this test, when one of its tokens is encountered.
      *
-     * @param PHP_CodeSniffer_File $phpcsFile The file being scanned.
-     * @param int                  $stackPtr  The position of the current token in the
-     *                                        stack passed in $tokens.
+     * @param File $phpcsFile The file being scanned.
+     * @param int  $stackPtr  The position of the current token in the
+     *                        stack passed in $tokens.
      *
      * @return void
      */
-    public function process(PHP_CodeSniffer_File $phpcsFile, $stackPtr)
+    public function process(File $phpcsFile, $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
 
@@ -73,7 +79,7 @@ class CodingStandard_Sniffs_Commenting_InlineCommentSniff implements PHP_CodeSni
         // not allowed.
         if ($tokens[$stackPtr]['code'] === T_DOC_COMMENT_OPEN_TAG) {
             $nextToken = $phpcsFile->findNext(
-                PHP_CodeSniffer_Tokens::$emptyTokens,
+                Tokens::$emptyTokens,
                 ($stackPtr + 1),
                 null,
                 true
@@ -102,7 +108,7 @@ class CodingStandard_Sniffs_Commenting_InlineCommentSniff implements PHP_CodeSni
             if ($phpcsFile->tokenizerType === 'JS') {
                 // We allow block comments if a function or object
                 // is being assigned to a variable.
-                $ignore    = PHP_CodeSniffer_Tokens::$emptyTokens;
+                $ignore    = Tokens::$emptyTokens;
                 $ignore[]  = T_EQUAL;
                 $ignore[]  = T_STRING;
                 $ignore[]  = T_OBJECT_OPERATOR;
@@ -117,7 +123,7 @@ class CodingStandard_Sniffs_Commenting_InlineCommentSniff implements PHP_CodeSni
             }
 
             $prevToken = $phpcsFile->findPrevious(
-                PHP_CodeSniffer_Tokens::$emptyTokens,
+                Tokens::$emptyTokens,
                 ($stackPtr - 1),
                 null,
                 true
