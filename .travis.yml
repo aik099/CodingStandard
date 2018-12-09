@@ -10,19 +10,19 @@ php:
     - 7.2
 
 env:
-    - PHPCS_VERSION='~2.0'
-    - PHPCS_VERSION='~2.0@dev'
+    - PHPCS_VERSION='^3.3'
+    - PHPCS_VERSION='^3.3@dev'
 
 matrix:
     exclude:
         - php: 5.5
-          env: PHPCS_VERSION='~2.0@dev'
+          env: PHPCS_VERSION='^3.3@dev'
         - php: 5.6
-          env: PHPCS_VERSION='~2.0@dev'
+          env: PHPCS_VERSION='^3.3@dev'
         - php: 7.0
-          env: PHPCS_VERSION='~2.0@dev'
+          env: PHPCS_VERSION='^3.3@dev'
         - php: 7.1
-          env: PHPCS_VERSION='~2.0@dev'
+          env: PHPCS_VERSION='^3.3@dev'
 
 cache:
   directories:
