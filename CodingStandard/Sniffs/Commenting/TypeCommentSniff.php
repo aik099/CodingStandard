@@ -148,11 +148,27 @@ class TypeCommentSniff implements Sniff
         $structure = new TypeCommentStructure($phpcsFile, $stackPtr);
 
         if ($structure->className === null) {
-            $error = 'Type comment must be in "/** %s ClassName $variable_name */" format';
-            $phpcsFile->addError($error, $firstTagPtr, 'WrongStyle', array(self::TYPE_TAG));
+            $error              = 'Type comment must be in "/** %s ClassName $variable_name */" format';
+            $leadingWhitespace  = $tokens[$stackPtr + 1]['code'] === T_DOC_COMMENT_WHITESPACE;
+            $trailingWhitespace = $tokens[$commentEnd - 1]['code'] === T_DOC_COMMENT_WHITESPACE;
+
+            if ($leadingWhitespace === false || $trailingWhitespace === false) {
+                $fix = $phpcsFile->addFixableError($error, $stackPtr, 'WrongStyle', array(self::TYPE_TAG));
+                if ($fix === true) {
+                    if ($leadingWhitespace === false) {
+                        $phpcsFile->fixer->addContentBefore($stackPtr + 1, ' ');
+                    }
+
+                    if ($trailingWhitespace === false) {
+                        $phpcsFile->fixer->addContent($commentEnd - 1, ' ');
+                    }
+                }
+            } else {
+                $phpcsFile->addError($error, $firstTagPtr, 'WrongStyle', array(self::TYPE_TAG));
+            }
 
             return;
-        }
+        }//end if
 
         $this->processDocBlockContent($phpcsFile, $stackPtr, $structure);
         $this->processVariableAssociation($phpcsFile, $stackPtr, $structure);
