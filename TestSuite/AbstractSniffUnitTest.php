@@ -239,46 +239,6 @@ abstract class AbstractSniffUnitTest extends PHPUnit_Framework_TestCase
 
 
     /**
-     * The name of the coding standard we are testing.
-     *
-     * @return string
-     */
-    protected function getStandardName()
-    {
-        $basename = $this->getBaseName();
-
-        return STANDARDS_PATH.DIRECTORY_SEPARATOR.substr($basename, 0, strpos($basename, '_'));
-
-    }//end getStandardName()
-
-
-    /**
-     * The code of the sniff we are testing.
-     *
-     * @return string
-     */
-    protected function getSniffCode()
-    {
-        $parts = explode('_', $this->getBaseName());
-
-        return $parts[0].'.'.$parts[2].'.'.$parts[3];
-
-    }//end getSniffCode()
-
-
-    /**
-     * The basis for determining file locations.
-     *
-     * @return string
-     */
-    protected function getBaseName()
-    {
-        return substr(get_class($this), 0, -8);
-
-    }//end getBaseName()
-
-
-    /**
      * Generate a list of test failures for a given sniffed file.
      *
      * @param LocalFile $file The file being tested.
