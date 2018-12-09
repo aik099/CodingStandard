@@ -60,7 +60,8 @@ class ClassCreateInstanceSniff implements Sniff
 
         if (isset($tokens[$stackPtr]['nested_parenthesis']) === true) {
             // New in PHP 5.4: allow to instantiate class and immediately call method on it.
-            list (, $scopeEnd) = each($tokens[$stackPtr]['nested_parenthesis']);
+            $scopeStart = key($tokens[$stackPtr]['nested_parenthesis']);
+            $scopeEnd = $tokens[$stackPtr]['nested_parenthesis'][$scopeStart];
         }
 
         $nextParenthesis = $phpcsFile->findNext(
