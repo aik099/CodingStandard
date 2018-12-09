@@ -43,7 +43,6 @@ class ArraySniff implements Sniff
     public function register()
     {
         return array(T_ARRAY);
-
     }//end register()
 
 
@@ -164,8 +163,5 @@ class ArraySniff implements Sniff
                 }
             }
         }//end if
-
     }//end process()
-
-
 }//end class

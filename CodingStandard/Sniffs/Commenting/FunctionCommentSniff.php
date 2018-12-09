@@ -73,7 +73,6 @@ class FunctionCommentSniff extends Squiz_FunctionCommentSniff
         }
 
         $this->checkShort($phpcsFile, $stackPtr, $tokens[$short]['content'], $short);
-
     }//end process()
 
     /**
@@ -93,7 +92,6 @@ class FunctionCommentSniff extends Squiz_FunctionCommentSniff
         }
 
         parent::processParams($phpcsFile, $stackPtr, $commentStart);
-
     }//end processParams()
 
 
@@ -133,7 +131,6 @@ class FunctionCommentSniff extends Squiz_FunctionCommentSniff
                 $phpcsFile->addError($error, $return, 'InvalidThisReturn', $data);
             }
         }
-
     }//end processReturn()
 
     /**
@@ -173,11 +170,10 @@ class FunctionCommentSniff extends Squiz_FunctionCommentSniff
         if ($isEvent === true && preg_match('/(\p{Lu}|\[)/u', $short[0]) === 0) {
             $error = 'Event comment short description must start with a capital letter or an [';
             $phpcsFile->addError($error, $errorPos, 'EventShortNotCapital');
-        } else if ($isEvent === false && preg_match('/\p{Lu}/u', $short[0]) === 0) {
+        } elseif ($isEvent === false && preg_match('/\p{Lu}/u', $short[0]) === 0) {
             $error = 'Doc comment short description must start with a capital letter';
             $phpcsFile->addError($error, $errorPos, 'NonEventShortNotCapital');
         }
-
     }//end checkShort()
 
 
@@ -242,7 +238,6 @@ class FunctionCommentSniff extends Squiz_FunctionCommentSniff
                 $phpcsFile->addError($error, $tag, 'ExcessiveThrows');
             }
         }//end foreach
-
     }//end processThrows()
 
 
@@ -262,7 +257,5 @@ class FunctionCommentSniff extends Squiz_FunctionCommentSniff
         $commentText = $phpcsFile->getTokensAsString($commentStart, ($commentEnd - $commentStart + 1));
 
         return stripos($commentText, '{@inheritdoc}') !== false;
-
     }// end isInheritDoc()
-
 }//end class

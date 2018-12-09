@@ -51,7 +51,6 @@ class ArrayUnitTest extends AbstractSniffUnitTest
                 // Space before closing array brace.
                 11 => 1,
                );
-
     }//end getErrorList()
 
 
@@ -81,8 +80,5 @@ class ArrayUnitTest extends AbstractSniffUnitTest
                 // No comma after last element followed by comment on next line.
                 22 => 1,
                );
-
     }//end getWarningList()
-
-
 }//end class

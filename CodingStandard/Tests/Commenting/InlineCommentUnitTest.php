@@ -94,7 +94,6 @@ class InlineCommentUnitTest extends AbstractSniffUnitTest
         }//end switch
 
         return array();
-
     }//end getErrorList()
 
 
@@ -111,8 +110,5 @@ class InlineCommentUnitTest extends AbstractSniffUnitTest
     public function getWarningList($testFile)
     {
         return array();
-
     }//end getWarningList()
-
-
 }//end class

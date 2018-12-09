@@ -159,7 +159,6 @@ class ValidFunctionNameUnitTest extends AbstractSniffUnitTest
                   );
 
         return $errors;
-
     }//end getErrorList()
 
 
@@ -176,8 +175,5 @@ class ValidFunctionNameUnitTest extends AbstractSniffUnitTest
     public function getWarningList($testFile)
     {
         return array();
-
     }//end getWarningList()
-
-
 }//end class

@@ -47,7 +47,6 @@ class ValidTraitNameSniff implements Sniff
     public function register()
     {
         return array(T_TRAIT);
-
     }//end register()
 
 
@@ -73,8 +72,5 @@ class ValidTraitNameSniff implements Sniff
                 'WrongPrefix'
             );
         }
-
     }//end process()
-
-
 }//end class

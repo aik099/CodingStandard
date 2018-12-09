@@ -66,7 +66,6 @@ class BlankLineBeforeReturnUnitTest extends AbstractSniffUnitTest
                 // Not preceding inline comment found.
                 143 => 1,
                );
-
     }//end getErrorList()
 
 
@@ -83,8 +82,5 @@ class BlankLineBeforeReturnUnitTest extends AbstractSniffUnitTest
     public function getWarningList($testFile)
     {
         return array();
-
     }//end getWarningList()
-
-
 }//end class

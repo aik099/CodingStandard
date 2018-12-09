@@ -64,7 +64,6 @@ class SpaceOperatorUnitTest extends AbstractSniffUnitTest
                 // The "=" on a new line.
                 23 => 1,
                );
-
     }//end getErrorList()
 
 
@@ -81,8 +80,5 @@ class SpaceOperatorUnitTest extends AbstractSniffUnitTest
     public function getWarningList($testFile)
     {
         return array();
-
     }//end getWarningList()
-
-
 }//end class

@@ -44,7 +44,6 @@ class NoSilencedErrorsUnitTest extends AbstractSniffUnitTest
     public function getErrorList($testFile)
     {
         return array();
-
     }//end getErrorList()
 
 
@@ -64,10 +63,5 @@ class NoSilencedErrorsUnitTest extends AbstractSniffUnitTest
                 5  => 1,
                 11 => 1,
                );
-
     }//end getWarningList()
-
-
 }//end class
-
-?>

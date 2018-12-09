@@ -47,7 +47,6 @@ class ValidClassNameSniff implements Sniff
     public function register()
     {
         return array(T_CLASS);
-
     }//end register()
 
 
@@ -86,8 +85,5 @@ class ValidClassNameSniff implements Sniff
                 array($className)
             );
         }
-
     }//end process()
-
-
 }//end class

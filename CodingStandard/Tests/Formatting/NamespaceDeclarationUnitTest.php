@@ -53,7 +53,6 @@ class NamespaceDeclarationUnitTest extends AbstractSniffUnitTest
                 78 => 1,
                 89 => 1,
                );
-
     }//end getErrorList()
 
 
@@ -70,8 +69,5 @@ class NamespaceDeclarationUnitTest extends AbstractSniffUnitTest
     public function getWarningList($testFile)
     {
         return array();
-
     }//end getWarningList()
-
-
 }//end class

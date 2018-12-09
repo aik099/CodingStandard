@@ -92,7 +92,6 @@ class ControlSignatureUnitTest extends AbstractSniffUnitTest
                 143 => 1,
                 147 => 1,
                );
-
     }//end getErrorList()
 
 
@@ -109,8 +108,5 @@ class ControlSignatureUnitTest extends AbstractSniffUnitTest
     public function getWarningList($testFile)
     {
         return array();
-
     }//end getWarningList()
-
-
 }//end class

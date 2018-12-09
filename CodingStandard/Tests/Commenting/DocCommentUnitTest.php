@@ -78,7 +78,6 @@ class DocCommentUnitTest extends AbstractSniffUnitTest
         $ret[14] = 1;
 
         return $ret;
-
     }//end getErrorList()
 
 
@@ -95,8 +94,5 @@ class DocCommentUnitTest extends AbstractSniffUnitTest
     public function getWarningList($testFile)
     {
         return array();
-
     }//end getWarningList()
-
-
 }//end class

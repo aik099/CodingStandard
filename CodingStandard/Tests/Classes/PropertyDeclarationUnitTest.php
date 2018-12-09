@@ -46,7 +46,6 @@ class PropertyDeclarationUnitTest extends AbstractSniffUnitTest
                 // Multiple properties declared in single line.
                 6 => 1,
                );
-
     }//end getErrorList()
 
 
@@ -63,8 +62,5 @@ class PropertyDeclarationUnitTest extends AbstractSniffUnitTest
     public function getWarningList($testFile)
     {
         return array();
-
     }//end getWarningList()
-
-
 }//end class

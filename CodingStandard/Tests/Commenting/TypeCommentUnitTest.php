@@ -73,7 +73,6 @@ class TypeCommentUnitTest extends AbstractSniffUnitTest
         }
 
         return array();
-
     }//end getErrorList()
 
 
@@ -90,8 +89,5 @@ class TypeCommentUnitTest extends AbstractSniffUnitTest
     public function getWarningList($testFile)
     {
         return array();
-
     }//end getWarningList()
-
-
 }//end class

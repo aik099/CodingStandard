@@ -48,7 +48,6 @@ class ControlSignatureSniff extends AbstractPatternSniff
     public function __construct()
     {
         parent::__construct(true);
-
     }//end __construct()
 
 
@@ -72,8 +71,5 @@ class ControlSignatureSniff extends AbstractPatternSniff
                 'try {EOL',
                 '}EOLcatch (...) {EOL',
                );
-
     }//end getPatterns()
-
-
 }//end class

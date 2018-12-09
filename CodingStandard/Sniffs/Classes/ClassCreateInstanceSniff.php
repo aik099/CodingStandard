@@ -41,7 +41,6 @@ class ClassCreateInstanceSniff implements Sniff
     public function register()
     {
         return array(T_NEW);
-
     }//end register()
 
 
@@ -94,7 +93,7 @@ class ClassCreateInstanceSniff implements Sniff
                 $phpcsFile->fixer->addContentBefore($classNameEnd, '()');
                 $phpcsFile->fixer->endChangeset();
             }//end if
-        } else if ($tokens[($nextParenthesis - 1)]['code'] === T_WHITESPACE) {
+        } elseif ($tokens[($nextParenthesis - 1)]['code'] === T_WHITESPACE) {
             $error = 'Between the class name and the opening parenthesis spaces are not welcome';
             $fix   = $phpcsFile->addFixableError($error, ($nextParenthesis - 1), 'ExtraSpaces');
             if ($fix === true) {
@@ -103,8 +102,5 @@ class ClassCreateInstanceSniff implements Sniff
                 $phpcsFile->fixer->endChangeset();
             }//end if
         }//end if
-
     }//end process()
-
-
 }//end class

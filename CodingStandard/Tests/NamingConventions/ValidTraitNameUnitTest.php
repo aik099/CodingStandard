@@ -36,7 +36,6 @@ class ValidTraitNameUnitTest extends AbstractSniffUnitTest
     protected function shouldSkipTest()
     {
         return PHP_VERSION_ID < 50400;
-
     }//end shouldSkipTest()
 
 
@@ -56,7 +55,6 @@ class ValidTraitNameUnitTest extends AbstractSniffUnitTest
                 2 => 1,
                 5 => 1,
                );
-
     }//end getErrorList()
 
 
@@ -73,8 +71,5 @@ class ValidTraitNameUnitTest extends AbstractSniffUnitTest
     public function getWarningList($testFile)
     {
         return array();
-
     }//end getWarningList()
-
-
 }//end class

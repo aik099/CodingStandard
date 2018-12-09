@@ -51,7 +51,6 @@ class AssignmentInConditionUnitTest extends AbstractSniffUnitTest
                 29 => 1,
                 31 => 1,
                );
-
     }//end getErrorList()
 
 
@@ -68,8 +67,5 @@ class AssignmentInConditionUnitTest extends AbstractSniffUnitTest
     public function getWarningList($testFile)
     {
         return array();
-
     }//end getWarningList()
-
-
 }//end class

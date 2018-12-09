@@ -57,7 +57,6 @@ class InlineCommentSniff implements Sniff
                 T_COMMENT,
                 T_DOC_COMMENT_OPEN_TAG,
                );
-
     }//end register()
 
 
@@ -209,14 +208,14 @@ class InlineCommentSniff implements Sniff
                           $comment,
                          );
                 $fix   = $phpcsFile->addFixableError($error, $stackPtr, 'TabBefore', $data);
-            } else if ($spaceCount === 0) {
+            } elseif ($spaceCount === 0) {
                 $error = 'No space found before comment text; expected "// %s" but found "%s"';
                 $data  = array(
                           substr($comment, 2),
                           $comment,
                          );
                 $fix   = $phpcsFile->addFixableError($error, $stackPtr, 'NoSpaceBefore', $data);
-            } else if ($spaceCount > 1) {
+            } elseif ($spaceCount > 1) {
                 $error = 'Expected 1 space before comment text but found %s; use block comment if you need indentation';
                 $data  = array(
                           $spaceCount,
@@ -309,7 +308,7 @@ class InlineCommentSniff implements Sniff
                     if ($tokens[$i]['code'] !== T_WHITESPACE) {
                         return;
                     }
-                } else if ($tokens[$i]['line'] > ($tokens[$stackPtr]['line'] + 1)) {
+                } elseif ($tokens[$i]['line'] > ($tokens[$stackPtr]['line'] + 1)) {
                     break;
                 }
             }
@@ -330,8 +329,5 @@ class InlineCommentSniff implements Sniff
                 $phpcsFile->fixer->endChangeset();
             }
         }//end if
-
     }//end process()
-
-
 }//end class

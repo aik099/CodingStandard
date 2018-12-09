@@ -18,7 +18,6 @@ namespace CodingStandard\Sniffs\Classes;
 use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Standards\PSR2\Sniffs\Classes\ClassDeclarationSniff as PSR2_ClassDeclarationSniff;
 
-
 /**
  * Class Declaration Test.
  *
@@ -49,7 +48,6 @@ class ClassDeclarationSniff extends PSR2_ClassDeclarationSniff
     {
         // We want all the errors from the PEAR standard, plus some of our own.
         parent::process($phpcsFile, $stackPtr);
-
     }//end process()
 
 
@@ -93,7 +91,6 @@ class ClassDeclarationSniff extends PSR2_ClassDeclarationSniff
                 }
             }//end if
         }//end if
-
     }//end processOpen()
 
 
@@ -174,8 +171,5 @@ class ClassDeclarationSniff extends PSR2_ClassDeclarationSniff
                 }
             }//end if
         }//end if
-
     }//end processClose()
-
-
 }//end class

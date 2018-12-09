@@ -74,7 +74,6 @@ abstract class AbstractSniffUnitTest extends PHPUnit_Framework_TestCase
     {
         $this->standardsDir = STANDARDS_PATH.DIRECTORY_SEPARATOR.STANDARD_NAME;
         $this->testsDir     = STANDARDS_PATH.DIRECTORY_SEPARATOR.STANDARD_NAME.DIRECTORY_SEPARATOR.'Tests'.DIRECTORY_SEPARATOR;
-
     }//end setUp()
 
 
@@ -108,7 +107,6 @@ abstract class AbstractSniffUnitTest extends PHPUnit_Framework_TestCase
         sort($testFiles);
 
         return $testFiles;
-
     }//end getTestFiles()
 
 
@@ -120,7 +118,6 @@ abstract class AbstractSniffUnitTest extends PHPUnit_Framework_TestCase
     protected function shouldSkipTest()
     {
         return false;
-
     }//end shouldSkipTest()
 
 
@@ -220,7 +217,6 @@ abstract class AbstractSniffUnitTest extends PHPUnit_Framework_TestCase
         if (empty($failureMessages) === false) {
             $this->fail(implode(PHP_EOL, $failureMessages));
         }
-
     }//end testStandard()
 
 
@@ -234,7 +230,6 @@ abstract class AbstractSniffUnitTest extends PHPUnit_Framework_TestCase
         $classReflection = new \ReflectionClass('PHP_CodeSniffer_File');
 
         return $classReflection->hasProperty('fixer');
-
     }//end isFixingSupported()
 
 
@@ -424,7 +419,6 @@ abstract class AbstractSniffUnitTest extends PHPUnit_Framework_TestCase
         }//end foreach
 
         return $failureMessages;
-
     }//end generateFailureMessages()
 
 
@@ -441,7 +435,6 @@ abstract class AbstractSniffUnitTest extends PHPUnit_Framework_TestCase
         $config->setConfigData('php_version', 50445, true);
 
         return;
-
     }//end setCliValues()
 
 
@@ -469,6 +462,4 @@ abstract class AbstractSniffUnitTest extends PHPUnit_Framework_TestCase
      * @return array(int => int)
      */
     abstract protected function getWarningList($testFile);
-
-
 }//end class

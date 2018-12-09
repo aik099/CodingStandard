@@ -52,7 +52,6 @@ class ObjectOperatorSpacingUnitTest extends AbstractSniffUnitTest
                 4 => 2,
                 6 => 2,
                );
-
     }//end getErrorList()
 
 
@@ -69,8 +68,5 @@ class ObjectOperatorSpacingUnitTest extends AbstractSniffUnitTest
     public function getWarningList($testFile)
     {
         return array();
-
     }//end getWarningList()
-
-
 }//end class

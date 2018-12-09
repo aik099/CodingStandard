@@ -43,7 +43,6 @@ class ObjectOperatorSpacingSniff implements Sniff
     public function register()
     {
         return array(T_OBJECT_OPERATOR);
-
     }//end register()
 
 
@@ -79,8 +78,5 @@ class ObjectOperatorSpacingSniff implements Sniff
                 $phpcsFile->fixer->replaceToken(($stackPtr + 1), '');
             }
         }
-
     }//end process()
-
-
 }//end class

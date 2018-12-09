@@ -54,8 +54,5 @@ class DocCommentSniff extends Generic_DocCommentSniff
         }
 
         parent::process($phpcsFile, $stackPtr);
-
     }//end process()
-
-
 }//end class

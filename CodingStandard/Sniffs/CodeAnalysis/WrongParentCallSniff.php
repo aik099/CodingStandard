@@ -54,7 +54,6 @@ class WrongParentCallSniff implements Sniff
     public function register()
     {
         return array(T_PARENT);
-
     }//end register()
 
 
@@ -85,8 +84,5 @@ class WrongParentCallSniff implements Sniff
                 }
             }
         }//end if
-
     }//end process()
-
-
 }//end class

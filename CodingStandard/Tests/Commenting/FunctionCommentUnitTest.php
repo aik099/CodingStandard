@@ -121,7 +121,7 @@ class FunctionCommentUnitTest extends AbstractSniffUnitTest
                    );
 
             return $ret;
-        } else if ($testFile === 'FunctionCommentUnitTest.2.inc') {
+        } elseif ($testFile === 'FunctionCommentUnitTest.2.inc') {
             return array(
                     // Square bracket not allowed as function short description start.
                     7  => 1,
@@ -132,7 +132,7 @@ class FunctionCommentUnitTest extends AbstractSniffUnitTest
                     // Incorrect event short description start.
                     27 => 1,
                    );
-        } else if ($testFile === 'FunctionCommentUnitTest.3.inc') {
+        } elseif ($testFile === 'FunctionCommentUnitTest.3.inc') {
             $ret = array(
                     // Square bracket not allowed as function short description start.
                     7  => 1,
@@ -148,7 +148,6 @@ class FunctionCommentUnitTest extends AbstractSniffUnitTest
         }//end if
 
         return array();
-
     }//end getErrorList()
 
 
@@ -165,8 +164,5 @@ class FunctionCommentUnitTest extends AbstractSniffUnitTest
     public function getWarningList($testFile)
     {
         return array();
-
     }//end getWarningList()
-
-
 }//end class

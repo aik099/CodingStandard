@@ -42,7 +42,6 @@ class ItemAssignmentSniff implements Sniff
     public function register()
     {
         return array(T_DOUBLE_ARROW);
-
     }//end register()
 
 
@@ -59,7 +58,6 @@ class ItemAssignmentSniff implements Sniff
     {
         $this->checkSpacing($phpcsFile, $stackPtr, true);
         $this->checkSpacing($phpcsFile, $stackPtr, false);
-
     }//end process()
 
 
@@ -124,7 +122,6 @@ class ItemAssignmentSniff implements Sniff
                 $phpcsFile->fixer->endChangeset();
             }
         }
-
     }//end checkSpacing()
 
 
@@ -138,8 +135,5 @@ class ItemAssignmentSniff implements Sniff
     protected function hasOnlySpaces($string)
     {
         return substr_count($string, ' ') === strlen($string);
-
     }//end hasOnlySpaces()
-
-
 }//end class

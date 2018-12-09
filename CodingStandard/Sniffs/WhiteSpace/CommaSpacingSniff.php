@@ -39,7 +39,6 @@ class CommaSpacingSniff implements Sniff
     public function register()
     {
         return array(T_COMMA);
-
     }//end register()
 
 
@@ -56,7 +55,6 @@ class CommaSpacingSniff implements Sniff
     {
         $this->checkContentBefore($phpcsFile, $stackPtr);
         $this->checkContentAfter($phpcsFile, $stackPtr);
-
     }//end process()
 
     /**
@@ -84,7 +82,6 @@ class CommaSpacingSniff implements Sniff
                 $phpcsFile->fixer->replaceToken(($stackPtr - 1), '');
             }
         }
-
     }//end checkContentBefore()
 
     /**
@@ -130,7 +127,5 @@ class CommaSpacingSniff implements Sniff
                 }
             }
         }
-
     }//end checkContentAfter()
-
 }//end class

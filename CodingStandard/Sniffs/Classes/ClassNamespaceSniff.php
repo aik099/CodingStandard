@@ -49,7 +49,6 @@ class ClassNamespaceSniff implements Sniff
                 T_INTERFACE,
                 T_TRAIT,
                );
-
     }//end register()
 
 
@@ -72,8 +71,5 @@ class ClassNamespaceSniff implements Sniff
             $data  = array($tokens[$stackPtr]['content']);
             $phpcsFile->addError($error, $stackPtr, 'MissingNamespace', $data);
         }
-
     }//end process()
-
-
 }//end class

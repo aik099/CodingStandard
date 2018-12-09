@@ -71,7 +71,6 @@ class PropertyDeclarationSniff extends AbstractVariableSniff
             $data  = array($tokens[$stackPtr]['content']);
             $phpcsFile->addError($error, $stackPtr, 'ScopeMissing', $data);
         }
-
     }//end processMemberVar()
 
 
@@ -87,7 +86,6 @@ class PropertyDeclarationSniff extends AbstractVariableSniff
     protected function processVariable(File $phpcsFile, $stackPtr)
     {
         // We don't care about normal variables.
-
     }//end processVariable()
 
 
@@ -103,8 +101,5 @@ class PropertyDeclarationSniff extends AbstractVariableSniff
     protected function processVariableInString(File $phpcsFile, $stackPtr)
     {
         // We don't care about normal variables.
-
     }//end processVariableInString()
-
-
 }//end class

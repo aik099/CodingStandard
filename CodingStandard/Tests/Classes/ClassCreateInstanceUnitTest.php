@@ -48,7 +48,6 @@ class ClassCreateInstanceUnitTest extends AbstractSniffUnitTest
                 4 => 1,
                 5 => 1,
                );
-
     }//end getErrorList()
 
 
@@ -65,8 +64,5 @@ class ClassCreateInstanceUnitTest extends AbstractSniffUnitTest
     public function getWarningList($testFile)
     {
         return array();
-
     }//end getWarningList()
-
-
 }//end class

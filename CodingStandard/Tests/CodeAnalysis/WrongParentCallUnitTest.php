@@ -41,9 +41,7 @@ class WrongParentCallUnitTest extends AbstractSniffUnitTest
     public function getErrorList($testFile)
     {
         return array(12 => 1);
-
     }//end getErrorList()
-
 
     /**
      * Returns the lines where warnings should occur.
@@ -58,8 +56,5 @@ class WrongParentCallUnitTest extends AbstractSniffUnitTest
     public function getWarningList($testFile)
     {
         return array();
-
     }//end getWarningList()
-
-
 }//end class

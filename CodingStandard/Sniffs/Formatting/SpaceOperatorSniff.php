@@ -42,7 +42,6 @@ class SpaceOperatorSniff implements Sniff
     public function register()
     {
          return Tokens::$assignmentTokens;
-
     }//end register()
 
 
@@ -86,8 +85,5 @@ class SpaceOperatorSniff implements Sniff
                 $phpcsFile->fixer->replaceToken(($stackPtr - 1), ' ');
             }
         }
-
     }//end process()
-
-
 }//end class

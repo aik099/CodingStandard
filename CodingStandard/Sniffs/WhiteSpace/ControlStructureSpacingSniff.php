@@ -79,7 +79,6 @@ class ControlStructureSpacingSniff implements Sniff
                 T_TRY,
                 T_CATCH,
                );
-
     }//end register()
 
 
@@ -107,7 +106,6 @@ class ControlStructureSpacingSniff implements Sniff
         $this->checkContentInside($phpcsFile, $stackPtr);
         $this->checkLeadingContent($phpcsFile, $stackPtr);
         $this->checkTrailingContent($phpcsFile, $stackPtr);
-
     }//end process()
 
 
@@ -181,7 +179,6 @@ class ControlStructureSpacingSniff implements Sniff
                 }
             }
         }//end if
-
     }//end checkBracketSpacing()
 
 
@@ -285,7 +282,6 @@ class ControlStructureSpacingSniff implements Sniff
                 }
             }//end if
         }//end if
-
     }//end checkContentInside()
 
 
@@ -361,7 +357,7 @@ class ControlStructureSpacingSniff implements Sniff
                     $phpcsFile->fixer->endChangeset();
                 }
             }//end if
-        } else if ($tokens[$controlStructureStartPtr]['line'] === ($leadingLineNumber + 1)) {
+        } elseif ($tokens[$controlStructureStartPtr]['line'] === ($leadingLineNumber + 1)) {
             // Code on the previous line before control structure start.
             $data  = array($tokens[$stackPtr]['content']);
             $error = 'No blank line found before "%s" control structure';
@@ -373,7 +369,6 @@ class ControlStructureSpacingSniff implements Sniff
                 $phpcsFile->fixer->endChangeset();
             }
         }//end if
-
     }//end checkLeadingContent()
 
 
@@ -399,7 +394,6 @@ class ControlStructureSpacingSniff implements Sniff
         );
 
         return $prevNonWhitespace;
-
     }//end getLeadingContent()
 
     /**
@@ -435,7 +429,6 @@ class ControlStructureSpacingSniff implements Sniff
         } while (true);
 
         return end($prevTokens);
-
     }//end getLeadingCommentOrSelf()
 
     /**
@@ -506,7 +499,7 @@ class ControlStructureSpacingSniff implements Sniff
                     $phpcsFile->fixer->endChangeset();
                 }
             }//end if
-        } else if ($tokens[$controlStructureEndPtr]['line'] === ($trailingLineNumber - 1)) {
+        } elseif ($tokens[$controlStructureEndPtr]['line'] === ($trailingLineNumber - 1)) {
             // Code on the next line after control structure scope closer.
             if ($this->elseOrElseIf($phpcsFile, $trailingContent) === true
                 || $this->isCatch($phpcsFile, $trailingContent) === true
@@ -524,7 +517,6 @@ class ControlStructureSpacingSniff implements Sniff
                 $phpcsFile->fixer->endChangeset();
             }
         }//end if
-
     }//end checkTrailingContent()
 
 
@@ -562,7 +554,6 @@ class ControlStructureSpacingSniff implements Sniff
 
         return $scopeCloser;
         // @codeCoverageIgnoreEnd
-
     }//end getScopeCloser()
 
 
@@ -588,7 +579,6 @@ class ControlStructureSpacingSniff implements Sniff
         );
 
         return $nextNonWhitespace;
-
     }//end getTrailingContent()
 
 
@@ -625,7 +615,6 @@ class ControlStructureSpacingSniff implements Sniff
         } while (true);
 
         return end($nextTokens);
-
     }//end getTrailingCommentOrSelf()
 
 
@@ -650,7 +639,6 @@ class ControlStructureSpacingSniff implements Sniff
         }
 
         return false;
-
     }//end findFirstOnLine()
 
 
@@ -673,7 +661,6 @@ class ControlStructureSpacingSniff implements Sniff
         }
 
         return false;
-
     }//end insideSwitchCase()
 
 
@@ -689,7 +676,6 @@ class ControlStructureSpacingSniff implements Sniff
     protected function ifOrElseIf(File $phpcsFile, $stackPtr)
     {
         return $this->isScopeCondition($phpcsFile, $stackPtr, array(T_IF, T_ELSEIF));
-
     }//end ifOrElseIf()
 
 
@@ -705,7 +691,6 @@ class ControlStructureSpacingSniff implements Sniff
     protected function elseOrElseIf(File $phpcsFile, $stackPtr)
     {
         return $this->isScopeCondition($phpcsFile, $stackPtr, array(T_ELSE, T_ELSEIF));
-
     }//end elseOrElseIf()
 
 
@@ -721,7 +706,6 @@ class ControlStructureSpacingSniff implements Sniff
     protected function isTryOrCatch(File $phpcsFile, $stackPtr)
     {
         return $this->isScopeCondition($phpcsFile, $stackPtr, array(T_TRY, T_CATCH));
-
     }//end isTryOrCatch()
 
 
@@ -737,7 +721,6 @@ class ControlStructureSpacingSniff implements Sniff
     protected function isTry(File $phpcsFile, $stackPtr)
     {
         return $this->isScopeCondition($phpcsFile, $stackPtr, T_TRY);
-
     }//end isTry()
 
 
@@ -753,7 +736,6 @@ class ControlStructureSpacingSniff implements Sniff
     protected function isCatch(File $phpcsFile, $stackPtr)
     {
         return $this->isScopeCondition($phpcsFile, $stackPtr, T_CATCH);
-
     }//end isCatch()
 
 
@@ -769,7 +751,6 @@ class ControlStructureSpacingSniff implements Sniff
     protected function isFunction(File $phpcsFile, $stackPtr)
     {
         return $this->isScopeCondition($phpcsFile, $stackPtr, T_FUNCTION);
-
     }//end isFunction()
 
 
@@ -796,7 +777,6 @@ class ControlStructureSpacingSniff implements Sniff
         }
 
         return false;
-
     }//end isClosure()
 
 
@@ -823,8 +803,5 @@ class ControlStructureSpacingSniff implements Sniff
         }
 
         return false;
-
     }//end isScopeCondition()
-
-
 }//end class

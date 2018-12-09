@@ -47,7 +47,6 @@ class ValidInterfaceNameSniff implements Sniff
     public function register()
     {
         return array(T_INTERFACE);
-
     }//end register()
 
 
@@ -73,8 +72,5 @@ class ValidInterfaceNameSniff implements Sniff
                 'WrongPrefix'
             );
         }
-
     }//end process()
-
-
 }//end class

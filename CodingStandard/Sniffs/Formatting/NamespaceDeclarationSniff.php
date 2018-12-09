@@ -46,7 +46,6 @@ class NamespaceDeclarationSniff implements Sniff
     public function register()
     {
         return array(T_NAMESPACE);
-
     }//end register()
 
 
@@ -111,8 +110,5 @@ class NamespaceDeclarationSniff implements Sniff
         }
 
         $phpcsFile->fixer->endChangeset();
-
     }//end process()
-
-
 }//end class

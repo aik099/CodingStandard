@@ -111,7 +111,6 @@ class ValidVariableNameSniff extends AbstractVariableSniff
             $data  = array($varName);
             $phpcsFile->addError($error, $stackPtr, 'NotSnakeCaps', $data);
         }
-
     }//end processVariable()
 
 
@@ -176,7 +175,6 @@ class ValidVariableNameSniff extends AbstractVariableSniff
                      );
             $phpcsFile->addError($error, $stackPtr, 'MemberNotCamelCaps', $data);
         }
-
     }//end processMemberVar()
 
 
@@ -226,7 +224,6 @@ class ValidVariableNameSniff extends AbstractVariableSniff
                 $phpcsFile->addError($error, $stackPtr, 'StringNotSnakeCaps', $data);
             }
         }//end foreach
-
     }//end processVariableInString()
 
 
@@ -242,14 +239,13 @@ class ValidVariableNameSniff extends AbstractVariableSniff
      *
      * @return bool
      */
-    protected function isCamelCaps($string, $public=true)
+    protected function isCamelCaps($string, $public = true)
     {
         if (in_array($string, $this->memberExceptions) === true) {
             return true;
         }
 
         return Common::isCamelCaps($string, false, $public, false);
-
     }//end isCamelCaps()
 
 
@@ -263,8 +259,5 @@ class ValidVariableNameSniff extends AbstractVariableSniff
     protected function isSnakeCaps($string)
     {
         return strtolower($string) === $string;
-
     }//end isSnakeCaps()
-
-
 }//end class

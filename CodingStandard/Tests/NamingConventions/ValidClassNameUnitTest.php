@@ -43,7 +43,6 @@ class ValidClassNameUnitTest extends AbstractSniffUnitTest
                 12 => 1,
                 17 => 1,
                );
-
     }//end getErrorList()
 
 
@@ -60,8 +59,5 @@ class ValidClassNameUnitTest extends AbstractSniffUnitTest
     public function getWarningList($testFile)
     {
         return array();
-
     }//end getWarningList()
-
-
 }//end class

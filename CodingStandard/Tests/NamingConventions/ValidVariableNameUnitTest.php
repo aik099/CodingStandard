@@ -85,7 +85,6 @@ class ValidVariableNameUnitTest extends AbstractSniffUnitTest
                 138 => 1,
                 141 => 1,
                );
-
     }//end getErrorList()
 
 
@@ -102,8 +101,5 @@ class ValidVariableNameUnitTest extends AbstractSniffUnitTest
     public function getWarningList($testFile)
     {
         return array();
-
     }//end getWarningList()
-
-
 }//end class

@@ -48,7 +48,6 @@ class NoSpaceAfterBooleanNotUnitTest extends AbstractSniffUnitTest
                 12 => 1,
                 13 => 2,
                );
-
     }//end getErrorList()
 
 
@@ -65,8 +64,5 @@ class NoSpaceAfterBooleanNotUnitTest extends AbstractSniffUnitTest
     public function getWarningList($testFile)
     {
         return array();
-
     }//end getWarningList()
-
-
 }//end class

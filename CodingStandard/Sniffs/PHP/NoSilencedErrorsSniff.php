@@ -76,8 +76,5 @@ class NoSilencedErrorsSniff extends Generic_NoSilencedErrorsSniff
         }
 
         parent::process($phpcsFile, $stackPtr);
-
     }//end process()
-
-
 }//end class

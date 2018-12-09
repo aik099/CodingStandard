@@ -44,7 +44,6 @@ class ValidInterfaceNameUnitTest extends AbstractSniffUnitTest
                 2 => 1,
                 5 => 1,
                );
-
     }//end getErrorList()
 
 
@@ -61,8 +60,5 @@ class ValidInterfaceNameUnitTest extends AbstractSniffUnitTest
     public function getWarningList($testFile)
     {
         return array();
-
     }//end getWarningList()
-
-
 }//end class

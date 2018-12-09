@@ -189,7 +189,6 @@ class ValidFunctionNameSniff extends PEAR_ValidFunctionNameSniff
 
             return;
         }
-
     }//end processTokenWithinScope()
 
     /**
@@ -210,7 +209,6 @@ class ValidFunctionNameSniff extends PEAR_ValidFunctionNameSniff
         }
 
         return false;
-
     }//end isExclusion()
 
     /**
@@ -230,7 +228,6 @@ class ValidFunctionNameSniff extends PEAR_ValidFunctionNameSniff
         }
 
         return substr($methodName, 0, 2) == 'On' && count($methodParams) === 1 && $methodParams[0]['name'] === '$event';
-
     }//end isEventHandlerExclusion()
 
 
@@ -251,8 +248,5 @@ class ValidFunctionNameSniff extends PEAR_ValidFunctionNameSniff
         }
 
         return count($methodParams) === 1 && $methodParams[0]['name'] === '$params';
-
     }//end isTagProcessorExclusion()
-
-
 }//end class

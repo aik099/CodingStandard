@@ -53,7 +53,6 @@ class BlankLineBeforeReturnSniff implements Sniff
     public function register()
     {
         return array(T_RETURN);
-
     }//end register()
 
 
@@ -92,7 +91,6 @@ class BlankLineBeforeReturnSniff implements Sniff
                      );
             $phpcsFile->addError($error, $stackPtr, 'BlankLineBeforeReturn', $data);
         }
-
     }//end process()
 
 
@@ -128,8 +126,5 @@ class BlankLineBeforeReturnSniff implements Sniff
         }
 
         return $fromStackPtr;
-
     }//end getLeadingLinePointer()
-
-
 }//end class

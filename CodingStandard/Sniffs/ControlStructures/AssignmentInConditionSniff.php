@@ -46,7 +46,6 @@ class AssignmentInConditionSniff implements Sniff
                 T_IF,
                 T_ELSEIF,
                );
-
     }//end register()
 
 
@@ -82,8 +81,5 @@ class AssignmentInConditionSniff implements Sniff
             $equalOperator,
             'Forbidden'
         );
-
     }//end process()
-
-
 }//end class

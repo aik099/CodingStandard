@@ -41,7 +41,6 @@ class ClassNamespaceUnitTest extends AbstractSniffUnitTest
     public function getErrorList($testFile)
     {
         return array(2 => 1);
-
     }//end getErrorList()
 
 
@@ -58,8 +57,5 @@ class ClassNamespaceUnitTest extends AbstractSniffUnitTest
     public function getWarningList($testFile)
     {
         return array();
-
     }//end getWarningList()
-
-
 }//end class

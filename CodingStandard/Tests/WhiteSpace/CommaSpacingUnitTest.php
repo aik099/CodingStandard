@@ -50,7 +50,6 @@ class CommaSpacingUnitTest extends AbstractSniffUnitTest
                 17 => 2,
                 18 => 2,
                );
-
     }//end getErrorList()
 
 
@@ -67,8 +66,5 @@ class CommaSpacingUnitTest extends AbstractSniffUnitTest
     public function getWarningList($testFile)
     {
         return array();
-
     }//end getWarningList()
-
-
 }//end class

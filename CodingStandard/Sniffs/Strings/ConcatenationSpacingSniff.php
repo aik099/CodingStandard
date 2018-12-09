@@ -42,7 +42,6 @@ class ConcatenationSpacingSniff implements Sniff
     public function register()
     {
         return array(T_STRING_CONCAT);
-
     }//end register()
 
 
@@ -59,7 +58,6 @@ class ConcatenationSpacingSniff implements Sniff
     {
         $this->checkContent($phpcsFile, $stackPtr, true);
         $this->checkContent($phpcsFile, $stackPtr, false);
-
     }//end process()
 
 
@@ -119,7 +117,7 @@ class ConcatenationSpacingSniff implements Sniff
 
                 $phpcsFile->fixer->endChangeset();
             }
-        } else if ($contentData['length'] !== 1) {
+        } elseif ($contentData['length'] !== 1) {
             $data = array($contentData['length']);
             $fix  = $phpcsFile->addFixableError(
                 'Expected 1 space '.$errorWord.' concat operator; %s found',
@@ -134,8 +132,5 @@ class ConcatenationSpacingSniff implements Sniff
                 $phpcsFile->fixer->endChangeset();
             }
         }
-
     }//end checkContent()
-
-
 }//end class

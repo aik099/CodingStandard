@@ -96,7 +96,6 @@ class ClassDeclarationUnitTest extends AbstractSniffUnitTest
                );
 
         return $ret;
-
     }//end getErrorList()
 
 
@@ -113,8 +112,5 @@ class ClassDeclarationUnitTest extends AbstractSniffUnitTest
     public function getWarningList($testFile)
     {
         return array();
-
     }//end getWarningList()
-
-
 }//end class

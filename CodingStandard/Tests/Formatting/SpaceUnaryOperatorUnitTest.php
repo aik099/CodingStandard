@@ -46,7 +46,6 @@ class SpaceUnaryOperatorUnitTest extends AbstractSniffUnitTest
                 7 => 1,
                 9 => 1,
                );
-
     }//end getErrorList()
 
 
@@ -63,8 +62,5 @@ class SpaceUnaryOperatorUnitTest extends AbstractSniffUnitTest
     public function getWarningList($testFile)
     {
         return array();
-
     }//end getWarningList()
-
-
 }//end class

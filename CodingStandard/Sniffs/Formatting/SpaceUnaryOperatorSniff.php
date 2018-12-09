@@ -44,7 +44,6 @@ class SpaceUnaryOperatorSniff implements Sniff
                  T_DEC,
                  T_INC,
                 );
-
     }//end register()
 
 
@@ -84,8 +83,5 @@ class SpaceUnaryOperatorSniff implements Sniff
                 $phpcsFile->fixer->endChangeset();
             }
         }
-
     }//end process()
-
-
 }//end class

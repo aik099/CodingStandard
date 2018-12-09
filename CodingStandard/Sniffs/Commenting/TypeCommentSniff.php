@@ -50,7 +50,6 @@ class TypeCommentSniff implements Sniff
                 T_COMMENT,
                 T_DOC_COMMENT_OPEN_TAG,
                );
-
     }//end register()
 
 
@@ -69,10 +68,9 @@ class TypeCommentSniff implements Sniff
 
         if ($tokens[$stackPtr]['code'] === T_COMMENT) {
             $this->processComment($phpcsFile, $stackPtr);
-        } else if ($tokens[$stackPtr]['code'] === T_DOC_COMMENT_OPEN_TAG) {
+        } elseif ($tokens[$stackPtr]['code'] === T_DOC_COMMENT_OPEN_TAG) {
             $this->processDocBlock($phpcsFile, $stackPtr);
         }
-
     }//end process()
 
 
@@ -106,7 +104,6 @@ class TypeCommentSniff implements Sniff
         if ($fix === true) {
             $phpcsFile->fixer->replaceToken($stackPtr, '/** '.trim($commentText, ' /*').' */');
         }
-
     }//end processComment()
 
 
@@ -172,7 +169,6 @@ class TypeCommentSniff implements Sniff
 
         $this->processDocBlockContent($phpcsFile, $stackPtr, $structure);
         $this->processVariableAssociation($phpcsFile, $stackPtr, $structure);
-
     }//end processDocBlock()
 
 
@@ -301,7 +297,6 @@ class TypeCommentSniff implements Sniff
                 $phpcsFile->fixer->replaceToken($structure->tagContentPtr, $expectedTagContent);
             }
         }
-
     }//end processDocBlockContent()
 
 
@@ -327,7 +322,6 @@ class TypeCommentSniff implements Sniff
 
         $this->processVariableBeforeDocBlock($phpcsFile, $stackPtr, $structure);
         $this->processVariableAfterDocBlock($phpcsFile, $stackPtr, $structure);
-
     }//end processVariableAssociation()
 
 
@@ -413,7 +407,6 @@ class TypeCommentSniff implements Sniff
             );
             $phpcsFile->fixer->endChangeset();
         }//end if
-
     }//end processVariableBeforeDocBlock()
 
 
@@ -486,7 +479,6 @@ class TypeCommentSniff implements Sniff
         if ($fix === true) {
             $phpcsFile->fixer->addNewline($prevStatementEnd);
         }
-
     }//end processVariableAfterDocBlock()
 
 
@@ -500,7 +492,6 @@ class TypeCommentSniff implements Sniff
     protected function isTypeComment($commentText)
     {
         return strpos($commentText, self::TYPE_TAG) !== false || strpos($commentText, '@type') !== false;
-
     }//end isTypeComment()
 
 
@@ -525,7 +516,6 @@ class TypeCommentSniff implements Sniff
         }
 
         return false;
-
     }//end findFirstOnLine()
 
 
@@ -550,10 +540,7 @@ class TypeCommentSniff implements Sniff
         }
 
         return false;
-
     }//end findLastOnLine()
-
-
 }//end class
 
 
@@ -646,7 +633,6 @@ class TypeCommentStructure
         } else {
             $this->description = '';
         }
-
     }//end __construct()
 
 
@@ -660,8 +646,5 @@ class TypeCommentStructure
     public function isVariable($text)
     {
         return substr($text, 0, 1) === '$';
-
     }//end isVariable()
-
-
 }//end class

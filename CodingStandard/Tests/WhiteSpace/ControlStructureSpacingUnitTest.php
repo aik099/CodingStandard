@@ -334,8 +334,5 @@ class ControlStructureSpacingUnitTest extends AbstractSniffUnitTest
     public function getWarningList($testFile)
     {
         return array();
-
     }//end getWarningList()
-
-
 }//end class

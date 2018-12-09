@@ -56,7 +56,6 @@ class ItemAssignmentUnitTest extends AbstractSniffUnitTest
                 14 => 1,
                 15 => 1,
                );
-
     }//end getErrorList()
 
 
@@ -73,8 +72,5 @@ class ItemAssignmentUnitTest extends AbstractSniffUnitTest
     public function getWarningList($testFile)
     {
         return array();
-
     }//end getWarningList()
-
-
 }//end class
