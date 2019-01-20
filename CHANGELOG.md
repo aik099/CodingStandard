@@ -4,7 +4,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 ### Added
-...
+- Ignore PHP 7 scalar type hint errors (error code: "Squiz.Commenting.FunctionComment.ScalarTypeHintMissing").
 
 ### Changed
 ...

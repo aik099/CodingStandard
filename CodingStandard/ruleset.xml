@@ -191,6 +191,12 @@
 	<rule ref="CodingStandard.Commenting.DocComment.ShortNotCapital">
 		<severity>0</severity>
 	</rule>
+	<!--
+		Ignore PHP 7 scalar type hint errors.
+	-->
+	<rule ref="CodingStandard.Commenting.FunctionComment.ScalarTypeHintMissing">
+		<severity>0</severity>
+	</rule>
 
 	<rule ref="PSR2.ControlStructures.ElseIfDeclaration.NotAllowed">
 		<type>error</type>
