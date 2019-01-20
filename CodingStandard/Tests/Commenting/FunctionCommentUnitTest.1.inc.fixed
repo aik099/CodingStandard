@@ -127,7 +127,7 @@ class PHP_CodeSniffer_File
     public function missingDescription($threeSpaces)
     {
 
-    }//end missingDescroption()
+    }//end missingDescription()
 
 
     /**
@@ -608,7 +608,7 @@ public function test()
  */
 public function usesCallable(callable $cb) {
     $cb();
-}
+}//end usesCallable()
 
 /**
  * Creates a map of tokens => line numbers for each token.
@@ -649,51 +649,351 @@ public function _() {
     return $foo;
 }
 
+class Baz {
+    /**
+     * The PHP5 constructor
+     *
+     * No return tag
+     */
+    public function __construct() {
+
+    }
+}
+
 /**
- * Wrong return type.
+ * Test
  *
- * @return $this
+ * @return void
  */
-function someFunc() {
-    return $this;
-}
+function myFunction() {}
 
-interface InterfaceExample
+/**
+ * Yield test
+ *
+ * @return integer
+ */
+function yieldTest()
 {
-
-	/**
-	 * Short description.
-	 *
-	 * @param string $param1 Parameter one.
-	 *
-	 * @return void
-	 * @throws \InvalidArgumentException When browser configuration is already registered.
-	 */
-	public function register($param1);
-
-}
-
-abstract class AbstractClass
-{
-
-	/**
-	 * Short description.
-	 *
-	 * @param string $param1 Parameter one.
-	 *
-	 * @return void
-	 * @throws \InvalidArgumentException When browser configuration is already registered.
-	 */
-	public abstract function register($param1);
-
+    for ($i = 0; $i < 5; $i++) {
+        yield $i;
+    }
 }
 
 /**
- * {@inheritdoc}
+ * Yield test
+ *
+ * @return void
  */
-public function functionName($param1)
+function yieldTest()
 {
-
+    for ($i = 0; $i < 5; $i++) {
+        yield $i;
+    }
 }
 
-?>
+/**
+ * Using "array" as a type hint should satisfy a specified array parameter type.
+ *
+ * @param MyClass[] $values An array of MyClass objects.
+ *
+ * @return void
+ */
+public function specifiedArray(array $values) {
+
+}// end specifiedArray()
+
+/**
+ * Using "callable" as a type hint should satisfy a "callback" parameter type.
+ *
+ * @param callback $cb A callback.
+ *
+ * @return void
+ */
+public function callableCallback(callable $cb) {
+
+}// end callableCallback()
+
+/**
+ * PHP7 type hints.
+ *
+ * @param string  $name1 Comment.
+ * @param integer $name2 Comment.
+ * @param float   $name3 Comment.
+ * @param boolean $name4 Comment.
+ *
+ * @return void
+ */
+public function myFunction (string $name1, int $name2, float $name3, bool $name4) {
+}
+
+/**
+ * Variadic function.
+ *
+ * @param string $name1    Comment.
+ * @param string ...$name2 Comment.
+ *
+ * @return void
+ */
+public function myFunction(string $name1, string ...$name2) {
+}
+
+
+/**
+ * Variadic function.
+ *
+ * @param string $name1 Comment.
+ * @param string $name2 Comment.
+ *
+ * @return void
+ */
+public function myFunction(string $name1, string ...$name2) {
+}
+
+/**
+ * Return description function + correct type.
+ *
+ * @return integer This is a description.
+ */
+public function myFunction() {
+    return 5;
+}
+
+/**
+ * Return description function + incorrect type.
+ *
+ * @return integer This is a description.
+ */
+public function myFunction() {
+    return 5;
+}
+
+/**
+ * Return description function + no return.
+ *
+ * @return void This is a description.
+ */
+public function myFunction() {
+}
+
+/**
+ * Return description function + mixed return.
+ *
+ * @return mixed This is a description.
+ */
+public function myFunction() {
+}
+
+/**
+ * Function comment.
+ *
+ * @param $bar
+ *   Comment here.
+ * @param ...
+ *   Additional arguments here.
+ *
+ * @return
+ *   Return value
+ *
+ */
+function foo($bar) {
+}
+
+/**
+ * Do something.
+ *
+ * @return void
+ */
+public function someFunc(): void
+{
+    $class = new class
+    {
+        /**
+         * Do something.
+         *
+         * @return string
+         */
+        public function getString(): string
+        {
+            return 'some string';
+        }
+    };
+}
+
+/**
+ * Return description function + mixed return types.
+ *
+ * @return boolean|integer This is a description.
+ */
+function returnTypeWithDescriptionA()
+{
+    return 5;
+
+}//end returnTypeWithDescriptionA()
+
+
+/**
+ * Return description function + mixed return types.
+ *
+ * @return float|boolean This is a description.
+ */
+function returnTypeWithDescriptionB()
+{
+    return 5;
+
+}//end returnTypeWithDescriptionB()
+
+
+/**
+ * Return description function + lots of different mixed return types.
+ *
+ * @return integer|object|string[]|float|boolean|array(integer => MyClass)|callable And here we have a description
+ */
+function returnTypeWithDescriptionC()
+{
+    return 5;
+
+}//end returnTypeWithDescriptionC()
+
+
+/**
+ * Return description function + lots of different mixed return types.
+ *
+ * @return array(integer => boolean)|\OtherVendor\Package\SomeClass2|MyClass[]|void And here we have a description
+ */
+function returnTypeWithDescriptionD()
+{
+
+}//end returnTypeWithDescriptionD()
+
+/**
+ * Yield from test
+ *
+ * @return int[]
+ */
+function yieldFromTest()
+{
+    yield from foo();
+}
+
+/**
+ * Audio
+ *
+ * Generates an audio element to embed sounds
+ *
+ * @param  mixed $src                Either a source string or
+ * an array of sources.
+ * @param  mixed $unsupportedMessage The message to display
+ * if the media tag is not supported by the browser.
+ * @param  mixed $attributes         HTML attributes.
+ * @return string
+ */
+function audio(
+    $src,
+    $unsupportedMessage = '',
+    $attributes = '',
+)
+{
+    return 'test';
+}
+
+/**
+ * Test function
+ *
+ * @return array
+ */
+function returnArrayWithClosure()
+{
+    function () {
+        return;
+    };
+
+    return [];
+}
+
+/**
+ * Test function
+ *
+ * @return array
+ */
+function returnArrayWithAnonymousClass()
+{
+    new class {
+        /**
+         * @return void
+         */
+        public function test() {
+            return;
+        }
+    };
+
+    return [];
+}
+
+/**
+ * @return void
+ */
+function returnVoidWithClosure()
+{
+    function () {
+        return 1;
+    };
+}
+
+/**
+ * @return void
+ */
+function returnVoidWithAnonymousClass()
+{
+    new class {
+        /**
+         * @return integer
+         */
+        public function test()
+        {
+            return 1;
+        }
+    };
+}
+
+class TestReturnVoid
+{
+    /**
+     * @return void
+     */
+    public function test()
+    {
+        function () {
+            return 4;
+        };
+    }
+}
+
+/**
+ * Comment here.
+ *
+ * @param integer $a This is A.
+ * @param array   $b This is B.
+ *
+ * @return void
+ */
+public static function foo(?int $a, ?array $b) {}
+
+/**
+ * Comment here.
+ *
+ * @param object $a This is A.
+ * @param object $b This is B.
+ *
+ * @return void
+ */
+public function foo(object $a, ?object $b) {}
+
+/**
+ * Prepares given PHP class method for later code building.
+ *
+ * @param integer $foo Comment.
+ *  - Additional comment.
+ *
+ * @return void
+ */
+function foo($foo) {}
