@@ -39,7 +39,7 @@
 	</rule>
 
 	<rule ref="Generic.Files.OneClassPerFile">
-		<exclude-pattern>constants.php</exclude-pattern>
+		<exclude-pattern>/constants.php</exclude-pattern>
 		<exclude-pattern>*Test.php</exclude-pattern>
 	</rule>
 
@@ -48,11 +48,11 @@
 	</rule>
 
 	<rule ref="CodingStandard.NamingConventions.ValidVariableName.MemberNotCamelCaps">
-		<exclude-pattern>e_*.php</exclude-pattern>
+		<exclude-pattern>/e_*.php</exclude-pattern>
 	</rule>
 
 	<rule ref="CodingStandard.NamingConventions.ValidFunctionName.ScopeNotCamelCaps">
-		<exclude-pattern>e_*.php</exclude-pattern>
+		<exclude-pattern>/e_*.php</exclude-pattern>
 	</rule>
 
 	<rule ref="Generic.Formatting.DisallowMultipleStatements"/>

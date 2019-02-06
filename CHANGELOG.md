@@ -10,7 +10,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ...
 
 ### Fixed
-...
+- Files, containing "e_" in the middle of filename were partially ignored.
 
 
 ## [1.0.0] - 2018-12-08
