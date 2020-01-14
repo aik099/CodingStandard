@@ -7,11 +7,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Ignore PHP 7 scalar type hint errors (error code: "Squiz.Commenting.FunctionComment.ScalarTypeHintMissing").
 
 ### Changed
-...
+- The "@inheritDoc" tag is now supported (before only "{@inheritdoc}" was supported.
 
 ### Fixed
 - Files, containing "e_" in the middle of filename were partially ignored.
-
 
 ## [1.0.0] - 2018-12-08
 ### Added
