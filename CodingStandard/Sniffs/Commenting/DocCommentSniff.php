@@ -53,6 +53,29 @@ class DocCommentSniff extends Generic_DocCommentSniff
             }
         }
 
+        if ($this->isInheritDoc($phpcsFile, $commentStart) === true) {
+            return;
+        }
+
         parent::process($phpcsFile, $stackPtr);
     }//end process()
+
+
+    /**
+     * Is the comment an inheritdoc?
+     *
+     * @param File $phpcsFile    The file being scanned.
+     * @param int  $commentStart The position in the stack where the comment started.
+     *
+     * @return bool
+     */
+    protected function isInheritDoc(File $phpcsFile, $commentStart)
+    {
+        $tokens = $phpcsFile->getTokens();
+
+        $commentEnd  = $tokens[$commentStart]['comment_closer'];
+        $commentText = $phpcsFile->getTokensAsString($commentStart, ($commentEnd - $commentStart + 1));
+
+        return stripos($commentText, '@inheritdoc') !== false;
+    }// end isInheritDoc()
 }//end class

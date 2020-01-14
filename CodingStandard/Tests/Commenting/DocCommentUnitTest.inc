@@ -174,3 +174,19 @@ $test = 'value';
 $test = 'value';
 
 /** this is wrong */
+
+/**
+ * {@inheritdoc}
+ */
+public function functionName($param1)
+{
+
+}
+
+/**
+ * @inheritDoc
+ */
+public function functionName2($param1)
+{
+
+}
