@@ -256,6 +256,6 @@ class FunctionCommentSniff extends Squiz_FunctionCommentSniff
         $commentEnd  = $tokens[$commentStart]['comment_closer'];
         $commentText = $phpcsFile->getTokensAsString($commentStart, ($commentEnd - $commentStart + 1));
 
-        return stripos($commentText, '{@inheritdoc}') !== false;
+        return stripos($commentText, '@inheritdoc') !== false;
     }// end isInheritDoc()
 }//end class
