@@ -68,9 +68,10 @@ abstract class AbstractSniffUnitTest extends TestCase
     /**
      * Sets up this unit test.
      *
+     * @before
      * @return void
      */
-    protected function setUp()
+    protected function setupTest()
     {
         $this->standardsDir = STANDARDS_PATH.DIRECTORY_SEPARATOR.STANDARD_NAME;
         $this->testsDir     = STANDARDS_PATH.DIRECTORY_SEPARATOR.STANDARD_NAME.DIRECTORY_SEPARATOR.'Tests'.DIRECTORY_SEPARATOR;
