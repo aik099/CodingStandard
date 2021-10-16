@@ -128,7 +128,7 @@ class ValidFunctionNameSniff extends PEAR_ValidFunctionNameSniff
 
         // If it's a private method, it must have an underscore on the front.
         if ($isPublic === false) {
-            if ($methodName{0} !== '_') {
+            if ($methodName[0] !== '_') {
                 $error = 'Private method name "%s" must be prefixed with an underscore';
                 $phpcsFile->addError($error, $stackPtr, 'PrivateNoUnderscore', $errorData);
 
@@ -145,7 +145,7 @@ class ValidFunctionNameSniff extends PEAR_ValidFunctionNameSniff
         }
 
         // If it's not a private method, it must not have an underscore on the front.
-        if ($isPublic === true && $scopeSpecified === true && $methodName{0} === '_') {
+        if ($isPublic === true && $scopeSpecified === true && $methodName[0] === '_') {
             $error = '%s method name "%s" must not be prefixed with an underscore';
             $data  = array(
                       ucfirst($scope),
@@ -161,7 +161,7 @@ class ValidFunctionNameSniff extends PEAR_ValidFunctionNameSniff
         // prefix if there is one because we cant determine if it is private or
         // public.
         $testMethodName = $methodName;
-        if ($scopeSpecified === false && $methodName{0} === '_') {
+        if ($scopeSpecified === false && $methodName[0] === '_') {
             $testMethodName = substr($methodName, 1);
         }
 
