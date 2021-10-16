@@ -40,8 +40,8 @@ jobs:
 
       - name: Install dependencies
         run: |
+          composer require squizlabs/php_codesniffer:${{ matrix.phpcs_version }} --dev --no-update
           composer update --prefer-dist --no-interaction
-          composer require squizlabs/php_codesniffer:${{ matrix.phpcs_version }} --prefer-source
 
       - name: Run tests
         run: |
