@@ -11,7 +11,7 @@ defaults:
 jobs:
 
   tests:
-    name: Tests (PHP ${{ matrix.php }})
+    name: Tests (PHP ${{ matrix.php }}, PHP_CodeSniffer ${{ matrix.phpcs_version }})
     runs-on: Ubuntu-20.04
 
     strategy:
