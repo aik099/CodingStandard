@@ -20,10 +20,5 @@
 		"branch-alias": {
 			"dev-master": "2.0.x-dev"
 		}
-	},
-	"config": {
-		"platform": {
-			"php": "5.4"
-		}
 	}
 }
