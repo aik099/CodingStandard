@@ -1,7 +1,6 @@
 # CodingStandard
-[![Build Status](https://travis-ci.org/aik099/CodingStandard.png?branch=master)](https://travis-ci.org/aik099/CodingStandard)
-
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/aik099/CodingStandard/badges/quality-score.png?s=dfdd7644537b5c57bfc551a640d91e645fcff979)](https://scrutinizer-ci.com/g/aik099/CodingStandard/)
+[![CI](https://github.com/aik099/CodingStandard/actions/workflows/tests.yml/badge.svg)](https://github.com/aik099/CodingStandard/actions/workflows/tests.yml)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/aik099/CodingStandard/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/aik099/CodingStandard/?branch=master)
 [![codecov](https://codecov.io/gh/aik099/CodingStandard/branch/master/graph/badge.svg)](https://codecov.io/gh/aik099/CodingStandard)
 
 [![Latest Stable Version](https://poser.pugx.org/aik099/coding-standard/v/stable.png)](https://packagist.org/packages/aik099/coding-standard)
