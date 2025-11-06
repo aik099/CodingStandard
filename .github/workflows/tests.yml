@@ -27,7 +27,7 @@ jobs:
         include:
           - php: 7.4
             phpcs_version: ^3.9@dev
-          - php: 7.4
+          - php: 7.2
             phpcs_version: ^3.9
             with_coverage: true
       fail-fast: false
