@@ -16,23 +16,24 @@ defaults:
 jobs:
 
   tests:
-    name: Tests (PHP ${{ matrix.php }}, PHP_CodeSniffer ${{ matrix.phpcs_version }})
-    runs-on: Ubuntu-20.04
+    name: "PHP ${{ matrix.php }}${{ matrix.with_coverage == true && ' with coverage' || ''}}, PHPCS ${{ matrix.phpcs_version }}"
+    runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        php: [ '5.4', '5.5', '5.6', '7.0', '7.1', '7.2', '7.3', '7.4']
+        php: [ '5.6', '7.0', '7.1', '7.2', '7.3', '7.4']
+        with_coverage: [ false ]
         phpcs_version: ['^3.3']
         include:
-          - php: 5.4
-            phpcs_version: ^3.3@dev
           - php: 7.2
             phpcs_version: ^3.3@dev
+          - php: 7.2
+            with_coverage: true
       fail-fast: false
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           fetch-depth: 2
 
@@ -48,16 +49,25 @@ jobs:
           composer require squizlabs/php_codesniffer:${{ matrix.phpcs_version }} --dev --no-update
 
       - name: Install dependencies
-        uses: "ramsey/composer-install@v1"
+        uses: "ramsey/composer-install@v3"
         with:
           dependency-versions: "highest"
 
-      - name: Run tests
+      - name: Run tests with Coverage
+        if: "${{ matrix.with_coverage == true }}"
         run: |
           vendor/bin/phpunit -v --coverage-clover=coverage.clover
 
+      - name: Run tests without Coverage
+        if: "${{ matrix.with_coverage == false }}"
+        run: |
+          vendor/bin/phpunit -v
+
       - name: Upload Coverage to CodeCov
-        uses: codecov/codecov-action@v2
+        if: "${{ matrix.with_coverage == true }}"
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Upload Coverage to Scrutinizer CI (PHP < 8.0)
         if: "${{ matrix.php < '8.0' }}"
