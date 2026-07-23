@@ -1665,4 +1665,42 @@ catch ( Exception1 $e ) {
     $c = 'd';
 }
 
+// TRY/FINALLY (no blank line required before/after "finally").
+try {
+    $a = 'b';
+}
+finally {
+    $c = 'd';
+}
+
+// TRY/CATCH/FINALLY (no blank line required before/after "finally").
+try {
+    $a = 'b';
+}
+catch ( Exception $e ) {
+    $c = 'd';
+}
+finally {
+    $c = 'd';
+}
+
+// TRY/FINALLY (blank line before "finally" is not allowed).
+try {
+    $a = 'b';
+}
+finally {
+    $c = 'd';
+}
+
+// TRY/CATCH/FINALLY (blank line before "finally" is not allowed).
+try {
+    $a = 'b';
+}
+catch ( Exception $e ) {
+    $c = 'd';
+}
+finally {
+    $c = 'd';
+}
+
 ?>
