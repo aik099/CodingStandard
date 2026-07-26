@@ -19,3 +19,16 @@ Only PHP_CodeSniffer 3.x and later versions are supported. For PHP_CodeSniffer 1
 $> phpcs --standard="/path/to/CodingStandard/CodingStandard" library tests
 ```
 or by make your IDE ([instructions for PhpStorm](http://www.jetbrains.com/phpstorm/webhelp/using-php-code-sniffer-tool.html)) to check them automatically.
+
+# Branch-specific Customizations
+
+This branch is kept in sync with `master` (periodically merged) and additionally carries a few `ruleset.xml`
+customizations specific to the In-Portal project:
+
+* excludes `blog/*`, `build/*`, `core/editor/*`, `core/ckeditor/*`, `modules/mpdf/*`, `system/*` and `vendor/*` from
+  scanning entirely
+* disables `Generic.WhiteSpace.ScopeIndent.IncorrectExact` under `/core/`, since it produces excessive noise there
+* disables `CodingStandard.Classes.ClassNamespace.MissingNamespace`, since a lot of the project's code predates
+  namespaces
+
+No sniff behavior differs otherwise — these are ruleset-level opt-outs, not code changes.
