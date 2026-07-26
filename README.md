@@ -11,7 +11,8 @@ The PHP_CodeSniffer coding standard I'm using on all of my projects.
 Standard itself and it's test suite complies [PHPCS standard](https://github.com/PHPCSStandards/PHP_CodeSniffer/tree/2.9/CodeSniffer/Standards/PHPCS).
 
 # Usage
-Only PHP_CodeSniffer 3.x and later versions are supported. For PHP_CodeSniffer 1.x and 2.x use "1.0" branch.
+> \[!NOTE]
+> Only **PHP_CodeSniffer 3.x** and later versions are supported. For **PHP_CodeSniffer 1.x** and **2.x** use `1.0` branch.
 
 1. clone this repository
 2. run following command in project directory:
