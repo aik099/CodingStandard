@@ -12,7 +12,7 @@ Standard itself and it's test suite complies [PHPCS standard](https://github.com
 
 # Usage
 > \[!NOTE]
-> Only **PHP_CodeSniffer 3.x** and later versions are supported. For **PHP_CodeSniffer 1.x** and **2.x** use `1.0` branch.
+> Only **PHP_CodeSniffer 3.x** and later versions are supported. For **PHP_CodeSniffer 1.x** and **2.x** use `in-portal-1.0` branch.
 
 1. clone this repository
 2. run following command in project directory:
