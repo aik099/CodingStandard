@@ -78,6 +78,7 @@ class ControlStructureSpacingSniff implements Sniff
                 T_ELSEIF,
                 T_TRY,
                 T_CATCH,
+                T_FINALLY,
                );
     }//end register()
 
@@ -318,6 +319,7 @@ class ControlStructureSpacingSniff implements Sniff
             || $this->insideSwitchCase($phpcsFile, $leadingContent) === true
             || ($this->elseOrElseIf($phpcsFile, $stackPtr) === true && $this->ifOrElseIf($phpcsFile, $leadingContent) === true)
             || ($this->isCatch($phpcsFile, $stackPtr) === true && $this->isTryOrCatch($phpcsFile, $leadingContent) === true)
+            || ($this->isFinally($phpcsFile, $stackPtr) === true && $this->isTryOrCatch($phpcsFile, $leadingContent) === true)
         ) {
             if ($this->isFunction($phpcsFile, $leadingContent) === true) {
                 // The previous content is the opening brace of a function
@@ -503,6 +505,7 @@ class ControlStructureSpacingSniff implements Sniff
             // Code on the next line after control structure scope closer.
             if ($this->elseOrElseIf($phpcsFile, $trailingContent) === true
                 || $this->isCatch($phpcsFile, $trailingContent) === true
+                || $this->isFinally($phpcsFile, $trailingContent) === true
             ) {
                 return;
             }
@@ -737,6 +740,21 @@ class ControlStructureSpacingSniff implements Sniff
     {
         return $this->isScopeCondition($phpcsFile, $stackPtr, T_CATCH);
     }//end isCatch()
+
+
+    /**
+     * Detects, that it is a closing brace of FINALLY.
+     *
+     * @param File $phpcsFile The file being scanned.
+     * @param int  $stackPtr  The position of the current token
+     *                        in the stack passed in $tokens.
+     *
+     * @return bool
+     */
+    protected function isFinally(File $phpcsFile, $stackPtr)
+    {
+        return $this->isScopeCondition($phpcsFile, $stackPtr, T_FINALLY);
+    }//end isFinally()
 
 
     /**

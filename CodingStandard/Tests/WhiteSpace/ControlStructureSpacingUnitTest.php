@@ -297,6 +297,10 @@ class ControlStructureSpacingUnitTest extends AbstractSniffUnitTest
 
                 // Sequential catch statements not indented right.
                 1690 => 1,
+
+                // Blank line before "finally" is not allowed.
+                1718 => 1,
+                1730 => 1,
                );
         } elseif ($testFile === 'ControlStructureSpacingUnitTest.2.inc') {
             return array(
