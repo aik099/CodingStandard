@@ -12,7 +12,7 @@ PATCH_FILE="tmp.patch"
 
 if [ $REPORT == "diff" ]; then
 	echo "1. creating patch '${PATCH_FILE}' ..."
-	vendor/bin/phpcs --report=$REPORT --standard=$CS --sniffs=$CS.$SNIFF $TEST_DATA_FILE > $PATCH_FILE
+	vendor/bin/phpcs --report=$REPORT --standard=$CS --sniffs=$CS.$SNIFF $TEST_DATA_FILE > $PATCH_FILE --cache
 
 	echo "2. applying patch '${PATCH_FILE}' ..."
 	patch -p0 -ui $PATCH_FILE
@@ -28,6 +28,6 @@ if [ $REPORT == "diff" ]; then
 	rm $PATCH_FILE
 else
 	echo -e "Report: $REPORT"
-	vendor/bin/phpcs -vs --report=$REPORT --report-width=120 --standard=$CS --sniffs=$CS.$SNIFF $TEST_DATA_FILE
+	vendor/bin/phpcs -vs --report=$REPORT --report-width=120 --standard=$CS --sniffs=$CS.$SNIFF $TEST_DATA_FILE --cache
 fi
 
